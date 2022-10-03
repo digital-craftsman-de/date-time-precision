@@ -1,4 +1,4 @@
-# Utility wrapper for DateTime to work with day and time
+# Utility wrapper for DateTime to work with date and time
 
 A Symfony bundle to work with id and id list value objects in Symfony. It includes Symfony normalizers for automatic normalization and denormalization and Doctrine types to store the ids and id lists directly in the database.  
 
