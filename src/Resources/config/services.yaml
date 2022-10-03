@@ -2,3 +2,6 @@ services:
 
   DigitalCraftsman\DateTimeUtils\Serializer\TimeNormalizer:
     tags: [ { name: 'serializer.normalizer' } ]
+
+  DigitalCraftsman\DateTimeUtils\Serializer\DateTimeNormalizer:
+    tags: [ { name: 'serializer.normalizer' } ]
