@@ -1,0 +1,4 @@
+services:
+
+  DigitalCraftsman\DateTimeUtils\Serializer\TimeNormalizer:
+    tags: [ { name: 'serializer.normalizer' } ]
