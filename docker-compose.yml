@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+
+  php-8.1:
+    build: ./.docker/php-8.1
+    image: date_time_utils_php_8.1
+    env_file:
+      - .env
+    volumes:
+      - .:/var/www/html
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

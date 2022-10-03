@@ -1,0 +1,33 @@
+{
+  "name": "digital-craftsman/date-time-utils",
+  "description": "Utility wrapper for DateTimeImmutable to work with date and time",
+  "type": "symfony-bundle",
+  "require": {
+    "php": "8.1.*",
+    "symfony/framework-bundle": "^5.4|^6.0",
+    "symfony/serializer": "^5.4|^6.0",
+    "doctrine/dbal": "^2.13.8|^3.3.6"
+  },
+  "require-dev": {
+    "vimeo/psalm": "^4.12",
+    "friendsofphp/php-cs-fixer": "^3.3",
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "DigitalCraftsman\\DateTimeUtils\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "DigitalCraftsman\\DateTimeUtils\\": "tests/"
+    }
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Christian Kolb",
+      "email": "info@digital-craftsman.de"
+    }
+  ]
+}
