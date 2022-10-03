@@ -76,7 +76,7 @@ php-8.1-tests:
 ## php-8.1-tests-ci		Run the tests for PHP 8.1 for CI.
 .PHONY: php-8.1-tests-ci
 php-8.1-tests-ci:
-	docker-compose run --rm php-8.1 ./vendor/bin/phpunit
+	docker-compose run --rm php-8.1 ./vendor/bin/phpunit --coverage-clover ./coverage.xml
 
 ## php-8.0-tests-html-coverage		Run the PHP tests with coverage report as HTML.
 .PHONY: php-8.1-tests-html-coverage
