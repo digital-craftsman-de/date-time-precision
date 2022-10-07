@@ -5,19 +5,23 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimeUtils\ValueObject;
 
 /** @psalm-immutable */
-final class Day
+final class Date implements \Stringable
 {
+    private const DATE_FORMAT = 'Y-m-d';
+
+    // -- Construction
+
     public function __construct(
         public readonly Month $month,
-        public readonly int $number,
+        public readonly int $dayOfMonth,
     ) {
     }
 
     public static function fromDateTime(\DateTimeImmutable $dateTime): self
     {
         /** @psalm-suppress PossiblyNullArrayAccess */
-        [$year, $month, $day] = sscanf(
-            $dateTime->format('Y-m-d'),
+        [$year, $month, $dayOfMonth] = sscanf(
+            $dateTime->format(self::DATE_FORMAT),
             '%d-%d-%d',
         );
 
@@ -30,13 +34,31 @@ final class Day
                 new Year($year),
                 $month,
             ),
-            $day,
+            $dayOfMonth,
         );
     }
 
+    public static function fromString(string $date): self
+    {
+        try {
+            return self::fromDateTime(new \DateTimeImmutable($date));
+        } catch (\Exception) {
+            throw new \InvalidArgumentException(sprintf('Value "%s" is not valid date format.', $date));
+        }
+    }
+
+    // Stringable
+
+    public function __toString(): string
+    {
+        return $this->format(self::DATE_FORMAT);
+    }
+
+    // Accessors
+
     public function isEqualTo(self $day): bool
     {
-        return $this->number === $day->number
+        return $this->dayOfMonth === $day->dayOfMonth
             && $this->month->isEqualTo($day->month);
     }
 
@@ -55,7 +77,7 @@ final class Day
             return false;
         }
 
-        return $this->number < $day->number;
+        return $this->dayOfMonth < $day->dayOfMonth;
     }
 
     public function isBeforeOrEqualTo(self $day): bool
@@ -68,7 +90,7 @@ final class Day
             return false;
         }
 
-        return $this->number <= $day->number;
+        return $this->dayOfMonth <= $day->dayOfMonth;
     }
 
     public function isAfter(self $day): bool
@@ -81,7 +103,7 @@ final class Day
             return false;
         }
 
-        return $this->number > $day->number;
+        return $this->dayOfMonth > $day->dayOfMonth;
     }
 
     public function isAfterOrEqualTo(self $day): bool
@@ -94,6 +116,27 @@ final class Day
             return false;
         }
 
-        return $this->number >= $day->number;
+        return $this->dayOfMonth >= $day->dayOfMonth;
+    }
+
+    // Mutations
+
+    public function format(string $format): string
+    {
+        return $this
+            ->toDateTimeImmutable()
+            ->format($format);
+    }
+
+    private function toDateTimeImmutable(): \DateTimeImmutable
+    {
+        return new \DateTimeImmutable(
+            sprintf(
+                '%d-%d-%d 00:00:00',
+                $this->month->year->number,
+                $this->month->number,
+                $this->dayOfMonth,
+            ),
+        );
     }
 }

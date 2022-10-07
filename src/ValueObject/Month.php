@@ -83,7 +83,7 @@ final class Month
         return $this;
     }
 
-    public function firstDay(): Day
+    public function firstDay(): Date
     {
         $firstDayOfMonth = new \DateTimeImmutable(sprintf(
             'first day of %d-%d',
@@ -91,10 +91,10 @@ final class Month
             $this->number,
         ));
 
-        return Day::fromDateTime($firstDayOfMonth);
+        return Date::fromDateTime($firstDayOfMonth);
     }
 
-    public function lastDay(): Day
+    public function lastDay(): Date
     {
         $lastDayOfMonth = new \DateTimeImmutable(sprintf(
             'first day of %d-%d',
@@ -102,6 +102,6 @@ final class Month
             $this->number,
         ));
 
-        return Day::fromDateTime($lastDayOfMonth);
+        return Date::fromDateTime($lastDayOfMonth);
     }
 }
