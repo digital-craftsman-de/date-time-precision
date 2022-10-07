@@ -72,11 +72,9 @@ final class TimeNormalizerTest extends TestCase
     public function supports_denormalization(): void
     {
         // -- Arrange
-        $time = new Time(14, 50, 10);
-
         $normalizer = new TimeNormalizer();
 
         // -- Act & Assert
-        self::assertTrue($normalizer->supportsDenormalization($time->format('H:i:s'), Time::class));
+        self::assertTrue($normalizer->supportsDenormalization(null, Time::class));
     }
 }

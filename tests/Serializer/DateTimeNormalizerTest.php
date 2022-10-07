@@ -72,11 +72,9 @@ final class DateTimeNormalizerTest extends TestCase
     public function supports_denormalization(): void
     {
         // -- Arrange
-        $dateTime = DateTime::fromString('2022-10-03 15:34:34');
-
         $normalizer = new DateTimeNormalizer();
 
         // -- Act & Assert
-        self::assertTrue($normalizer->supportsDenormalization($dateTime->format(\DateTimeInterface::ATOM), DateTime::class));
+        self::assertTrue($normalizer->supportsDenormalization(null, DateTime::class));
     }
 }
