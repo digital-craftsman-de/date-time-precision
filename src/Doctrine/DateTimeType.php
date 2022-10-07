@@ -10,14 +10,9 @@ use Doctrine\DBAL\Types\DateTimeImmutableType;
 
 final class DateTimeType extends DateTimeImmutableType
 {
-    public const NAME = 'digital_craftsman_date_time';
-
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
-        return self::NAME;
+        return 'digital_craftsman_date_time';
     }
 
     /** @param DateTime|null $value */

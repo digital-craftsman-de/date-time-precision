@@ -10,14 +10,9 @@ use Doctrine\DBAL\Types\TimeImmutableType;
 
 final class TimeType extends TimeImmutableType
 {
-    public const NAME = 'digital_craftsman_time';
-
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
-        return self::NAME;
+        return 'digital_craftsman_time';
     }
 
     /** @param Time|null $value */
