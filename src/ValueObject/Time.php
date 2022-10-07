@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimeUtils\ValueObject;
 
 /** @psalm-immutable */
-final class Time
+final class Time implements \Stringable
 {
+    private const TIME_FORMAT = 'H:i:s.u';
+
     // -- Construction
 
     public function __construct(
@@ -67,6 +69,13 @@ final class Time
         } catch (\Exception) {
             throw new \InvalidArgumentException(sprintf('Value "%s" is not valid time format.', $time));
         }
+    }
+
+    // Stringable
+
+    public function __toString(): string
+    {
+        return $this->format(self::TIME_FORMAT);
     }
 
     // -- Accessors
@@ -169,12 +178,16 @@ final class Time
 
     public function format(string $format): string
     {
-        return $this->toDateTimeImmutable()->format($format);
+        return $this
+            ->toDateTimeImmutable()
+            ->format($format);
     }
 
     public function diff(self $time): \DateInterval
     {
-        return $this->toDateTimeImmutable()->diff($time->toDateTimeImmutable());
+        return $this
+            ->toDateTimeImmutable()
+            ->diff($time->toDateTimeImmutable());
     }
 
     private function toDateTimeImmutable(): \DateTimeImmutable
@@ -187,7 +200,6 @@ final class Time
                 $this->second,
                 $this->microsecond,
             ),
-            new \DateTimeZone('UTC'),
         );
     }
 }

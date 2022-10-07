@@ -29,7 +29,7 @@ final class TimeNormalizer implements NormalizerInterface, DenormalizerInterface
             return null;
         }
 
-        return $object->format('H:i:s.u');
+        return (string) $object;
     }
 
     /** @param ?string $data */
