@@ -1,0 +1,13 @@
+services:
+
+  DigitalCraftsman\DateTimeParts\Serializer\DateTimeNormalizer:
+    tags: [ { name: 'serializer.normalizer' } ]
+
+  DigitalCraftsman\DateTimeParts\Serializer\TimeNormalizer:
+    tags: [ { name: 'serializer.normalizer' } ]
+
+  DigitalCraftsman\DateTimeParts\Serializer\DateNormalizer:
+    tags: [ { name: 'serializer.normalizer' } ]
+
+  DigitalCraftsman\DateTimeParts\Serializer\MonthNormalizer:
+    tags: [ { name: 'serializer.normalizer' } ]
