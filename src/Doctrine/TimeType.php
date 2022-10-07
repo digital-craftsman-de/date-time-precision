@@ -29,10 +29,8 @@ final class TimeType extends TimeImmutableType
     /** @param string|null $value */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Time
     {
-        if ($value === null || $value instanceof Time) {
-            return $value;
-        }
-
-        return Time::fromString($value);
+        return $value === null
+            ? null
+            : Time::fromString($value);
     }
 }

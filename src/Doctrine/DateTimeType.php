@@ -29,10 +29,8 @@ final class DateTimeType extends DateTimeImmutableType
     /** @param string|null $value */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTime
     {
-        if ($value === null || $value instanceof DateTime) {
-            return $value;
-        }
-
-        return DateTime::fromString($value);
+        return $value === null
+            ? null
+            : DateTime::fromString($value);
     }
 }

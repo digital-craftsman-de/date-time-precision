@@ -29,11 +29,9 @@ final class MonthType extends StringType
     /** @param string|null $value */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Month
     {
-        if ($value === null || $value instanceof Month) {
-            return $value;
-        }
-
-        return Month::fromString($value);
+        return $value === null
+            ? null
+            : Month::fromString($value);
     }
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
