@@ -23,7 +23,7 @@ composer require digital-craftsman/datetime-parts
 
 ## When would I need that?
 
-Basically whenever you don't mean a point in time.
+Basically whenever you don't talk about a point in time.
 
 - If you're calculating a settlement for a specific month.
 - When you're storing a time of day that is relevant on every day like business hours.
@@ -31,8 +31,6 @@ Basically whenever you don't mean a point in time.
 Storing more information in those cases just lead to more questions, like "When storing the month, do we store the first of month at midnight?" and therefore increases complexity. Additionally, you need mutate or reduce the point in time to be able to compare it. With the package it will be as easy as:
 
 ```php
-$now = $this->clock->now();
-
 if ($now->time()->isBefore($facility->openFrom)) {
     throw new FacilityIsNotOpenYet();
 }
