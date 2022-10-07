@@ -5,13 +5,55 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimeUtils\ValueObject;
 
 /** @psalm-immutable */
-final class Month
+final class Month implements \Stringable
 {
+    private const MONTH_FORMAT = 'Y-m';
+
+    // -- Construction
+
     public function __construct(
         public readonly Year $year,
         public readonly int $monthOfYear,
     ) {
     }
+
+    public static function fromDateTime(\DateTimeImmutable $dateTime): self
+    {
+        /** @psalm-suppress PossiblyNullArrayAccess */
+        [$year, $monthOfYear] = sscanf(
+            $dateTime->format('Y-n'),
+            '%d-%d',
+        );
+
+        /**
+         * @psalm-suppress PossiblyNullArgument
+         * @psalm-suppress PossiblyInvalidArgument
+         */
+        return new self(
+            new Year(
+                $year,
+            ),
+            $monthOfYear,
+        );
+    }
+
+    public static function fromString(string $month): self
+    {
+        try {
+            return self::fromDateTime(new \DateTimeImmutable($month));
+        } catch (\Exception) {
+            throw new \InvalidArgumentException(sprintf('Value "%s" is not valid month format.', $month));
+        }
+    }
+
+    // -- Stringable
+
+    public function __toString()
+    {
+        return $this->format(self::MONTH_FORMAT);
+    }
+
+    // -- Accessors
 
     public function isEqualTo(self $month): bool
     {
@@ -103,5 +145,25 @@ final class Month
         ));
 
         return Date::fromDateTime($lastDayOfMonth);
+    }
+
+    // -- Mutations
+
+    public function format(string $format): string
+    {
+        return $this
+            ->toDateTimeImmutable()
+            ->format($format);
+    }
+
+    private function toDateTimeImmutable(): \DateTimeImmutable
+    {
+        return new \DateTimeImmutable(
+            sprintf(
+                '%d-%d-01 00:00:00',
+                $this->year->year,
+                $this->monthOfYear,
+            ),
+        );
     }
 }
