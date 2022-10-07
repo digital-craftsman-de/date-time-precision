@@ -9,13 +9,13 @@ final class Month
 {
     public function __construct(
         public readonly Year $year,
-        public readonly int $number,
+        public readonly int $monthOfYear,
     ) {
     }
 
     public function isEqualTo(self $month): bool
     {
-        return $this->number === $month->number
+        return $this->monthOfYear === $month->monthOfYear
             && $this->year->isEqualTo($month->year);
     }
 
@@ -29,7 +29,7 @@ final class Month
             return false;
         }
 
-        return $this->number < $month->number;
+        return $this->monthOfYear < $month->monthOfYear;
     }
 
     public function isBeforeOrEqualTo(self $month): bool
@@ -42,7 +42,7 @@ final class Month
             return false;
         }
 
-        return $this->number <= $month->number;
+        return $this->monthOfYear <= $month->monthOfYear;
     }
 
     public function isAfter(self $month): bool
@@ -55,7 +55,7 @@ final class Month
             return false;
         }
 
-        return $this->number > $month->number;
+        return $this->monthOfYear > $month->monthOfYear;
     }
 
     public function isAfterOrEqualTo(self $month): bool
@@ -68,7 +68,7 @@ final class Month
             return false;
         }
 
-        return $this->number >= $month->number;
+        return $this->monthOfYear >= $month->monthOfYear;
     }
 
     public function previous(): self
@@ -87,8 +87,8 @@ final class Month
     {
         $firstDayOfMonth = new \DateTimeImmutable(sprintf(
             'first day of %d-%d',
-            $this->year->number,
-            $this->number,
+            $this->year->year,
+            $this->monthOfYear,
         ));
 
         return Date::fromDateTime($firstDayOfMonth);
@@ -98,8 +98,8 @@ final class Month
     {
         $lastDayOfMonth = new \DateTimeImmutable(sprintf(
             'first day of %d-%d',
-            $this->year->number,
-            $this->number,
+            $this->year->year,
+            $this->monthOfYear,
         ));
 
         return Date::fromDateTime($lastDayOfMonth);

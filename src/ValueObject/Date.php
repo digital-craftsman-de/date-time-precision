@@ -133,8 +133,8 @@ final class Date implements \Stringable
         return new \DateTimeImmutable(
             sprintf(
                 '%d-%d-%d 00:00:00',
-                $this->month->year->number,
-                $this->month->number,
+                $this->month->year->year,
+                $this->month->monthOfYear,
                 $this->dayOfMonth,
             ),
         );

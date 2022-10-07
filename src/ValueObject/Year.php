@@ -8,32 +8,32 @@ namespace DigitalCraftsman\DateTimeUtils\ValueObject;
 final class Year
 {
     public function __construct(
-        public readonly int $number,
+        public readonly int $year,
     ) {
     }
 
     public function isEqualTo(self $year): bool
     {
-        return $this->number === $year->number;
+        return $this->year === $year->year;
     }
 
     public function isBefore(self $year): bool
     {
-        return $this->number < $year->number;
+        return $this->year < $year->year;
     }
 
     public function isBeforeOrEqualTo(self $year): bool
     {
-        return $this->number <= $year->number;
+        return $this->year <= $year->year;
     }
 
     public function isAfter(self $year): bool
     {
-        return $this->number > $year->number;
+        return $this->year > $year->year;
     }
 
     public function isAfterOrEqualTo(self $year): bool
     {
-        return $this->number >= $year->number;
+        return $this->year >= $year->year;
     }
 }
