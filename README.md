@@ -35,3 +35,7 @@ if ($now->time()->isBefore($facility->openFrom)) {
     throw new FacilityIsNotOpenYet();
 }
 ```
+
+For the best code readability, it's best to use the `DateTime` provided with the package as a full replacement for `\DateTime` or `\DateTimeImmutable`. 
+
+All mutations on the `DateTime` and its parts are immutable.
