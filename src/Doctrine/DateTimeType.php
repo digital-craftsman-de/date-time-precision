@@ -10,6 +10,7 @@ use Doctrine\DBAL\Types\DateTimeImmutableType;
 
 final class DateTimeType extends DateTimeImmutableType
 {
+    /** @codeCoverageIgnore */
     public function getName(): string
     {
         return 'digital_craftsman_date_time';

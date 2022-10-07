@@ -8,9 +8,14 @@ use DigitalCraftsman\DateTimeUtils\ValueObject\Date;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use PHPUnit\Framework\TestCase;
 
+/** @coversDefaultClass \DigitalCraftsman\DateTimeUtils\Doctrine\DateType */
 final class DateTypeTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     * @covers ::convertToDatabaseValue
+     * @covers ::convertToPHPValue
+     */
     public function convert_from_and_to_date_php_value_works(): void
     {
         // -- Arrange
@@ -26,7 +31,11 @@ final class DateTypeTest extends TestCase
         self::assertEquals($date, $phpValue);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers ::convertToDatabaseValue
+     * @covers ::convertToPHPValue
+     */
     public function convert_from_and_to_null_value_works(): void
     {
         // -- Arrange
