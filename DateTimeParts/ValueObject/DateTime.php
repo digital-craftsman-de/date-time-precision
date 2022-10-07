@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeUtils\ValueObject;
+namespace DigitalCraftsman\DateTimeParts\ValueObject;
 
 final class DateTime implements \Stringable
 {

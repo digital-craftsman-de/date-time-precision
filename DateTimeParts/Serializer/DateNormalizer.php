@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeUtils\Serializer;
+namespace DigitalCraftsman\DateTimeParts\Serializer;
 
-use DigitalCraftsman\DateTimeUtils\ValueObject\Month;
+use DigitalCraftsman\DateTimeParts\ValueObject\Date;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-final class MonthNormalizer implements NormalizerInterface, DenormalizerInterface, CacheableSupportsMethodInterface
+final class DateNormalizer implements NormalizerInterface, DenormalizerInterface, CacheableSupportsMethodInterface
 {
     public function supportsNormalization($data, $format = null, array $context = []): bool
     {
-        return $data instanceof Month;
+        return $data instanceof Date;
     }
 
     /** @param class-string $type */
     public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
-        return $type === Month::class;
+        return $type === Date::class;
     }
 
-    /** @param Month|null $object */
+    /** @param Date|null $object */
     public function normalize($object, $format = null, array $context = []): ?string
     {
         return $object === null
@@ -31,11 +31,11 @@ final class MonthNormalizer implements NormalizerInterface, DenormalizerInterfac
     }
 
     /** @param ?string $data */
-    public function denormalize($data, $type, $format = null, array $context = []): ?Month
+    public function denormalize($data, $type, $format = null, array $context = []): ?Date
     {
         return $data === null
             ? null
-            : Month::fromString($data);
+            : Date::fromString($data);
     }
 
     /** @codeCoverageIgnore */

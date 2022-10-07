@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeUtils\ValueObject;
+namespace DigitalCraftsman\DateTimeParts\ValueObject;
 
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimeUtils\ValueObject\DateTime */
+/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\ValueObject\DateTime */
 final class DateTimeTest extends TestCase
 {
     /**

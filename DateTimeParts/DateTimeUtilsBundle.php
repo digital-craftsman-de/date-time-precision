@@ -1,6 +1,6 @@
 <?php
 
-namespace DigitalCraftsman\DateTimeUtils;
+namespace DigitalCraftsman\DateTimeParts;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

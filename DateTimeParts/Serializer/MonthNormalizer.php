@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeUtils\Serializer;
+namespace DigitalCraftsman\DateTimeParts\Serializer;
 
-use DigitalCraftsman\DateTimeUtils\ValueObject\DateTime;
+use DigitalCraftsman\DateTimeParts\ValueObject\Month;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-final class DateTimeNormalizer implements NormalizerInterface, DenormalizerInterface, CacheableSupportsMethodInterface
+final class MonthNormalizer implements NormalizerInterface, DenormalizerInterface, CacheableSupportsMethodInterface
 {
     public function supportsNormalization($data, $format = null, array $context = []): bool
     {
-        return $data instanceof DateTime;
+        return $data instanceof Month;
     }
 
     /** @param class-string $type */
     public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
-        return $type === DateTime::class;
+        return $type === Month::class;
     }
 
-    /** @param DateTime|null $object */
+    /** @param Month|null $object */
     public function normalize($object, $format = null, array $context = []): ?string
     {
         return $object === null
@@ -30,14 +30,15 @@ final class DateTimeNormalizer implements NormalizerInterface, DenormalizerInter
             : (string) $object;
     }
 
-    /** @param string|null $data */
-    public function denormalize($data, $type, $format = null, array $context = []): ?DateTime
+    /** @param ?string $data */
+    public function denormalize($data, $type, $format = null, array $context = []): ?Month
     {
         return $data === null
             ? null
-            : DateTime::fromString($data);
+            : Month::fromString($data);
     }
 
+    /** @codeCoverageIgnore */
     public function hasCacheableSupportsMethod(): bool
     {
         return true;

@@ -15,12 +15,12 @@
   },
   "autoload": {
     "psr-4": {
-      "DigitalCraftsman\\DateTimeUtils\\": "src/"
+      "DigitalCraftsman\\DateTimeParts\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "DigitalCraftsman\\DateTimeUtils\\": "tests/"
+      "DigitalCraftsman\\DateTimeParts\\": "tests/"
     }
   },
   "license": "MIT",

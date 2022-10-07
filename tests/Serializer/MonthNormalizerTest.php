@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeUtils\Serializer;
+namespace DigitalCraftsman\DateTimeParts\Serializer;
 
-use DigitalCraftsman\DateTimeUtils\ValueObject\Month;
+use DigitalCraftsman\DateTimeParts\ValueObject\Month;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimeUtils\Serializer\MonthNormalizer */
+/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Serializer\MonthNormalizer */
 final class MonthNormalizerTest extends TestCase
 {
     /**

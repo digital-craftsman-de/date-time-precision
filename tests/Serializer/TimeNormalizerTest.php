@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeUtils\Serializer;
+namespace DigitalCraftsman\DateTimeParts\Serializer;
 
-use DigitalCraftsman\DateTimeUtils\ValueObject\Time;
+use DigitalCraftsman\DateTimeParts\ValueObject\Time;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimeUtils\Serializer\TimeNormalizer */
+/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Serializer\TimeNormalizer */
 final class TimeNormalizerTest extends TestCase
 {
     /**

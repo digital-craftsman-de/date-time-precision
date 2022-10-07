@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeUtils\Doctrine;
+namespace DigitalCraftsman\DateTimeParts\Doctrine;
 
-use DigitalCraftsman\DateTimeUtils\ValueObject\Year;
+use DigitalCraftsman\DateTimeParts\ValueObject\Year;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimeUtils\ValueObject\Year */
+/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\ValueObject\Year */
 final class YearTypeTest extends TestCase
 {
     /**
