@@ -29,9 +29,24 @@ final class DateTime implements \Stringable
 
     // -- Accessors
 
+    public function date(): Date
+    {
+        return Date::fromDateTime($this->dateTime);
+    }
+
     public function time(): Time
     {
         return Time::fromDateTime($this->dateTime);
+    }
+
+    public function month(): Month
+    {
+        return Month::fromDateTime($this->dateTime);
+    }
+
+    public function year(): Year
+    {
+        return Year::fromDateTime($this->dateTime);
     }
 
     // -- Modifications
@@ -47,6 +62,13 @@ final class DateTime implements \Stringable
     public function format(string $format): string
     {
         return $this->dateTime->format($format);
+    }
+
+    public function toTimeZone(\DateTimeZone $timeZone): self
+    {
+        return new self(
+            $this->dateTime->setTimezone($timeZone),
+        );
     }
 
     public function modifyInTimeZone(string $modifier, \DateTimeZone $timeZone): self
