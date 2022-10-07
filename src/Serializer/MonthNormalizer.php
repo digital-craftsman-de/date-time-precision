@@ -25,21 +25,17 @@ final class MonthNormalizer implements NormalizerInterface, DenormalizerInterfac
     /** @param Month|null $object */
     public function normalize($object, $format = null, array $context = []): ?string
     {
-        if ($object === null) {
-            return null;
-        }
-
-        return (string) $object;
+        return $object === null
+            ? null
+            : (string) $object;
     }
 
     /** @param ?string $data */
     public function denormalize($data, $type, $format = null, array $context = []): ?Month
     {
-        if ($data === null) {
-            return null;
-        }
-
-        return Month::fromString($data);
+        return $data === null
+            ? null
+            : Month::fromString($data);
     }
 
     /** @codeCoverageIgnore */

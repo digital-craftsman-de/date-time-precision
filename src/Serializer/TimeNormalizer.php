@@ -25,21 +25,17 @@ final class TimeNormalizer implements NormalizerInterface, DenormalizerInterface
     /** @param Time|null $object */
     public function normalize($object, $format = null, array $context = []): ?string
     {
-        if ($object === null) {
-            return null;
-        }
-
-        return (string) $object;
+        return $object === null
+            ? null
+            : (string) $object;
     }
 
     /** @param ?string $data */
     public function denormalize($data, $type, $format = null, array $context = []): ?Time
     {
-        if ($data === null) {
-            return null;
-        }
-
-        return Time::fromString($data);
+        return $data === null
+            ? null
+            : Time::fromString($data);
     }
 
     /** @codeCoverageIgnore */

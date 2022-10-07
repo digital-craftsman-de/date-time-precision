@@ -25,21 +25,17 @@ final class DateTimeNormalizer implements NormalizerInterface, DenormalizerInter
     /** @param DateTime|null $object */
     public function normalize($object, $format = null, array $context = []): ?string
     {
-        if ($object === null) {
-            return null;
-        }
-
-        return $object->format(\DateTimeInterface::ATOM);
+        return $object === null
+            ? null
+            : (string) $object;
     }
 
     /** @param string|null $data */
     public function denormalize($data, $type, $format = null, array $context = []): ?DateTime
     {
-        if ($data === null) {
-            return null;
-        }
-
-        return DateTime::fromString($data);
+        return $data === null
+            ? null
+            : DateTime::fromString($data);
     }
 
     public function hasCacheableSupportsMethod(): bool

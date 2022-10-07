@@ -25,21 +25,17 @@ final class DateNormalizer implements NormalizerInterface, DenormalizerInterface
     /** @param Date|null $object */
     public function normalize($object, $format = null, array $context = []): ?string
     {
-        if ($object === null) {
-            return null;
-        }
-
-        return (string) $object;
+        return $object === null
+            ? null
+            : (string) $object;
     }
 
     /** @param ?string $data */
     public function denormalize($data, $type, $format = null, array $context = []): ?Date
     {
-        if ($data === null) {
-            return null;
-        }
-
-        return Date::fromString($data);
+        return $data === null
+            ? null
+            : Date::fromString($data);
     }
 
     /** @codeCoverageIgnore */

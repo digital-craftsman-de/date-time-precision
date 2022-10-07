@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimeUtils\ValueObject;
 
-final class DateTime
+final class DateTime implements \Stringable
 {
+    private const DATE_TIME_FORMAT = \DateTimeInterface::ATOM;
+
     // -- Construction
 
     public function __construct(
@@ -16,6 +18,13 @@ final class DateTime
     public static function fromString(string $string): self
     {
         return new self(new \DateTimeImmutable($string));
+    }
+
+    // Stringable
+
+    public function __toString(): string
+    {
+        return $this->format(self::DATE_TIME_FORMAT);
     }
 
     // -- Accessors
