@@ -14,7 +14,7 @@ final class TimeTypeTest extends TestCase
     public function convert_from_and_to_time_php_value_works(): void
     {
         // -- Arrange
-        $time = new Time(14, 50, 10);
+        $time = Time::fromString('14:50:10');
         $timeType = new TimeType();
         $platform = new PostgreSQLPlatform();
 
