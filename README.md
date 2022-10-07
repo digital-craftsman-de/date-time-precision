@@ -31,11 +31,26 @@ Basically whenever you don't talk about a point in time.
 Storing more information in those cases just lead to more questions, like "When storing the month, do we store the first of month at midnight?" and therefore increases complexity. Additionally, you need mutate or reduce the point in time to be able to compare it. With the package it will be as easy as:
 
 ```php
-if ($now->time()->isBefore($facility->openFrom)) {
+if ($now
+    ->toTimezone($facilityTimeZone)
+    ->time()
+    ->isBefore($facility->openFrom)
+) {
     throw new FacilityIsNotOpenYet();
 }
 ```
 
-For the best code readability, it's best to use the `DateTime` provided with the package as a full replacement for `\DateTime` or `\DateTimeImmutable`. 
+## Integration
+
+For the best code readability, it's best to use the `DateTime` provided with the package as a full replacement for `\DateTime` or `\DateTimeImmutable`.
+The package provides normalizers and doctrine types for `DateTime` and all parts.
+
+## Design
+
+### Immutability
 
 All mutations on the `DateTime` and its parts are immutable.
+
+### Time zone
+
+The package is primarily build for the use case, that your system is running in the time zone `UTC` and you're converting the points in time into the relevant time zone before doing comparisons. It includes helpers like `modifyInTimeZone(string $modifier, \DateTimeZone $timeZone)` to make the code more readable. 
