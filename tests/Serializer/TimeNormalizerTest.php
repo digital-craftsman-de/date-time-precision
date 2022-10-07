@@ -19,7 +19,7 @@ final class TimeNormalizerTest extends TestCase
     public function time_normalization_and_denormalization_works(): void
     {
         // -- Arrange
-        $time = new Time(14, 50, 10, 234232);
+        $time = Time::fromString('14:50:10.234232');
 
         $normalizer = new TimeNormalizer();
 
@@ -56,7 +56,7 @@ final class TimeNormalizerTest extends TestCase
     public function supports_normalization(): void
     {
         // -- Arrange
-        $time = new Time(14, 50, 10);
+        $time = Time::fromString('14:50:10');
 
         $normalizer = new TimeNormalizer();
 
