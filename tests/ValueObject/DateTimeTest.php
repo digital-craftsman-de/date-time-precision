@@ -21,7 +21,7 @@ final class DateTimeTest extends TestCase
         $this->expectNotToPerformAssertions();
 
         // -- Arrange & Act
-        new DateTime(new \DateTimeImmutable('now'));
+        DateTime::fromDateTime(new \DateTimeImmutable('now'));
     }
 
     /**
