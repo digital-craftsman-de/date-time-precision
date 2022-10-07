@@ -49,6 +49,11 @@ final class DateTime implements \Stringable
         return Year::fromDateTime($this->dateTime);
     }
 
+    public function timeZone(): \DateTimeZone
+    {
+        return $this->dateTime->getTimezone();
+    }
+
     // -- Modifications
 
     public function modify(string $modifier): self
@@ -68,6 +73,13 @@ final class DateTime implements \Stringable
     {
         return new self(
             $this->dateTime->setTimezone($timeZone),
+        );
+    }
+
+    public function toUTC(): self
+    {
+        return new self(
+            $this->dateTime->setTimezone(new \DateTimeZone('UTC')),
         );
     }
 
