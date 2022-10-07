@@ -13,6 +13,7 @@ final class TimeTypeTest extends TestCase
 {
     /**
      * @test
+     *
      * @covers ::convertToDatabaseValue
      * @covers ::convertToPHPValue
      */
@@ -33,6 +34,7 @@ final class TimeTypeTest extends TestCase
 
     /**
      * @test
+     *
      * @covers ::convertToDatabaseValue
      * @covers ::convertToPHPValue
      */
