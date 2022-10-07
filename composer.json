@@ -1,5 +1,5 @@
 {
-  "name": "digital-craftsman/date-time-utils",
+  "name": "digital-craftsman/datetime-parts",
   "description": "Utility wrapper for DateTimeImmutable to work with date and time",
   "type": "symfony-bundle",
   "require": {
