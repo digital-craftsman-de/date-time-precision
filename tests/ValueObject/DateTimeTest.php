@@ -12,6 +12,21 @@ final class DateTimeTest extends TestCase
     /**
      * @test
      *
+     * @covers ::__construct
+     * @covers ::fromDateTime
+     */
+    public function construction_with_date_time_works(): void
+    {
+        // -- Assert
+        $this->expectNotToPerformAssertions();
+
+        // -- Arrange & Act
+        new DateTime(new \DateTimeImmutable('now'));
+    }
+
+    /**
+     * @test
+     *
      * @covers ::toUTC
      * @covers ::timezone
      */

@@ -20,6 +20,11 @@ final class DateTime implements \Stringable
         return new self(new \DateTimeImmutable($string));
     }
 
+    public static function fromDateTime(\DateTimeImmutable $dateTime): self
+    {
+        return new self($dateTime);
+    }
+
     // Stringable
 
     public function __toString(): string
