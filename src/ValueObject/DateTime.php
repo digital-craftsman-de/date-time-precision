@@ -20,6 +20,16 @@ final class DateTime implements \Stringable
         return new self(new \DateTimeImmutable($string));
     }
 
+    public static function fromStringInTimeZone(
+        string $string,
+        \DateTimeZone $timeZone,
+    ): self {
+        $defaultTimeZone = new \DateTimeZone(date_default_timezone_get());
+
+        return (new self(new \DateTimeImmutable($string, $timeZone)))
+            ->toTimeZone($defaultTimeZone);
+    }
+
     public static function fromDateTime(\DateTimeImmutable $dateTime): self
     {
         return new self($dateTime);
@@ -94,8 +104,6 @@ final class DateTime implements \Stringable
         return $this->dateTime <=> $dateTime->dateTime;
     }
 
-    // TODO: Midnight
-
     // -- Modifications
 
     public function modify(string $modifier): self
@@ -148,5 +156,24 @@ final class DateTime implements \Stringable
                 $time->microsecond,
             ),
         );
+    }
+
+    public function midnight(): self
+    {
+        return $this->setTime(new Time(
+            0,
+            0,
+            0,
+        ));
+    }
+
+    public function midnightInTimeZone(\DateTimeZone $timeZone): self
+    {
+        $originalTimeZone = $this->dateTime->getTimezone();
+
+        return $this
+            ->toTimeZone($timeZone)
+            ->midnight()
+            ->toTimeZone($originalTimeZone);
     }
 }
