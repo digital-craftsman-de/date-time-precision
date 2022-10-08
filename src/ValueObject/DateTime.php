@@ -59,6 +59,43 @@ final class DateTime implements \Stringable
         return $this->dateTime->getTimezone();
     }
 
+    public function isEqualTo(self $dateTime): bool
+    {
+        return $this->dateTime == $dateTime->dateTime;
+    }
+
+    public function isNotEqualTo(self $dateTime): bool
+    {
+        return $this->dateTime != $dateTime->dateTime;
+    }
+
+    public function isAfter(self $dateTime): bool
+    {
+        return $this->dateTime > $dateTime->dateTime;
+    }
+
+    public function isAfterOrEqualTo(self $dateTime): bool
+    {
+        return $this->dateTime >= $dateTime->dateTime;
+    }
+
+    public function isBeforeOrEqualTo(self $dateTime): bool
+    {
+        return $this->dateTime <= $dateTime->dateTime;
+    }
+
+    public function isBefore(self $dateTime): bool
+    {
+        return $this->dateTime < $dateTime->dateTime;
+    }
+
+    public function compareTo(self $dateTime): int
+    {
+        return $this->dateTime <=> $dateTime->dateTime;
+    }
+
+    // TODO: Midnight
+
     // -- Modifications
 
     public function modify(string $modifier): self

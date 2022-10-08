@@ -9,6 +9,8 @@ use PHPUnit\Framework\TestCase;
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\ValueObject\DateTime */
 final class DateTimeTest extends TestCase
 {
+    // -- Construction
+
     /**
      * @test
      *
@@ -23,6 +25,8 @@ final class DateTimeTest extends TestCase
         // -- Arrange & Act
         DateTime::fromDateTime(new \DateTimeImmutable('now'));
     }
+
+    // -- Mutations
 
     /**
      * @test
