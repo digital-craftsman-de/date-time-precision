@@ -8,7 +8,7 @@ use DigitalCraftsman\DateTimeParts\ValueObject\Month;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\ValueObject\Month */
+/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Doctrine\MonthType */
 final class MonthTypeTest extends TestCase
 {
     /**
