@@ -38,6 +38,7 @@ final class DateTimeNormalizer implements NormalizerInterface, DenormalizerInter
             : DateTime::fromString($data);
     }
 
+    /** @codeCoverageIgnore */
     public function hasCacheableSupportsMethod(): bool
     {
         return true;
