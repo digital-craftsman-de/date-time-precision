@@ -113,6 +113,8 @@ final class Month implements \Stringable
         return $this->monthOfYear >= $month->monthOfYear;
     }
 
+    // -- Mutations
+
     public function previous(): self
     {
         // TODO: Implement
@@ -147,13 +149,23 @@ final class Month implements \Stringable
         return Date::fromDateTime($lastDayOfMonth);
     }
 
-    // -- Mutations
-
     public function format(string $format): string
     {
         return $this
             ->toDateTimeImmutable()
             ->format($format);
+    }
+
+    public function modify(string $modifier): self
+    {
+        $modifiedDateTime = $this->toDateTimeImmutable()
+            ->modify($modifier);
+
+        if ($modifiedDateTime === false) {
+            throw new \InvalidArgumentException(sprintf('Value "%s" is not valid modifier.', $modifier));
+        }
+
+        return self::fromDateTime($modifiedDateTime);
     }
 
     private function toDateTimeImmutable(): \DateTimeImmutable
