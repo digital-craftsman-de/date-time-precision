@@ -8,6 +8,7 @@ namespace DigitalCraftsman\DateTimeParts\ValueObject;
 final class Time implements \Stringable
 {
     private const TIME_FORMAT = 'H:i:s.u';
+    private const MINUTES_IN_AN_HOUR = 60;
 
     // -- Construction
 
@@ -172,6 +173,13 @@ final class Time implements \Stringable
         return $this->isBefore($time)
             ? -1
             : 1;
+    }
+
+    public function distanceInMinutesTo(self $time): int
+    {
+        $diff = $this->diff($time);
+
+        return $diff->h * self::MINUTES_IN_AN_HOUR + $diff->i;
     }
 
     // -- Mutations
