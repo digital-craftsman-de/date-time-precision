@@ -20,10 +20,13 @@ final class DateTimeTest extends TestCase
     public function construction_with_date_time_works(): void
     {
         // -- Assert
-        $this->expectNotToPerformAssertions();
+        $dateTimeImmutable = new \DateTimeImmutable('now');
 
-        // -- Arrange & Act
-        DateTime::fromDateTime(new \DateTimeImmutable('now'));
+        // -- Act
+        $dateTime = DateTime::fromDateTime($dateTimeImmutable);
+
+        // -- Assert
+        self::assertSame($dateTimeImmutable, $dateTime->dateTime);
     }
 
     // -- Mutations
