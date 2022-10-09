@@ -115,18 +115,6 @@ final class Month implements \Stringable
 
     // -- Mutations
 
-    public function previous(): self
-    {
-        // TODO: Implement
-        return $this;
-    }
-
-    public function next(): self
-    {
-        // TODO: Implement
-        return $this;
-    }
-
     public function firstDay(): Date
     {
         $firstDayOfMonth = new \DateTimeImmutable(sprintf(
