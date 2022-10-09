@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeUtils\ValueObject;
+namespace DigitalCraftsman\DateTimeParts\ValueObject;
 
 /** @psalm-immutable */
 final class Date implements \Stringable
@@ -126,6 +126,18 @@ final class Date implements \Stringable
         return $this
             ->toDateTimeImmutable()
             ->format($format);
+    }
+
+    public function modify(string $modifier): self
+    {
+        $modifiedDateTime = $this->toDateTimeImmutable()
+            ->modify($modifier);
+
+        if ($modifiedDateTime === false) {
+            throw new \InvalidArgumentException(sprintf('Value "%s" is not valid modifier.', $modifier));
+        }
+
+        return self::fromDateTime($modifiedDateTime);
     }
 
     private function toDateTimeImmutable(): \DateTimeImmutable

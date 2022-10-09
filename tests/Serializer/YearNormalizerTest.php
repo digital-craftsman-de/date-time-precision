@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeUtils\Serializer;
+namespace DigitalCraftsman\DateTimeParts\Serializer;
 
-use DigitalCraftsman\DateTimeUtils\ValueObject\Year;
+use DigitalCraftsman\DateTimeParts\ValueObject\Year;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimeUtils\Serializer\YearNormalizer */
+/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Serializer\YearNormalizer */
 final class YearNormalizerTest extends TestCase
 {
     /**

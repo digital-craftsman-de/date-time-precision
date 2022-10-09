@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeUtils\ValueObject;
+namespace DigitalCraftsman\DateTimeParts\ValueObject;
 
 final class DateTime implements \Stringable
 {
@@ -20,6 +20,21 @@ final class DateTime implements \Stringable
         return new self(new \DateTimeImmutable($string));
     }
 
+    public static function fromStringInTimeZone(
+        string $string,
+        \DateTimeZone $timeZone,
+    ): self {
+        $defaultTimeZone = new \DateTimeZone(date_default_timezone_get());
+
+        return (new self(new \DateTimeImmutable($string, $timeZone)))
+            ->toTimeZone($defaultTimeZone);
+    }
+
+    public static function fromDateTime(\DateTimeImmutable $dateTime): self
+    {
+        return new self($dateTime);
+    }
+
     // Stringable
 
     public function __toString(): string
@@ -34,9 +49,23 @@ final class DateTime implements \Stringable
         return Date::fromDateTime($this->dateTime);
     }
 
+    public function dateInTimeZone(\DateTimeZone $timeZone): Date
+    {
+        return $this
+            ->toTimeZone($timeZone)
+            ->date();
+    }
+
     public function time(): Time
     {
         return Time::fromDateTime($this->dateTime);
+    }
+
+    public function timeInTimeZone(\DateTimeZone $timeZone): Time
+    {
+        return $this
+            ->toTimeZone($timeZone)
+            ->time();
     }
 
     public function month(): Month
@@ -44,9 +73,63 @@ final class DateTime implements \Stringable
         return Month::fromDateTime($this->dateTime);
     }
 
+    public function monthInTimeZone(\DateTimeZone $timeZone): Month
+    {
+        return $this
+            ->toTimeZone($timeZone)
+            ->month();
+    }
+
     public function year(): Year
     {
         return Year::fromDateTime($this->dateTime);
+    }
+
+    public function yearInTimeZone(\DateTimeZone $timeZone): Year
+    {
+        return $this
+            ->toTimeZone($timeZone)
+            ->year();
+    }
+
+    public function timeZone(): \DateTimeZone
+    {
+        return $this->dateTime->getTimezone();
+    }
+
+    public function isEqualTo(self $dateTime): bool
+    {
+        return $this->dateTime == $dateTime->dateTime;
+    }
+
+    public function isNotEqualTo(self $dateTime): bool
+    {
+        return $this->dateTime != $dateTime->dateTime;
+    }
+
+    public function isAfter(self $dateTime): bool
+    {
+        return $this->dateTime > $dateTime->dateTime;
+    }
+
+    public function isAfterOrEqualTo(self $dateTime): bool
+    {
+        return $this->dateTime >= $dateTime->dateTime;
+    }
+
+    public function isBeforeOrEqualTo(self $dateTime): bool
+    {
+        return $this->dateTime <= $dateTime->dateTime;
+    }
+
+    public function isBefore(self $dateTime): bool
+    {
+        return $this->dateTime < $dateTime->dateTime;
+    }
+
+    public function compareTo(self $dateTime): int
+    {
+        return $this->dateTime <=> $dateTime->dateTime;
     }
 
     // -- Modifications
@@ -68,6 +151,13 @@ final class DateTime implements \Stringable
     {
         return new self(
             $this->dateTime->setTimezone($timeZone),
+        );
+    }
+
+    public function toUTC(): self
+    {
+        return new self(
+            $this->dateTime->setTimezone(new \DateTimeZone('UTC')),
         );
     }
 
@@ -94,5 +184,24 @@ final class DateTime implements \Stringable
                 $time->microsecond,
             ),
         );
+    }
+
+    public function midnight(): self
+    {
+        return $this->setTime(new Time(
+            0,
+            0,
+            0,
+        ));
+    }
+
+    public function midnightInTimeZone(\DateTimeZone $timeZone): self
+    {
+        $originalTimeZone = $this->dateTime->getTimezone();
+
+        return $this
+            ->toTimeZone($timeZone)
+            ->midnight()
+            ->toTimeZone($originalTimeZone);
     }
 }

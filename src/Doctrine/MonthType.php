@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeUtils\Doctrine;
+namespace DigitalCraftsman\DateTimeParts\Doctrine;
 
-use DigitalCraftsman\DateTimeUtils\ValueObject\Month;
+use DigitalCraftsman\DateTimeParts\ValueObject\Month;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
 
@@ -34,6 +34,7 @@ final class MonthType extends StringType
             : Month::fromString($value);
     }
 
+    /** @codeCoverageIgnore */
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         $column['length'] = 7;

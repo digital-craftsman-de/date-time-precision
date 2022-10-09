@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeUtils\Serializer;
+namespace DigitalCraftsman\DateTimeParts\Serializer;
 
-use DigitalCraftsman\DateTimeUtils\ValueObject\DateTime;
+use DigitalCraftsman\DateTimeParts\ValueObject\DateTime;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -38,6 +38,7 @@ final class DateTimeNormalizer implements NormalizerInterface, DenormalizerInter
             : DateTime::fromString($data);
     }
 
+    /** @codeCoverageIgnore */
     public function hasCacheableSupportsMethod(): bool
     {
         return true;

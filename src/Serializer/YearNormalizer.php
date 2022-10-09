@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeUtils\Serializer;
+namespace DigitalCraftsman\DateTimeParts\Serializer;
 
-use DigitalCraftsman\DateTimeUtils\ValueObject\Year;
+use DigitalCraftsman\DateTimeParts\ValueObject\Year;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;

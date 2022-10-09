@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeUtils\ValueObject;
+namespace DigitalCraftsman\DateTimeParts\ValueObject;
 
 /** @psalm-immutable */
 final class Time implements \Stringable
 {
     private const TIME_FORMAT = 'H:i:s.u';
+    private const MINUTES_IN_AN_HOUR = 60;
 
     // -- Construction
 
@@ -174,6 +175,13 @@ final class Time implements \Stringable
             : 1;
     }
 
+    public function distanceInMinutesTo(self $time): int
+    {
+        $diff = $this->diff($time);
+
+        return $diff->h * self::MINUTES_IN_AN_HOUR + $diff->i;
+    }
+
     // -- Mutations
 
     public function format(string $format): string
@@ -188,6 +196,18 @@ final class Time implements \Stringable
         return $this
             ->toDateTimeImmutable()
             ->diff($time->toDateTimeImmutable());
+    }
+
+    public function modify(string $modifier): self
+    {
+        $modifiedDateTime = $this->toDateTimeImmutable()
+            ->modify($modifier);
+
+        if ($modifiedDateTime === false) {
+            throw new \InvalidArgumentException(sprintf('Value "%s" is not valid modifier.', $modifier));
+        }
+
+        return self::fromDateTime($modifiedDateTime);
     }
 
     private function toDateTimeImmutable(): \DateTimeImmutable

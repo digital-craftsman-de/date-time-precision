@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeUtils\DependencyInjection;
+namespace DigitalCraftsman\DateTimeParts\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /** @codeCoverageIgnore */
-final class DateTimeUtilsExtension extends Extension
+final class DateTimePartsExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
