@@ -190,6 +190,18 @@ final class Time implements \Stringable
             ->diff($time->toDateTimeImmutable());
     }
 
+    public function modify(string $modifier): self
+    {
+        $modifiedDateTime = $this->toDateTimeImmutable()
+            ->modify($modifier);
+
+        if ($modifiedDateTime === false) {
+            throw new \InvalidArgumentException(sprintf('Value "%s" is not valid modifier.', $modifier));
+        }
+
+        return self::fromDateTime($modifiedDateTime);
+    }
+
     private function toDateTimeImmutable(): \DateTimeImmutable
     {
         return new \DateTimeImmutable(
