@@ -8,7 +8,7 @@ use DigitalCraftsman\DateTimeParts\ValueObject\Year;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\ValueObject\Year */
+/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Doctrine\YearType */
 final class YearTypeTest extends TestCase
 {
     /**
