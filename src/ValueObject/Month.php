@@ -113,6 +113,44 @@ final class Month implements \Stringable
         return $this->monthOfYear >= $month->monthOfYear;
     }
 
+    /**
+     * Returns all months until the given month. If the given month is before this month, the result will be an empty array.
+     *
+     * @return array<int, Month>
+     */
+    public function monthsUntil(
+        self $month,
+        PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
+    ): array {
+        $startDateTime = $periodLimit === PeriodLimit::INCLUDING_START_AND_END
+            || $periodLimit === PeriodLimit::INCLUDING_START
+            ? $this
+                ->modify('- 1 month')
+                ->toDateTimeImmutable()
+            : $this->toDateTimeImmutable();
+
+        $endDateTime = $periodLimit === PeriodLimit::INCLUDING_START_AND_END
+            || $periodLimit === PeriodLimit::INCLUDING_END
+            ? $month
+                ->modify('+ 1 month')
+                ->toDateTimeImmutable()
+            : $month->toDateTimeImmutable();
+
+        $interval = new \DateInterval('P1M');
+        /**
+         * The options here seem counter-intuitive, but are set in a way that this logic is only handled in one place (above) instead of
+         * two place with part of it above and part below. With PHP 8.2 there is a nicer way with an additional flag.
+         */
+        $period = new \DatePeriod($startDateTime, $interval, $endDateTime, \DatePeriod::EXCLUDE_START_DATE);
+
+        $months = [];
+        foreach ($period as $date) {
+            $months[] = self::fromDateTime($date);
+        }
+
+        return $months;
+    }
+
     // -- Mutations
 
     public function firstDay(): Date
