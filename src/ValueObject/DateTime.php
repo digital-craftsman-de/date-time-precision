@@ -49,9 +49,23 @@ final class DateTime implements \Stringable
         return Date::fromDateTime($this->dateTime);
     }
 
+    public function dateInTimeZone(\DateTimeZone $timeZone): Date
+    {
+        return $this
+            ->toTimeZone($timeZone)
+            ->date();
+    }
+
     public function time(): Time
     {
         return Time::fromDateTime($this->dateTime);
+    }
+
+    public function timeInTimeZone(\DateTimeZone $timeZone): Time
+    {
+        return $this
+            ->toTimeZone($timeZone)
+            ->time();
     }
 
     public function month(): Month
@@ -59,9 +73,23 @@ final class DateTime implements \Stringable
         return Month::fromDateTime($this->dateTime);
     }
 
+    public function monthInTimeZone(\DateTimeZone $timeZone): Month
+    {
+        return $this
+            ->toTimeZone($timeZone)
+            ->month();
+    }
+
     public function year(): Year
     {
         return Year::fromDateTime($this->dateTime);
+    }
+
+    public function yearInTimeZone(\DateTimeZone $timeZone): Year
+    {
+        return $this
+            ->toTimeZone($timeZone)
+            ->year();
     }
 
     public function timeZone(): \DateTimeZone
