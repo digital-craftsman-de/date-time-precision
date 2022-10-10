@@ -33,12 +33,4 @@ final class MonthType extends StringType
             ? null
             : Month::fromString($value);
     }
-
-    /** @codeCoverageIgnore */
-    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
-    {
-        $column['length'] = 7;
-
-        return $platform->getStringTypeDeclarationSQL($column);
-    }
 }
