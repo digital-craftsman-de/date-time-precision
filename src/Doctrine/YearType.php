@@ -19,11 +19,9 @@ final class YearType extends IntegerType
     /** @param Year|null $value */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?int
     {
-        if ($value === null) {
-            return null;
-        }
-
-        return $value->year;
+        return $value === null
+            ? null
+            : $value->year;
     }
 
     /** @param int|null $value */
@@ -34,6 +32,7 @@ final class YearType extends IntegerType
             : new Year($value);
     }
 
+    /** @codeCoverageIgnore */
     public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;

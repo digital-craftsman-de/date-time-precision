@@ -42,6 +42,7 @@ final class MonthType extends StringType
         return $platform->getStringTypeDeclarationSQL($column);
     }
 
+    /** @codeCoverageIgnore */
     public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
