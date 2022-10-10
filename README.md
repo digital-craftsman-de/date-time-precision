@@ -32,8 +32,7 @@ Storing more information in those cases just lead to more questions, like "When 
 
 ```php
 if ($now
-    ->toTimezone($facilityTimeZone)
-    ->time()
+    ->timeInTimeZone($facilityTimeZone)
     ->isBefore($facility->openFrom)
 ) {
     throw new FacilityIsNotOpenYet();
