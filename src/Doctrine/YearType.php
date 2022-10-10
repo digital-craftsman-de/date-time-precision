@@ -33,4 +33,9 @@ final class YearType extends IntegerType
             ? null
             : new Year($value);
     }
+
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
 }
