@@ -34,6 +34,23 @@ final class DateTimeNormalizerTest extends TestCase
     /**
      * @test
      *
+     * @covers ::normalize
+     */
+    public function date_time_normalization_with_null_works(): void
+    {
+        // -- Arrange
+        $normalizer = new DateTimeNormalizer();
+
+        // -- Act
+        $normalizedData = $normalizer->normalize(null);
+
+        // -- Assert
+        self::assertNull($normalizedData);
+    }
+
+    /**
+     * @test
+     *
      * @covers ::denormalize
      */
     public function date_time_denormalization_with_null_works(): void

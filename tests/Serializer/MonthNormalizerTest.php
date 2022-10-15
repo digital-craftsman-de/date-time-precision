@@ -34,6 +34,23 @@ final class MonthNormalizerTest extends TestCase
     /**
      * @test
      *
+     * @covers ::normalize
+     */
+    public function time_normalization_with_null_works(): void
+    {
+        // -- Arrange
+        $normalizer = new MonthNormalizer();
+
+        // -- Act
+        $normalizedData = $normalizer->normalize(null);
+
+        // -- Assert
+        self::assertNull($normalizedData);
+    }
+
+    /**
+     * @test
+     *
      * @covers ::denormalize
      */
     public function time_denormalization_with_null_works(): void
