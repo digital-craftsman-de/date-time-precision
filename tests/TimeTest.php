@@ -12,24 +12,91 @@ final class TimeTest extends TestCase
     /**
      * @test
      *
+     * @dataProvider dataProviderConstructWorks
      * @doesNotPerformAssertions
      *
      * @covers ::__construct
      */
-    public function construct_works(): void
-    {
+    public function construct_works(
+        int $hour,
+        int $minute,
+        int $second,
+        int $millisecond,
+    ): void {
         // -- Arrange & Act
-        new Time(22, 15, 0);
+        new Time($hour, $minute, $second, $millisecond);
+    }
+
+    /**
+     * @return array<string, array{
+     *   0: int,
+     *   1: int,
+     *   2: int,
+     *   3: int,
+     * }>
+     */
+    public function dataProviderConstructWorks(): array
+    {
+        return [
+            'upper border of hour' => [
+                23,
+                15,
+                30,
+                0,
+            ],
+            'upper border of minute' => [
+                22,
+                59,
+                30,
+                0,
+            ],
+            'upper border of second' => [
+                22,
+                15,
+                59,
+                0,
+            ],
+            'upper border of millisecond' => [
+                22,
+                15,
+                30,
+                999999,
+            ],
+            'lower border of hour' => [
+                0,
+                15,
+                30,
+                0,
+            ],
+            'lower border of minute' => [
+                22,
+                0,
+                30,
+                0,
+            ],
+            'lower border of second' => [
+                22,
+                15,
+                0,
+                0,
+            ],
+            'lower border of millisecond' => [
+                22,
+                15,
+                30,
+                0,
+            ],
+        ];
     }
 
     /**
      * @test
      *
-     * @dataProvider dataProvider
+     * @dataProvider dataProviderConstructDoesNotWork
      *
      * @covers ::__construct
      */
-    public function construct_does_not_works(
+    public function construct_does_not_work(
         int $hour,
         int $minute,
         int $second,
@@ -50,32 +117,56 @@ final class TimeTest extends TestCase
      *   3: int,
      * }>
      */
-    public function dataProvider(): array
+    public function dataProviderConstructDoesNotWork(): array
     {
         return [
-            'invalid hour' => [
-                25,
+            'hour to high' => [
+                24,
                 15,
                 30,
                 0,
             ],
-            'invalid minute' => [
+            'minute to high' => [
                 22,
-                77,
+                60,
                 30,
                 0,
             ],
-            'invalid second' => [
+            'second to high' => [
                 22,
                 15,
-                80,
+                60,
                 0,
             ],
-            'invalid millisecond' => [
+            'millisecond to high' => [
                 22,
                 15,
                 30,
-                9999999999999,
+                1000000,
+            ],
+            'hour to low' => [
+                -1,
+                15,
+                30,
+                0,
+            ],
+            'minute to low' => [
+                22,
+                -1,
+                30,
+                0,
+            ],
+            'second to low' => [
+                22,
+                15,
+                -1,
+                0,
+            ],
+            'millisecond to low' => [
+                22,
+                15,
+                30,
+                -1,
             ],
         ];
     }
