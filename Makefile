@@ -116,9 +116,9 @@ php-code-validation:
 ## php-mutation-testing		Run mutation testing
 .PHONY: php-mutation-testing
 php-mutation-testing:
-	docker-compose run --rm php-8.1 ./vendor/bin/infection --show-mutations --threads=8
+	docker-compose run --rm php-8.1 ./vendor/bin/infection --show-mutations --only-covered --threads=8
 
 ## php-mutation-testing-ci		Run mutation testing for CI.
 .PHONY: php-mutation-testing-ci
 php-mutation-testing-ci:
-	docker-compose run --rm php-8.1 ./vendor/bin/infection --min-msi=100 --min-covered-msi=100 --threads=8
+	docker-compose run --rm php-8.1 ./vendor/bin/infection --only-covered --threads=max
