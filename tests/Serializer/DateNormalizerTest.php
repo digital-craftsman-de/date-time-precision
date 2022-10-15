@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimeParts\Serializer;
 
 use DigitalCraftsman\DateTimeParts\Date;
+use DigitalCraftsman\DateTimeParts\Time;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Serializer\DateNormalizer */
@@ -79,6 +80,22 @@ final class DateNormalizerTest extends TestCase
 
         // -- Act & Assert
         self::assertTrue($normalizer->supportsNormalization($date));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::supportsNormalization
+     */
+    public function supports_normalization_fails(): void
+    {
+        // -- Arrange
+        $time = Time::fromString('15:00:00');
+
+        $normalizer = new DateNormalizer();
+
+        // -- Act & Assert
+        self::assertFalse($normalizer->supportsNormalization($time));
     }
 
     /**

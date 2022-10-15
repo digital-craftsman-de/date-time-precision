@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimeParts\Serializer;
 
+use DigitalCraftsman\DateTimeParts\Month;
 use DigitalCraftsman\DateTimeParts\Year;
 use PHPUnit\Framework\TestCase;
 
@@ -73,12 +74,28 @@ final class YearNormalizerTest extends TestCase
     public function supports_normalization(): void
     {
         // -- Arrange
-        $month = new Year(2022);
+        $year = new Year(2022);
 
         $normalizer = new YearNormalizer();
 
         // -- Act & Assert
-        self::assertTrue($normalizer->supportsNormalization($month));
+        self::assertTrue($normalizer->supportsNormalization($year));
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::supportsNormalization
+     */
+    public function supports_normalization_fails(): void
+    {
+        // -- Arrange
+        $month = Month::fromString('2022-08');
+
+        $normalizer = new YearNormalizer();
+
+        // -- Act & Assert
+        self::assertFalse($normalizer->supportsNormalization($month));
     }
 
     /**
