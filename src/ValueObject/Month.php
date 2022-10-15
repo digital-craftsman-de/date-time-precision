@@ -61,6 +61,12 @@ final class Month implements \Stringable
             && $this->year->isEqualTo($month->year);
     }
 
+    public function isNotEqualTo(self $month): bool
+    {
+        return $this->monthOfYear !== $month->monthOfYear
+            || $this->year->isNotEqualTo($month->year);
+    }
+
     public function isBefore(self $month): bool
     {
         if ($this->year->isBefore($month->year)) {
@@ -167,7 +173,7 @@ final class Month implements \Stringable
     public function lastDay(): Date
     {
         $lastDayOfMonth = new \DateTimeImmutable(sprintf(
-            'first day of %d-%d',
+            'last day of %d-%d',
             $this->year->year,
             $this->monthOfYear,
         ));
@@ -187,10 +193,7 @@ final class Month implements \Stringable
         $modifiedDateTime = $this->toDateTimeImmutable()
             ->modify($modifier);
 
-        if ($modifiedDateTime === false) {
-            throw new \InvalidArgumentException(sprintf('Value "%s" is not valid modifier.', $modifier));
-        }
-
+        /** @psalm-suppress PossiblyFalseArgument */
         return self::fromDateTime($modifiedDateTime);
     }
 
