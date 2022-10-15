@@ -31,6 +31,11 @@ install: install-8.1
 install-8.1:
 	docker-compose run --rm php-8.1 composer install
 
+## install-8.2	Install with PHP 8.2.
+.PHONY: install-8.2
+install-8.2:
+	docker-compose run --rm php-8.2 composer install
+
 ## build		Build the Docker images.
 .PHONY: build
 build:
@@ -66,22 +71,37 @@ php-8.1-cli:
 
 ## php-tests		Run the PHP tests.
 .PHONY: php-tests
-php-tests: php-8.1-tests
+php-tests: php-8.1-tests php-8.2-tests
 
-## php-8.1-tests		Run the PHP tests.
+## php-8.1-tests		Run tests on PHP 8.1.
 .PHONY: php-8.1-tests
 php-8.1-tests:
 	docker-compose run --rm php-8.1 ./vendor/bin/phpunit
+
+## php-8.2-tests		Run tests on PHP 8.2.
+.PHONY: php-8.2-tests
+php-8.2-tests:
+	docker-compose run --rm php-8.2 ./vendor/bin/phpunit
 
 ## php-8.1-tests-ci		Run the tests for PHP 8.1 for CI.
 .PHONY: php-8.1-tests-ci
 php-8.1-tests-ci:
 	docker-compose run --rm php-8.1 ./vendor/bin/phpunit --coverage-clover ./coverage.xml
 
-## php-8.0-tests-html-coverage		Run the PHP tests with coverage report as HTML.
+## php-8.2-tests-ci		Run the tests for PHP 8.2 for CI.
+.PHONY: php-8.2-tests-ci
+php-8.2-tests-ci:
+	docker-compose run --rm php-8.2 ./vendor/bin/phpunit
+
+## php-8.1-tests-html-coverage		Run the PHP tests with coverage report as HTML.
 .PHONY: php-8.1-tests-html-coverage
 php-8.1-tests-html-coverage:
 	docker-compose run --rm php-8.1 ./vendor/bin/phpunit --coverage-html ./coverage
+
+## php-8.2-tests-html-coverage		Run the PHP tests with coverage report as HTML.
+.PHONY: php-8.2-tests-html-coverage
+php-8.2-tests-html-coverage:
+	docker-compose run --rm php-8.2 ./vendor/bin/phpunit --coverage-html ./coverage
 
 ##
 ## Code validations
