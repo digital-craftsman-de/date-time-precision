@@ -26,7 +26,7 @@ final class DateTimeIsEqualToTest extends TestCase
     }
 
     /**
-     * @return array<int, array{
+     * @return array<string, array{
      *   0: boolean,
      *   1: DateTime,
      *   2: DateTime,
@@ -35,42 +35,42 @@ final class DateTimeIsEqualToTest extends TestCase
     public function dataProvider(): array
     {
         return [
-            [
+            'is equal' => [
                 true,
                 DateTime::fromString('2022-10-08 15:00:00'),
                 DateTime::fromString('2022-10-08 15:00:00'),
             ],
-            [
+            'next year' => [
                 false,
                 DateTime::fromString('2022-10-08 15:00:00'),
                 DateTime::fromString('2023-10-08 15:00:00'),
             ],
-            [
+            'next month' => [
                 false,
                 DateTime::fromString('2022-10-08 15:00:00'),
                 DateTime::fromString('2022-11-08 15:00:00'),
             ],
-            [
+            'next day' => [
                 false,
                 DateTime::fromString('2022-10-08 15:00:00'),
                 DateTime::fromString('2022-10-09 15:00:00'),
             ],
-            [
+            'next hour' => [
                 false,
                 DateTime::fromString('2022-10-08 15:00:00'),
                 DateTime::fromString('2022-10-08 16:00:00'),
             ],
-            [
+            'next minute' => [
                 false,
                 DateTime::fromString('2022-10-08 15:00:00'),
                 DateTime::fromString('2022-10-08 15:01:00'),
             ],
-            [
+            'next second' => [
                 false,
                 DateTime::fromString('2022-10-08 15:00:00'),
                 DateTime::fromString('2022-10-08 15:00:01'),
             ],
-            [
+            'next millisecond' => [
                 false,
                 DateTime::fromString('2022-10-08 15:00:00'),
                 DateTime::fromString('2022-10-08 15:00:00.000001'),

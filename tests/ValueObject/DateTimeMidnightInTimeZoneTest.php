@@ -26,7 +26,7 @@ final class DateTimeMidnightInTimeZoneTest extends TestCase
     }
 
     /**
-     * @return array<int, array{
+     * @return array<string, array{
      *   0: DateTime,
      *   1: DateTime,
      * }>
@@ -34,12 +34,12 @@ final class DateTimeMidnightInTimeZoneTest extends TestCase
     public function dataProvider(): array
     {
         return [
-            [
+            'midnight in UTC' => [
                 DateTime::fromString('2022-10-08 00:00:00'),
                 DateTime::fromString('2022-10-08 15:00:00'),
                 new \DateTimeZone('UTC'),
             ],
-            [
+            'midnight in Europe/Berlin' => [
                 DateTime::fromStringInTimeZone('2022-10-08 00:00:00', new \DateTimeZone('Europe/Berlin')),
                 DateTime::fromStringInTimeZone('2022-10-08 14:00:00', new \DateTimeZone('Europe/Berlin')),
                 new \DateTimeZone('Europe/Berlin'),
