@@ -15,6 +15,7 @@ final class TimeIsEqualToTest extends TestCase
      * @dataProvider dataProvider
      *
      * @covers ::isEqualTo
+     * @covers ::toDateTimeImmutable
      */
     public function is_equal_to_works(
         bool $expectedResult,

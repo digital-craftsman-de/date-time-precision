@@ -16,7 +16,7 @@ final class TimeIsBeforeTest extends TestCase
      *
      * @covers ::isBefore
      */
-    public function is_before_to_works(
+    public function is_before_works(
         bool $expectedResult,
         Time $time,
         Time $comparator,

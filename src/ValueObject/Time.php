@@ -203,10 +203,7 @@ final class Time implements \Stringable
         $modifiedDateTime = $this->toDateTimeImmutable()
             ->modify($modifier);
 
-        if ($modifiedDateTime === false) {
-            throw new \InvalidArgumentException(sprintf('Value "%s" is not valid modifier.', $modifier));
-        }
-
+        /** @psalm-suppress PossiblyFalseArgument */
         return self::fromDateTime($modifiedDateTime);
     }
 

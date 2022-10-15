@@ -16,7 +16,7 @@ final class TimeIsNotEqualToTest extends TestCase
      *
      * @covers ::isNotEqualTo
      */
-    public function is_equal_to_works(
+    public function is_not_equal_to_works(
         bool $expectedResult,
         Time $time,
         Time $comparator,
