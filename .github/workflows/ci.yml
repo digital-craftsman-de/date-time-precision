@@ -20,6 +20,18 @@ jobs:
           files: ./coverage.xml
           verbose: true
 
+  test-8-2:
+    name: "Tests on PHP 8.2"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install
+        run: |
+          cp .github/workflows/.env .env
+          make install-8.2
+      - name: Run PHP tests
+        run: make php-8.2-tests-ci
+
   code-validation:
     name: "Code validation"
     runs-on: ubuntu-latest

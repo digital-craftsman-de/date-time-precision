@@ -11,3 +11,13 @@ services:
       - .:/var/www/html
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+  php-8.2:
+    build: ./.docker/php-8.2
+    image: date_time_utils_php_8.2
+    env_file:
+      - .env
+    volumes:
+      - .:/var/www/html
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

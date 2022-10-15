@@ -1,14 +1,15 @@
-FROM php:8.1-fpm-alpine3.15
+FROM php:8.2.0RC4-fpm-alpine3.16
 
 RUN apk add --update \
     autoconf \
     g++ \
     make \
+    linux-headers \
     curl
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
-RUN pecl install xdebug && docker-php-ext-enable xdebug
+RUN pecl install xdebug-3.2.0RC1 && docker-php-ext-enable xdebug
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     ln -s $(composer config --global home) /root/composer
