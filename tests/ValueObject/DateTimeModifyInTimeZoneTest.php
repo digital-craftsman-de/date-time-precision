@@ -16,7 +16,7 @@ final class DateTimeModifyInTimeZoneTest extends TestCase
      *
      * @covers ::modifyInTimeZone
      */
-    public function modify_works(
+    public function modify_in_time_zone_works(
         DateTime $expectedResult,
         DateTime $dateTime,
         \DateTimeZone $timeZone,
@@ -54,6 +54,12 @@ final class DateTimeModifyInTimeZoneTest extends TestCase
                 DateTime::fromStringInTimeZone('2022-10-08 15:00:00', new \DateTimeZone('Europe/Berlin')),
                 new \DateTimeZone('Europe/Berlin'),
                 '+ 1 month',
+            ],
+            'subtract 14 days over the summer winter switch from UTC' => [
+                DateTime::fromString('2022-03-18 23:00:00'),
+                DateTime::fromString('2022-04-01 22:00:00'),
+                new \DateTimeZone('Europe/Berlin'),
+                '- 14 days',
             ],
         ];
     }
