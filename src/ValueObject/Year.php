@@ -21,11 +21,27 @@ final class Year
         return new self($year);
     }
 
+    /** @param string $year Has to be date format `Y` */
+    public static function fromString(string $year): self
+    {
+        $dateTime = \DateTimeImmutable::createFromFormat('Y', $year);
+        if ($dateTime === false) {
+            throw new \InvalidArgumentException(sprintf('Value "%s" is not valid year format.', $year));
+        }
+
+        return self::fromDateTime($dateTime);
+    }
+
     // -- Accessors
 
     public function isEqualTo(self $year): bool
     {
         return $this->year === $year->year;
+    }
+
+    public function isNotEqualTo(self $year): bool
+    {
+        return $this->year !== $year->year;
     }
 
     public function isBefore(self $year): bool
