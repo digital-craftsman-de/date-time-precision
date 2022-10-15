@@ -3,7 +3,7 @@
   "description": "Utility wrapper for DateTimeImmutable to work with date and time",
   "type": "symfony-bundle",
   "require": {
-    "php": "8.1.*",
+    "php": "8.1.*|8.2.*",
     "symfony/framework-bundle": "^5.4|^6.0",
     "symfony/serializer": "^5.4|^6.0",
     "doctrine/dbal": "^3.4.0"
