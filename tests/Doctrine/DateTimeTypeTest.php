@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimeParts\Doctrine;
 
-use DigitalCraftsman\DateTimeParts\ValueObject\DateTime;
+use DigitalCraftsman\DateTimeParts\DateTime;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use PHPUnit\Framework\TestCase;
 

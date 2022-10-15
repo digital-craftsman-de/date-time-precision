@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimeParts\Doctrine;
 
-use DigitalCraftsman\DateTimeParts\ValueObject\Month;
+use DigitalCraftsman\DateTimeParts\Month;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
 

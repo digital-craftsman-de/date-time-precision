@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimeParts\Serializer;
 
-use DigitalCraftsman\DateTimeParts\ValueObject\Month;
+use DigitalCraftsman\DateTimeParts\Month;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
