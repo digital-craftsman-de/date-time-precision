@@ -3,7 +3,7 @@
 A Symfony bundle to work with parts of what a `DateTime` consists of (`Date`, `Time`, `Month` and `Year`). 
 It includes Symfony normalizers for automatic normalization and denormalization and Doctrine types to store the parts directly in the database when you explicitly don't want the granularity. 
 
-As it's a central part of an application, it's tested thoroughly.
+As it's a central part of an application, it's tested thoroughly (including mutation testing).
 
 [![Latest Stable Version](http://poser.pugx.org/digital-craftsman/datetime-parts/v)](https://packagist.org/packages/digital-craftsman/datetime-parts)
 [![PHP Version Require](http://poser.pugx.org/digital-craftsman/datetime-parts/require/php)](https://packagist.org/packages/digital-craftsman/datetime-parts)
