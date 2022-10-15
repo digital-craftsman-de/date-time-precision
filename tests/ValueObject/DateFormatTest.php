@@ -6,8 +6,8 @@ namespace DigitalCraftsman\DateTimeParts\ValueObject;
 
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\ValueObject\DateTime */
-final class DateTimeFormatTest extends TestCase
+/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\ValueObject\Date */
+final class DateFormatTest extends TestCase
 {
     /**
      * @test
@@ -15,20 +15,21 @@ final class DateTimeFormatTest extends TestCase
      * @dataProvider dataProvider
      *
      * @covers ::format
+     * @covers ::toDateTimeImmutable
      */
     public function format_works(
         string $expectedResult,
-        DateTime $dateTime,
+        Date $date,
         string $format,
     ): void {
         // -- Act & Assert
-        self::assertSame($expectedResult, $dateTime->format($format));
+        self::assertSame($expectedResult, $date->format($format));
     }
 
     /**
      * @return array<string, array{
      *   0: string,
-     *   1: DateTime,
+     *   1: Date,
      *   2: string,
      * }>
      */
@@ -36,18 +37,18 @@ final class DateTimeFormatTest extends TestCase
     {
         return [
             'format to atom' => [
-                '2022-10-08T15:00:00+00:00',
-                DateTime::fromString('2022-10-08 15:00:00'),
+                '2022-10-08T00:00:00+00:00',
+                Date::fromString('2022-10-08'),
                 \DateTimeInterface::ATOM,
             ],
             'format to date format' => [
                 '2022-10-08',
-                DateTime::fromString('2022-10-08 15:00:00'),
+                Date::fromString('2022-10-08'),
                 'Y-m-d',
             ],
             'format time' => [
-                '15:00:00',
-                DateTime::fromString('2022-10-08 15:00:00'),
+                '00:00:00',
+                Date::fromString('2022-10-08'),
                 'H:i:s',
             ],
         ];

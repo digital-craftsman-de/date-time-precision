@@ -16,7 +16,7 @@ final class DateTimeIsBeforeOrEqualToTest extends TestCase
      *
      * @covers ::isBeforeOrEqualTo
      */
-    public function is_before_works(
+    public function is_before_or_equal_to_works(
         bool $expectedResult,
         DateTime $dateTime,
         DateTime $comparator,
