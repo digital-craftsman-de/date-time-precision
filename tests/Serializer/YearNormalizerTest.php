@@ -34,6 +34,23 @@ final class YearNormalizerTest extends TestCase
     /**
      * @test
      *
+     * @covers ::normalize
+     */
+    public function year_normalization_with_null_works(): void
+    {
+        // -- Arrange
+        $normalizer = new YearNormalizer();
+
+        // -- Act
+        $normalizedData = $normalizer->normalize(null);
+
+        // -- Assert
+        self::assertNull($normalizedData);
+    }
+
+    /**
+     * @test
+     *
      * @covers ::denormalize
      */
     public function year_denormalization_with_null_works(): void
