@@ -56,4 +56,6 @@ The package is primarily build for the use case, that your system is running in 
 
 ## Contribution
 
-Before creating a PR here, please run `make verify` to validate that all tests and validations locally.
+The local setup is build with Docker and controlled through Make commands. Run `make` to see all available commands and what they do.
+
+Before creating a PR or pushing any code, please run `make verify` to run all tests and validations locally.
