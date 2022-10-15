@@ -65,9 +65,13 @@ php-8.1-cli:
 	docker-compose run --rm php-8.1 sh
 
 ##
-## Tests
+## Tests and code quality
 ## -----
 ##
+
+## verify		Run the PHP tests.
+.PHONY: verify
+verify: php-code-validation php-tests php-mutation-testing
 
 ## php-tests		Run the PHP tests.
 .PHONY: php-tests
@@ -103,13 +107,18 @@ php-8.1-tests-html-coverage:
 php-8.2-tests-html-coverage:
 	docker-compose run --rm php-8.2 ./vendor/bin/phpunit --coverage-html ./coverage
 
-##
-## Code validations
-## ----------------
-##
-
 ## php-code-validation		Run code fixers and linters for PHP.
 .PHONY: php-code-validation
 php-code-validation:
 	docker-compose run --rm php-8.1 ./vendor/bin/php-cs-fixer fix
 	docker-compose run --rm php-8.1 ./vendor/bin/psalm --show-info=false --no-diff
+
+## php-mutation-testing		Run mutation testing
+.PHONY: php-mutation-testing
+php-mutation-testing:
+	docker-compose run --rm php-8.1 ./vendor/bin/infection --show-mutations --threads=8
+
+## php-mutation-testing-ci		Run mutation testing for CI.
+.PHONY: php-mutation-testing-ci
+php-mutation-testing-ci:
+	docker-compose run --rm php-8.1 ./vendor/bin/infection --min-msi=100 --min-covered-msi=100 --threads=8

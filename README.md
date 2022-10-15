@@ -53,3 +53,7 @@ All mutations on the `DateTime` and its parts are immutable.
 ### Time zone
 
 The package is primarily build for the use case, that your system is running in the time zone `UTC` and you're converting the points in time into the relevant time zone before doing comparisons. It includes helpers like `modifyInTimeZone(string $modifier, \DateTimeZone $timeZone)` to make the code more readable. 
+
+## Contribution
+
+Before creating a PR here, please run `make verify` to validate that all tests and validations locally.
