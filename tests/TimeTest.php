@@ -13,6 +13,7 @@ final class TimeTest extends TestCase
      * @test
      *
      * @dataProvider dataProviderConstructWorks
+     *
      * @doesNotPerformAssertions
      *
      * @covers ::__construct

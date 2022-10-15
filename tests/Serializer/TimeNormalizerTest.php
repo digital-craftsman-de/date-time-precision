@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimeParts\Serializer;
 
-use DigitalCraftsman\DateTimeParts\Date;
 use DigitalCraftsman\DateTimeParts\DateTime;
 use DigitalCraftsman\DateTimeParts\Time;
 use PHPUnit\Framework\TestCase;
