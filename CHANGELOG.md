@@ -4,10 +4,11 @@
 
 - Renamed `$monthOfYear` to `$month` in `Month`.
 - Renamed `$dayOfMonth` to `$day` in `Date`.
-- Added `isAtMidnight()` in `DateTime`.
-- Added `isNotAtMidnight()` in `DateTime`.
-- Added `isAtMidnightInTimeZone(\DateTimeZone $timeZone)` in `DateTime`.
-- Added `isNotAtMidnightInTimeZone(\DateTimeZone $timeZone)` in `DateTime`.
+- Added `isAtMidnight(): bool` in `DateTime`.
+- Added `isNotAtMidnight(): bool` in `DateTime`.
+- Added `isAtMidnightInTimeZone(\DateTimeZone $timeZone): bool` in `DateTime`.
+- Added `isNotAtMidnightInTimeZone(\DateTimeZone $timeZone): bool` in `DateTime`.
+- Added `setTimeInTimeZone(Time $time, \DateTimeZone $timeZone): self` in `DateTime`.
 
 ## 0.2.0
 
