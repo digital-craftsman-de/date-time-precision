@@ -1,3 +1,32 @@
 # Upgrade guide
 
-Nothing to upgrade yet.
+## From 0.2.* to 0.3.0
+
+### Rename variables
+
+- `$monthOfYear` was renamed to `$month` in `Month`.
+- `$dayOfMonth` was renamed to `$day` in `Date`.
+
+You need to rename those variables if you accessed them directly.
+
+Before:
+
+```php
+if ($month->monthOfYear === 1) {
+    ...
+}
+if ($date->dayOfMonth === 15) {
+    ...
+}
+```
+
+After:
+
+```php
+if ($month->month === 1) {
+    ...
+}
+if ($date->day === 15) {
+    ...
+}
+```

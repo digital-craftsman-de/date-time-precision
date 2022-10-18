@@ -19,7 +19,7 @@ Install package through composer:
 composer require digital-craftsman/datetime-parts
 ```
 
-> ⚠️ This bundle can be used (and is being used) in production, but hasn't reached version 1.0 yet. Therefore, there will be breaking changes between minor versions. I'd recommend that you require the bundle only with the current minor version like `composer require digital-craftsman/datetime-parts:0.1.*`. Breaking changes are described in the releases and [the changelog](./CHANGELOG.md). Updates are described in the [upgrade guide](./UPGRADE.md).
+> ⚠️ This bundle can be used (and is being used) in production, but hasn't reached version 1.0 yet. Therefore, there will be breaking changes between minor versions. I'd recommend that you require the bundle only with the current minor version like `composer require digital-craftsman/datetime-parts:0.3.*`. Breaking changes are described in the releases and [the changelog](./CHANGELOG.md). Updates are described in the [upgrade guide](./UPGRADE.md).
 
 ## When would I need that?
 
@@ -39,6 +39,25 @@ if ($now
 }
 ```
 
+The idea is that your system and all variables can still remain in the timezone `UTC` and you only call mutations on it when needed for a comparison.
+
+```php
+if ($now
+    ->dateInTimeZone($facilityTimeZone)
+    ->isBefore($facility->earliestDayOfBooking)
+) {
+    throw new BookingNotPossibleYet();
+}
+```
+
+Modifications work the same way.
+
+```php
+$bookingsAllowedFrom = $now->modifyInTimeZone('+ 7 days', $facilityTimeZone);
+```
+
+The resulting `$bookingsAllowedFrom` is still a date time with timezone `UTC` (or whatever your default timezone is) but the modification is done in the relevant timezone.
+
 ## Integration
 
 For the best code readability, it's best to use the `DateTime` provided with the package as a full replacement for `\DateTime` or `\DateTimeImmutable`.
@@ -49,10 +68,6 @@ The package provides normalizers and doctrine types for `DateTime` and all parts
 ### Immutability
 
 All mutations on the `DateTime` and its parts are immutable.
-
-### Time zone
-
-The package is primarily build for the use case, that your system is running in the time zone `UTC` and you're converting the points in time into the relevant time zone before doing comparisons. It includes helpers like `modifyInTimeZone(string $modifier, \DateTimeZone $timeZone)` to make the code more readable. 
 
 ## Contribution
 
