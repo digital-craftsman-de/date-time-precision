@@ -132,6 +132,34 @@ final class DateTime implements \Stringable
         return $this->dateTime <=> $dateTime->dateTime;
     }
 
+    public function isAtMidnight(): bool
+    {
+        return $this
+            ->time()
+            ->isMidnight();
+    }
+
+    public function isNotAtMidnight(): bool
+    {
+        return $this
+            ->time()
+            ->isNotMidnight();
+    }
+
+    public function isAtMidnightInTimeZone(\DateTimeZone $timeZone): bool
+    {
+        return $this
+            ->timeInTimeZone($timeZone)
+            ->isMidnight();
+    }
+
+    public function isNotAtMidnightInTimeZone(\DateTimeZone $timeZone): bool
+    {
+        return $this
+            ->timeInTimeZone($timeZone)
+            ->isNotMidnight();
+    }
+
     // -- Modifications
 
     public function modify(string $modifier): self
