@@ -4,8 +4,8 @@
 
 - Renamed `$monthOfYear` to `$month` in `Month`.
 - Renamed `$dayOfMonth` to `$day` in `Date`.
-- Added `isAtMidnight` in `DateTime`.
-- Added `isNotAtMidnight` in `DateTime`.
+- Added `isAtMidnight()` in `DateTime`.
+- Added `isNotAtMidnight()` in `DateTime`.
 - Added `isAtMidnightInTimeZone(\DateTimeZone $timeZone)` in `DateTime`.
 - Added `isNotAtMidnightInTimeZone(\DateTimeZone $timeZone)` in `DateTime`.
 
