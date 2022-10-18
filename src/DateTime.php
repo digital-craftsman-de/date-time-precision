@@ -222,6 +222,16 @@ final class DateTime implements \Stringable
         );
     }
 
+    public function setTimeInTimeZone(Time $time, \DateTimeZone $timeZone): self
+    {
+        $originalTimeZone = $this->dateTime->getTimezone();
+
+        return $this
+            ->toTimeZone($timeZone)
+            ->setTime($time)
+            ->toTimeZone($originalTimeZone);
+    }
+
     public function midnight(): self
     {
         return $this->setTime(new Time(
