@@ -13,14 +13,14 @@ final class Date implements \Stringable
 
     public function __construct(
         public readonly Month $month,
-        public readonly int $dayOfMonth,
+        public readonly int $day,
     ) {
     }
 
     public static function fromDateTime(\DateTimeImmutable $dateTime): self
     {
         /** @psalm-suppress PossiblyNullArrayAccess */
-        [$year, $month, $dayOfMonth] = sscanf(
+        [$year, $month, $day] = sscanf(
             $dateTime->format(self::DATE_FORMAT),
             '%d-%d-%d',
         );
@@ -34,7 +34,7 @@ final class Date implements \Stringable
                 new Year($year),
                 $month,
             ),
-            $dayOfMonth,
+            $day,
         );
     }
 
@@ -58,7 +58,7 @@ final class Date implements \Stringable
 
     public function isEqualTo(self $day): bool
     {
-        return $this->dayOfMonth === $day->dayOfMonth
+        return $this->day === $day->day
             && $this->month->isEqualTo($day->month);
     }
 
@@ -77,7 +77,7 @@ final class Date implements \Stringable
             return false;
         }
 
-        return $this->dayOfMonth < $day->dayOfMonth;
+        return $this->day < $day->day;
     }
 
     public function isBeforeOrEqualTo(self $day): bool
@@ -90,7 +90,7 @@ final class Date implements \Stringable
             return false;
         }
 
-        return $this->dayOfMonth <= $day->dayOfMonth;
+        return $this->day <= $day->day;
     }
 
     public function isAfter(self $day): bool
@@ -103,7 +103,7 @@ final class Date implements \Stringable
             return false;
         }
 
-        return $this->dayOfMonth > $day->dayOfMonth;
+        return $this->day > $day->day;
     }
 
     public function isAfterOrEqualTo(self $day): bool
@@ -116,7 +116,7 @@ final class Date implements \Stringable
             return false;
         }
 
-        return $this->dayOfMonth >= $day->dayOfMonth;
+        return $this->day >= $day->day;
     }
 
     // Mutations
@@ -143,8 +143,8 @@ final class Date implements \Stringable
             sprintf(
                 '%d-%d-%d 00:00:00',
                 $this->month->year->year,
-                $this->month->monthOfYear,
-                $this->dayOfMonth,
+                $this->month->month,
+                $this->day,
             ),
         );
     }

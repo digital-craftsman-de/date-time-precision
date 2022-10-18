@@ -13,14 +13,14 @@ final class Month implements \Stringable
 
     public function __construct(
         public readonly Year $year,
-        public readonly int $monthOfYear,
+        public readonly int $month,
     ) {
     }
 
     public static function fromDateTime(\DateTimeImmutable $dateTime): self
     {
         /** @psalm-suppress PossiblyNullArrayAccess */
-        [$year, $monthOfYear] = sscanf(
+        [$year, $month] = sscanf(
             $dateTime->format('Y-n'),
             '%d-%d',
         );
@@ -33,7 +33,7 @@ final class Month implements \Stringable
             new Year(
                 $year,
             ),
-            $monthOfYear,
+            $month,
         );
     }
 
@@ -57,13 +57,13 @@ final class Month implements \Stringable
 
     public function isEqualTo(self $month): bool
     {
-        return $this->monthOfYear === $month->monthOfYear
+        return $this->month === $month->month
             && $this->year->isEqualTo($month->year);
     }
 
     public function isNotEqualTo(self $month): bool
     {
-        return $this->monthOfYear !== $month->monthOfYear
+        return $this->month !== $month->month
             || $this->year->isNotEqualTo($month->year);
     }
 
@@ -77,7 +77,7 @@ final class Month implements \Stringable
             return false;
         }
 
-        return $this->monthOfYear < $month->monthOfYear;
+        return $this->month < $month->month;
     }
 
     public function isBeforeOrEqualTo(self $month): bool
@@ -90,7 +90,7 @@ final class Month implements \Stringable
             return false;
         }
 
-        return $this->monthOfYear <= $month->monthOfYear;
+        return $this->month <= $month->month;
     }
 
     public function isAfter(self $month): bool
@@ -103,7 +103,7 @@ final class Month implements \Stringable
             return false;
         }
 
-        return $this->monthOfYear > $month->monthOfYear;
+        return $this->month > $month->month;
     }
 
     public function isAfterOrEqualTo(self $month): bool
@@ -116,7 +116,7 @@ final class Month implements \Stringable
             return false;
         }
 
-        return $this->monthOfYear >= $month->monthOfYear;
+        return $this->month >= $month->month;
     }
 
     /**
@@ -164,7 +164,7 @@ final class Month implements \Stringable
         $firstDayOfMonth = new \DateTimeImmutable(sprintf(
             'first day of %d-%d',
             $this->year->year,
-            $this->monthOfYear,
+            $this->month,
         ));
 
         return Date::fromDateTime($firstDayOfMonth);
@@ -175,7 +175,7 @@ final class Month implements \Stringable
         $lastDayOfMonth = new \DateTimeImmutable(sprintf(
             'last day of %d-%d',
             $this->year->year,
-            $this->monthOfYear,
+            $this->month,
         ));
 
         return Date::fromDateTime($lastDayOfMonth);
@@ -203,7 +203,7 @@ final class Month implements \Stringable
             sprintf(
                 '%d-%d-01 00:00:00',
                 $this->year->year,
-                $this->monthOfYear,
+                $this->month,
             ),
         );
     }

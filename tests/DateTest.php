@@ -26,7 +26,7 @@ final class DateTest extends TestCase
         );
 
         // -- Assert
-        self::assertSame(8, $date->dayOfMonth);
+        self::assertSame(8, $date->day);
     }
 
     /**

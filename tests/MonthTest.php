@@ -23,7 +23,7 @@ final class MonthTest extends TestCase
         );
 
         // -- Assert
-        self::assertSame(10, $month->monthOfYear);
+        self::assertSame(10, $month->month);
     }
 
     /**
