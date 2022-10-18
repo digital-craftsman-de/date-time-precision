@@ -1,6 +1,6 @@
 {
   "name": "digital-craftsman/datetime-parts",
-  "description": "Utility wrapper for DateTimeImmutable to work with date and time",
+  "description": "A Symfony bundle to work with parts of what a DateTime consists of (Date, Time, Month and Year).",
   "type": "symfony-bundle",
   "require": {
     "php": "8.1.*|8.2.*",

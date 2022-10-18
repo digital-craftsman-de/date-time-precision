@@ -147,6 +147,14 @@ final class DateTime implements \Stringable
         return $this->dateTime->format($format);
     }
 
+    public function formatInTimeZone(string $format, \DateTimeZone $timeZone): string
+    {
+        return $this
+            ->toTimeZone($timeZone)
+            ->dateTime
+            ->format($format);
+    }
+
     public function toTimeZone(\DateTimeZone $timeZone): self
     {
         return new self(
