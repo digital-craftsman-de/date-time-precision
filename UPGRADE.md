@@ -1,5 +1,9 @@
 # Upgrade guide
 
+## From 0.3.* to 0.4.0
+
+No breaking changes
+
 ## From 0.2.* to 0.3.0
 
 ### Rename variables
@@ -30,3 +34,7 @@ if ($date->day === 15) {
     ...
 }
 ```
+
+## From 0.1.* to 0.2.0
+
+No breaking changes
