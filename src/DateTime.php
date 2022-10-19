@@ -132,6 +132,41 @@ final class DateTime implements \Stringable
         return $this->dateTime <=> $dateTime->dateTime;
     }
 
+    public function isDateAfterInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    {
+        return $this->dateInTimeZone($timeZone)->isAfter(
+            $dateTime->dateInTimeZone($timeZone),
+        );
+    }
+
+    public function isDateAfterOrEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    {
+        return $this->dateInTimeZone($timeZone)->isAfterOrEqualTo(
+            $dateTime->dateInTimeZone($timeZone),
+        );
+    }
+
+    public function isDateEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    {
+        return $this->dateInTimeZone($timeZone)->isEqualTo(
+            $dateTime->dateInTimeZone($timeZone),
+        );
+    }
+
+    public function isDateBeforeInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    {
+        return $this->dateInTimeZone($timeZone)->isBefore(
+            $dateTime->dateInTimeZone($timeZone),
+        );
+    }
+
+    public function isDateBeforeOrEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    {
+        return $this->dateInTimeZone($timeZone)->isBeforeOrEqualTo(
+            $dateTime->dateInTimeZone($timeZone),
+        );
+    }
+
     public function isAtMidnight(): bool
     {
         return $this
