@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0
+
+- Added `isDateAfterInTimeZone(DateTime $dateTime, \DateTimeZone $timeZone): bool` in `DateTime`.
+- Added `isDateAfterOrEqualToInTimeZone(DateTime $dateTime, \DateTimeZone $timeZone): bool` in `DateTime`.
+- Added `isDateEqualToInTimeZone(DateTime $dateTime, \DateTimeZone $timeZone): bool` in `DateTime`.
+- Added `isDateBeforeInTimeZone(DateTime $dateTime, \DateTimeZone $timeZone): bool` in `DateTime`.
+- Added `isDateBeforeOrEqualToInTimeZone(DateTime $dateTime, \DateTimeZone $timeZone): bool` in `DateTime`.
+
 ## 0.3.0
 
 - Renamed `$monthOfYear` to `$month` in `Month`.
