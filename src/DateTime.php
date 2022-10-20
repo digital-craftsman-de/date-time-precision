@@ -153,6 +153,13 @@ final class DateTime implements \Stringable
         );
     }
 
+    public function isDateNotEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    {
+        return $this->dateInTimeZone($timeZone)->isNotEqualTo(
+            $dateTime->dateInTimeZone($timeZone),
+        );
+    }
+
     public function isDateBeforeInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isBefore(
