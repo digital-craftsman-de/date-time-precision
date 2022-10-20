@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0
+
+- Added `isDateNotEqualToInTimeZone(DateTime $dateTime, \DateTimeZone $timeZone): bool` in `DateTime`.
+
 ## 0.4.0
 
 - Added `isDateAfterInTimeZone(DateTime $dateTime, \DateTimeZone $timeZone): bool` in `DateTime`.
@@ -20,7 +24,7 @@
 
 ## 0.2.0
 
-- Added DateTime->formatInTimeZone.
+- Added `formatInTimeZone(string $format, \DateTimeZone $timeZone)` in `DateTime`.
 
 ## 0.1.0
 
