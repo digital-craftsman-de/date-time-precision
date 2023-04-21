@@ -11,3 +11,6 @@ services:
 
   DigitalCraftsman\DateTimeParts\Serializer\MonthNormalizer:
     tags: [ { name: 'serializer.normalizer' } ]
+
+  DigitalCraftsman\DateTimeParts\Serializer\YearNormalizer:
+    tags: [ { name: 'serializer.normalizer' } ]
