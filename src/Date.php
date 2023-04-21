@@ -137,6 +137,35 @@ final class Date implements \Stringable
         return self::fromDateTime($modifiedDateTime);
     }
 
+    public function toDateTimeInTimeZone(\DateTimeZone $timeZone): DateTime
+    {
+        return DateTime::fromStringInTimeZone(
+            sprintf(
+                '%d-%d-%d 00:00:00',
+                $this->month->year->year,
+                $this->month->month,
+                $this->day,
+            ),
+            $timeZone,
+        );
+    }
+
+    public function modifyInTimeZone(string $modify, \DateTimeZone $timeZone): self
+    {
+        $dateTimeImmutable = new \DateTimeImmutable(
+            sprintf(
+                '%d-%d-%d 00:00:00',
+                $this->month->year->year,
+                $this->month->month,
+                $this->day,
+            ),
+            $timeZone,
+        );
+
+        /** @psalm-suppress PossiblyFalseArgument */
+        return self::fromDateTime($dateTimeImmutable->modify($modify));
+    }
+
     private function toDateTimeImmutable(): \DateTimeImmutable
     {
         return new \DateTimeImmutable(

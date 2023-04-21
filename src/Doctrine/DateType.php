@@ -6,14 +6,20 @@ namespace DigitalCraftsman\DateTimeParts\Doctrine;
 
 use DigitalCraftsman\DateTimeParts\Date;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\DateImmutableType;
+use Doctrine\DBAL\Types\Type;
 
-final class DateType extends DateImmutableType
+final class DateType extends Type
 {
     /** @codeCoverageIgnore */
     public function getName(): string
     {
         return 'digital_craftsman_date';
+    }
+
+    /** @codeCoverageIgnore */
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
+    {
+        return $platform->getDateTypeDeclarationSQL($column);
     }
 
     /** @param Date|null $value */
