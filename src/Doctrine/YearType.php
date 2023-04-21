@@ -6,14 +6,20 @@ namespace DigitalCraftsman\DateTimeParts\Doctrine;
 
 use DigitalCraftsman\DateTimeParts\Year;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\IntegerType;
+use Doctrine\DBAL\Types\Type;
 
-final class YearType extends IntegerType
+final class YearType extends Type
 {
     /** @codeCoverageIgnore */
     public function getName(): string
     {
         return 'digital_craftsman_year';
+    }
+
+    /** @codeCoverageIgnore */
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
+    {
+        return $platform->getIntegerTypeDeclarationSQL($column);
     }
 
     /** @param Year|null $value */
