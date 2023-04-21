@@ -73,6 +73,31 @@ final class Year
             ->format($format);
     }
 
+    public function toDateTimeInTimeZone(\DateTimeZone $timeZone): DateTime
+    {
+        return DateTime::fromStringInTimeZone(
+            sprintf(
+                '%d-01-01 00:00:00',
+                $this->year,
+            ),
+            $timeZone,
+        );
+    }
+
+    public function modifyInTimeZone(string $modify, \DateTimeZone $timeZone): self
+    {
+        $dateTimeImmutable = new \DateTimeImmutable(
+            sprintf(
+                '%d-01-01 00:00:00',
+                $this->year,
+            ),
+            $timeZone,
+        );
+
+        /** @psalm-suppress PossiblyFalseArgument */
+        return self::fromDateTime($dateTimeImmutable->modify($modify));
+    }
+
     private function toDateTimeImmutable(): \DateTimeImmutable
     {
         return new \DateTimeImmutable(
