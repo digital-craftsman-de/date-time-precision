@@ -2,7 +2,7 @@
 
 ## From 0.4.* to 0.5.0
 
-No breaking changes
+You can remove `YearNormalizer` from your normalizers if you registered it manually.
 
 ## From 0.3.* to 0.4.0
 
