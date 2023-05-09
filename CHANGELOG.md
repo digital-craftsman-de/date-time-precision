@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.0
+
+- Added `Year->compareTo(self $year): int`.
+- Added `Month->compareTo(self $month): int`.
+- Added `Date->compareTo(self $date): int`.
+- Updated `Time->compareTo(self $time): int` to use less custom code.
+
 ## 0.5.0
 
 - Added `DateTime->isDateNotEqualToInTimeZone(DateTime $dateTime, \DateTimeZone $timeZone): bool`.
