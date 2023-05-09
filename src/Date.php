@@ -56,67 +56,72 @@ final class Date implements \Stringable
 
     // Accessors
 
-    public function isEqualTo(self $day): bool
+    public function isEqualTo(self $date): bool
     {
-        return $this->day === $day->day
-            && $this->month->isEqualTo($day->month);
+        return $this->day === $date->day
+            && $this->month->isEqualTo($date->month);
     }
 
-    public function isNotEqualTo(self $day): bool
+    public function isNotEqualTo(self $date): bool
     {
-        return !$this->isEqualTo($day);
+        return !$this->isEqualTo($date);
     }
 
-    public function isBefore(self $day): bool
+    public function isBefore(self $date): bool
     {
-        if ($this->month->isBefore($day->month)) {
+        if ($this->month->isBefore($date->month)) {
             return true;
         }
 
-        if ($this->month->isAfter($day->month)) {
+        if ($this->month->isAfter($date->month)) {
             return false;
         }
 
-        return $this->day < $day->day;
+        return $this->day < $date->day;
     }
 
-    public function isBeforeOrEqualTo(self $day): bool
+    public function isBeforeOrEqualTo(self $date): bool
     {
-        if ($this->month->isBefore($day->month)) {
+        if ($this->month->isBefore($date->month)) {
             return true;
         }
 
-        if ($this->month->isAfter($day->month)) {
+        if ($this->month->isAfter($date->month)) {
             return false;
         }
 
-        return $this->day <= $day->day;
+        return $this->day <= $date->day;
     }
 
-    public function isAfter(self $day): bool
+    public function isAfter(self $date): bool
     {
-        if ($this->month->isAfter($day->month)) {
+        if ($this->month->isAfter($date->month)) {
             return true;
         }
 
-        if ($this->month->isBefore($day->month)) {
+        if ($this->month->isBefore($date->month)) {
             return false;
         }
 
-        return $this->day > $day->day;
+        return $this->day > $date->day;
     }
 
-    public function isAfterOrEqualTo(self $day): bool
+    public function isAfterOrEqualTo(self $date): bool
     {
-        if ($this->month->isAfter($day->month)) {
+        if ($this->month->isAfter($date->month)) {
             return true;
         }
 
-        if ($this->month->isBefore($day->month)) {
+        if ($this->month->isBefore($date->month)) {
             return false;
         }
 
-        return $this->day >= $day->day;
+        return $this->day >= $date->day;
+    }
+
+    public function compareTo(self $date): int
+    {
+        return $this->toDateTimeImmutable() <=> $date->toDateTimeImmutable();
     }
 
     // Mutations
