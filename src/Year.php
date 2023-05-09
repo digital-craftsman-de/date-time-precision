@@ -64,6 +64,11 @@ final class Year
         return $this->year >= $year->year;
     }
 
+    public function compareTo(self $year): int
+    {
+        return $this->toDateTimeImmutable() <=> $year->toDateTimeImmutable();
+    }
+
     // -- Mutations
 
     public function format(string $format): string

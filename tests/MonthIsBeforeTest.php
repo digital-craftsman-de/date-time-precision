@@ -40,7 +40,7 @@ final class MonthIsBeforeTest extends TestCase
                 Month::fromString('2022-10'),
                 Month::fromString('2021-10'),
             ],
-            'same date' => [
+            'same month' => [
                 false,
                 Month::fromString('2022-10'),
                 Month::fromString('2022-10'),

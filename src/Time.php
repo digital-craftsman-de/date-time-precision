@@ -166,13 +166,7 @@ final class Time implements \Stringable
 
     public function compareTo(self $time): int
     {
-        if ($this->isEqualTo($time)) {
-            return 0;
-        }
-
-        return $this->isBefore($time)
-            ? -1
-            : 1;
+        return $this->toDateTimeImmutable() <=> $time->toDateTimeImmutable();
     }
 
     public function distanceInMinutesTo(self $time): int
