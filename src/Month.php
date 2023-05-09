@@ -119,6 +119,11 @@ final class Month implements \Stringable
         return $this->month >= $month->month;
     }
 
+    public function compareTo(self $month): int
+    {
+        return $this->toDateTimeImmutable() <=> $month->toDateTimeImmutable();
+    }
+
     /**
      * Returns all months until the given month. If the given month is before this month, the result will be an empty array.
      *

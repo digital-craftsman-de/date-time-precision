@@ -40,7 +40,7 @@ final class MonthIsNotEqualToTest extends TestCase
                 Month::fromString('2023-10'),
                 Month::fromString('2022-10'),
             ],
-            'same date' => [
+            'same month' => [
                 false,
                 Month::fromString('2022-10'),
                 Month::fromString('2022-10'),
