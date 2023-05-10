@@ -39,4 +39,10 @@ final class TimeType extends Type
             ? null
             : Time::fromString($value);
     }
+
+    /** @codeCoverageIgnore */
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
 }
