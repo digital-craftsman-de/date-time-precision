@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.1
+
+- Added missing `DateTimeType->requiresSQLCommentHint(): bool`.
+- Added missing `DateType->requiresSQLCommentHint(): bool`.
+- Added missing `TimeType->requiresSQLCommentHint(): bool`.
+
 ## 0.6.0
 
 - Added `Year->compareTo(self $year): int`.
