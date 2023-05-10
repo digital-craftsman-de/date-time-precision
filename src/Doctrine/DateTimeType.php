@@ -39,4 +39,10 @@ final class DateTimeType extends Type
             ? null
             : DateTime::fromString($value);
     }
+
+    /** @codeCoverageIgnore */
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
 }
