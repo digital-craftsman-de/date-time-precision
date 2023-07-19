@@ -150,13 +150,13 @@ final class Month implements \Stringable
         $interval = new \DateInterval('P1M');
         /**
          * The options here seem counter-intuitive, but are set in a way that this logic is only handled in one place (above) instead of
-         * two place with part of it above and part below. With PHP 8.2 there is a nicer way with an additional flag.
+         * two place with part of it above and part below.
          */
         $period = new \DatePeriod($startDateTime, $interval, $endDateTime, \DatePeriod::EXCLUDE_START_DATE);
 
         $months = [];
-        foreach ($period as $date) {
-            $months[] = self::fromDateTime($date);
+        foreach ($period as $dateTime) {
+            $months[] = self::fromDateTime($dateTime);
         }
 
         return $months;
