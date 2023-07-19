@@ -1,5 +1,9 @@
 # Upgrade guide
 
+## From 0.6.* to 0.7.0
+
+No breaking changes
+
 ## From 0.5.* to 0.6.0
 
 No breaking changes

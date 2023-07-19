@@ -124,6 +124,44 @@ final class Date implements \Stringable
         return $this->toDateTimeImmutable() <=> $date->toDateTimeImmutable();
     }
 
+    /**
+     * Returns all dates until the given date. If the given date is before this date, the result will be an empty array.
+     *
+     * @return array<int, Date>
+     */
+    public function datesUntil(
+        self $date,
+        PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
+    ): array {
+        $startDateTime = $periodLimit === PeriodLimit::INCLUDING_START_AND_END
+        || $periodLimit === PeriodLimit::INCLUDING_START
+            ? $this
+                ->modify('- 1 day')
+                ->toDateTimeImmutable()
+            : $this->toDateTimeImmutable();
+
+        $endDateTime = $periodLimit === PeriodLimit::INCLUDING_START_AND_END
+        || $periodLimit === PeriodLimit::INCLUDING_END
+            ? $date
+                ->modify('+ 1 day')
+                ->toDateTimeImmutable()
+            : $date->toDateTimeImmutable();
+
+        $interval = new \DateInterval('P1D');
+        /**
+         * The options here seem counter-intuitive, but are set in a way that this logic is only handled in one place (above) instead of
+         * two place with part of it above and part below.
+         */
+        $period = new \DatePeriod($startDateTime, $interval, $endDateTime, \DatePeriod::EXCLUDE_START_DATE);
+
+        $dates = [];
+        foreach ($period as $dateTime) {
+            $dates[] = self::fromDateTime($dateTime);
+        }
+
+        return $dates;
+    }
+
     // Mutations
 
     public function format(string $format): string
