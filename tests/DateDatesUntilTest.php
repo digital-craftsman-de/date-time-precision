@@ -16,7 +16,7 @@ final class DateDatesUntilTest extends TestCase
      *
      * @covers ::datesUntil
      */
-    public function date_until_works(
+    public function dates_until_works(
         array $expectedResult,
         Date $startDate,
         Date $endDate,

@@ -154,12 +154,12 @@ final class Date implements \Stringable
          */
         $period = new \DatePeriod($startDateTime, $interval, $endDateTime, \DatePeriod::EXCLUDE_START_DATE);
 
-        $months = [];
+        $dates = [];
         foreach ($period as $dateTime) {
-            $months[] = self::fromDateTime($dateTime);
+            $dates[] = self::fromDateTime($dateTime);
         }
 
-        return $months;
+        return $dates;
     }
 
     // Mutations

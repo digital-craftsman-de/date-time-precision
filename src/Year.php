@@ -69,6 +69,44 @@ final class Year
         return $this->toDateTimeImmutable() <=> $year->toDateTimeImmutable();
     }
 
+    /**
+     * Returns all years until the given year. If the given year is before this year, the result will be an empty array.
+     *
+     * @return array<int, Year>
+     */
+    public function yearsUntil(
+        self $year,
+        PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
+    ): array {
+        $startDateTime = $periodLimit === PeriodLimit::INCLUDING_START_AND_END
+        || $periodLimit === PeriodLimit::INCLUDING_START
+            ? $this
+                ->modify('- 1 year')
+                ->toDateTimeImmutable()
+            : $this->toDateTimeImmutable();
+
+        $endDateTime = $periodLimit === PeriodLimit::INCLUDING_START_AND_END
+        || $periodLimit === PeriodLimit::INCLUDING_END
+            ? $year
+                ->modify('+ 1 year')
+                ->toDateTimeImmutable()
+            : $year->toDateTimeImmutable();
+
+        $interval = new \DateInterval('P1Y');
+        /**
+         * The options here seem counter-intuitive, but are set in a way that this logic is only handled in one place (above) instead of
+         * two place with part of it above and part below.
+         */
+        $period = new \DatePeriod($startDateTime, $interval, $endDateTime, \DatePeriod::EXCLUDE_START_DATE);
+
+        $years = [];
+        foreach ($period as $dateTime) {
+            $years[] = self::fromDateTime($dateTime);
+        }
+
+        return $years;
+    }
+
     // -- Mutations
 
     public function format(string $format): string
@@ -76,6 +114,15 @@ final class Year
         return $this
             ->toDateTimeImmutable()
             ->format($format);
+    }
+
+    public function modify(string $modifier): self
+    {
+        $modifiedDateTime = $this->toDateTimeImmutable()
+            ->modify($modifier);
+
+        /** @psalm-suppress PossiblyFalseArgument */
+        return self::fromDateTime($modifiedDateTime);
     }
 
     public function toDateTimeInTimeZone(\DateTimeZone $timeZone): DateTime
