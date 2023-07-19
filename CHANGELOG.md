@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.0
+
+- Added `Date->datesUntil(Date $date, PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END): array`.
+- Added `Month->monthsUntil(Month $month, PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END): array`.
+- Added `Year->yearsUntil(Year $year, PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END): array`.
+- Added `Year->modify(string $modifier): Year`.
+
 ## 0.6.1
 
 - Added missing `DateTimeType->requiresSQLCommentHint(): bool`.
