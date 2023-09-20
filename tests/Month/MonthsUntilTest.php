@@ -9,7 +9,7 @@ use DigitalCraftsman\DateTimeParts\PeriodLimit;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Month */
-final class MonthMonthsUntilTest extends TestCase
+final class MonthsUntilTest extends TestCase
 {
     /**
      * @test

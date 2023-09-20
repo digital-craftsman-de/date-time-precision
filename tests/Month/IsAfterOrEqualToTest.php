@@ -8,22 +8,22 @@ use DigitalCraftsman\DateTimeParts\Month;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Month */
-final class MonthIsEqualToTest extends TestCase
+final class IsAfterOrEqualToTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
      *
-     * @covers ::isEqualTo
+     * @covers ::isAfterOrEqualTo
      */
-    public function is_equal_to_works(
+    public function is_after_or_equal_to_works(
         bool $expectedResult,
         Month $month,
         Month $comparator,
     ): void {
         // -- Act & Assert
-        self::assertSame($expectedResult, $month->isEqualTo($comparator));
+        self::assertSame($expectedResult, $month->isAfterOrEqualTo($comparator));
     }
 
     /**
@@ -38,7 +38,7 @@ final class MonthIsEqualToTest extends TestCase
         return [
             'previous year' => [
                 false,
-                Month::fromString('2023-10'),
+                Month::fromString('2021-10'),
                 Month::fromString('2022-10'),
             ],
             'same month' => [
@@ -47,14 +47,14 @@ final class MonthIsEqualToTest extends TestCase
                 Month::fromString('2022-10'),
             ],
             'next year' => [
-                false,
-                Month::fromString('2022-10'),
+                true,
                 Month::fromString('2023-10'),
+                Month::fromString('2022-10'),
             ],
             'next month' => [
-                false,
-                Month::fromString('2022-10'),
+                true,
                 Month::fromString('2022-11'),
+                Month::fromString('2022-10'),
             ],
         ];
     }

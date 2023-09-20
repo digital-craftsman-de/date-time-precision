@@ -8,27 +8,27 @@ use DigitalCraftsman\DateTimeParts\Month;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Month */
-final class MonthCompareToTest extends TestCase
+final class IsAfterTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
      *
-     * @covers ::compareTo
+     * @covers ::isAfter
      */
-    public function compare_to_works(
-        int $expectedResult,
+    public function is_after_works(
+        bool $expectedResult,
         Month $month,
         Month $comparator,
     ): void {
         // -- Act & Assert
-        self::assertSame($expectedResult, $month->compareTo($comparator));
+        self::assertSame($expectedResult, $month->isAfter($comparator));
     }
 
     /**
      * @return array<string, array{
-     *   0: int,
+     *   0: boolean,
      *   1: Month,
      *   2: Month,
      * }>
@@ -37,24 +37,24 @@ final class MonthCompareToTest extends TestCase
     {
         return [
             'previous year' => [
-                1,
-                Month::fromString('2022-10'),
+                false,
                 Month::fromString('2021-10'),
+                Month::fromString('2022-10'),
             ],
             'same month' => [
-                0,
+                false,
                 Month::fromString('2022-10'),
                 Month::fromString('2022-10'),
             ],
             'next year' => [
-                -1,
-                Month::fromString('2022-10'),
+                true,
                 Month::fromString('2023-10'),
+                Month::fromString('2022-10'),
             ],
             'next month' => [
-                -1,
-                Month::fromString('2022-10'),
+                true,
                 Month::fromString('2022-11'),
+                Month::fromString('2022-10'),
             ],
         ];
     }

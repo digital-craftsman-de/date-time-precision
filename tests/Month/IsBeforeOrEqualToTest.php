@@ -8,7 +8,7 @@ use DigitalCraftsman\DateTimeParts\Month;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Month */
-final class MonthIsBeforeOrEqualToTest extends TestCase
+final class IsBeforeOrEqualToTest extends TestCase
 {
     /**
      * @test

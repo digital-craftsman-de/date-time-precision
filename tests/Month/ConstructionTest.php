@@ -9,7 +9,7 @@ use DigitalCraftsman\DateTimeParts\Year;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Month */
-final class MonthTest extends TestCase
+final class ConstructionTest extends TestCase
 {
     /**
      * @test
@@ -75,19 +75,5 @@ final class MonthTest extends TestCase
 
         // -- Arrange & Act
         Month::fromString('invalid date');
-    }
-
-    /**
-     * @test
-     *
-     * @covers ::__toString
-     */
-    public function to_string_works(): void
-    {
-        // -- Arrange & Act
-        $month = Month::fromString('2022-10');
-
-        // -- Assert
-        self::assertEquals('2022-10', (string) $month);
     }
 }
