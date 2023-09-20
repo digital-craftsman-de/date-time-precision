@@ -101,6 +101,11 @@ final class Date implements \Stringable
         return $this->toDateTimeImmutable() >= $date->toDateTimeImmutable();
     }
 
+    public function isNotAfterOrEqualTo(self $date): bool
+    {
+        return !($this->toDateTimeImmutable() >= $date->toDateTimeImmutable());
+    }
+
     public function compareTo(self $date): int
     {
         return $this->toDateTimeImmutable() <=> $date->toDateTimeImmutable();
