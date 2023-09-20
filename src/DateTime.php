@@ -132,6 +132,11 @@ final class DateTime implements \Stringable
         return $this->dateTime <= $dateTime->dateTime;
     }
 
+    public function isNotBeforeOrEqualTo(self $dateTime): bool
+    {
+        return $this->dateTime >= $dateTime->dateTime;
+    }
+
     public function isBefore(self $dateTime): bool
     {
         return $this->dateTime < $dateTime->dateTime;
