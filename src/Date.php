@@ -106,6 +106,19 @@ final class Date implements \Stringable
         return $this->day > $date->day;
     }
 
+    public function isNotAfter(self $date): bool
+    {
+        if ($this->month->isBeforeOrEqualTo($date->month)) {
+            return true;
+        }
+
+        if ($this->month->isAfter($date->month)) {
+            return false;
+        }
+
+        return $this->day < $date->day;
+    }
+
     public function isAfterOrEqualTo(self $date): bool
     {
         if ($this->month->isAfter($date->month)) {
