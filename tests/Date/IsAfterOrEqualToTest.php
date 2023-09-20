@@ -8,27 +8,27 @@ use DigitalCraftsman\DateTimeParts\Date;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Date */
-final class DateCompareToTest extends TestCase
+final class IsAfterOrEqualToTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
      *
-     * @covers ::compareTo
+     * @covers ::isAfterOrEqualTo
      */
-    public function compare_to_works(
-        int $expectedResult,
+    public function is_after_or_equal_to_works(
+        bool $expectedResult,
         Date $date,
         Date $comparator,
     ): void {
         // -- Act & Assert
-        self::assertSame($expectedResult, $date->compareTo($comparator));
+        self::assertSame($expectedResult, $date->isAfterOrEqualTo($comparator));
     }
 
     /**
      * @return array<string, array{
-     *   0: int,
+     *   0: boolean,
      *   1: Date,
      *   2: Date,
      * }>
@@ -37,29 +37,29 @@ final class DateCompareToTest extends TestCase
     {
         return [
             'previous year' => [
-                1,
-                Date::fromString('2022-10-08'),
+                false,
                 Date::fromString('2021-10-08'),
+                Date::fromString('2022-10-08'),
             ],
             'same date' => [
-                0,
+                true,
                 Date::fromString('2022-10-08'),
                 Date::fromString('2022-10-08'),
             ],
             'next year' => [
-                -1,
-                Date::fromString('2022-10-08'),
+                true,
                 Date::fromString('2023-10-08'),
+                Date::fromString('2022-10-08'),
             ],
             'next month' => [
-                -1,
-                Date::fromString('2022-10-08'),
+                true,
                 Date::fromString('2022-11-08'),
+                Date::fromString('2022-10-08'),
             ],
             'next day' => [
-                -1,
-                Date::fromString('2022-10-08'),
+                true,
                 Date::fromString('2022-10-09'),
+                Date::fromString('2022-10-08'),
             ],
         ];
     }

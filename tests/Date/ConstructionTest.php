@@ -10,7 +10,7 @@ use DigitalCraftsman\DateTimeParts\Year;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Date */
-final class DateTest extends TestCase
+final class ConstructionTest extends TestCase
 {
     /**
      * @test
@@ -79,19 +79,5 @@ final class DateTest extends TestCase
 
         // -- Arrange & Act
         Date::fromString('invalid date');
-    }
-
-    /**
-     * @test
-     *
-     * @covers ::__toString
-     */
-    public function to_string_works(): void
-    {
-        // -- Arrange & Act
-        $date = Date::fromString('2022-10-08');
-
-        // -- Assert
-        self::assertEquals('2022-10-08', (string) $date);
     }
 }

@@ -8,22 +8,22 @@ use DigitalCraftsman\DateTimeParts\Date;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Date */
-final class DateIsAfterOrEqualToTest extends TestCase
+final class IsBeforeOrEqualToTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
      *
-     * @covers ::isAfterOrEqualTo
+     * @covers ::isBeforeOrEqualTo
      */
-    public function is_after_or_equal_to_works(
+    public function is_before_or_equal_to_works(
         bool $expectedResult,
         Date $date,
         Date $comparator,
     ): void {
         // -- Act & Assert
-        self::assertSame($expectedResult, $date->isAfterOrEqualTo($comparator));
+        self::assertSame($expectedResult, $date->isBeforeOrEqualTo($comparator));
     }
 
     /**
@@ -38,8 +38,8 @@ final class DateIsAfterOrEqualToTest extends TestCase
         return [
             'previous year' => [
                 false,
-                Date::fromString('2021-10-08'),
                 Date::fromString('2022-10-08'),
+                Date::fromString('2021-10-08'),
             ],
             'same date' => [
                 true,
@@ -48,18 +48,18 @@ final class DateIsAfterOrEqualToTest extends TestCase
             ],
             'next year' => [
                 true,
-                Date::fromString('2023-10-08'),
                 Date::fromString('2022-10-08'),
+                Date::fromString('2023-10-08'),
             ],
             'next month' => [
                 true,
-                Date::fromString('2022-11-08'),
                 Date::fromString('2022-10-08'),
+                Date::fromString('2022-11-08'),
             ],
             'next day' => [
                 true,
-                Date::fromString('2022-10-09'),
                 Date::fromString('2022-10-08'),
+                Date::fromString('2022-10-09'),
             ],
         ];
     }

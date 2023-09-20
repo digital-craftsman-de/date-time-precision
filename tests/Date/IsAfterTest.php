@@ -8,7 +8,7 @@ use DigitalCraftsman\DateTimeParts\Date;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Date */
-final class DateIsAfterTest extends TestCase
+final class IsAfterTest extends TestCase
 {
     /**
      * @test
