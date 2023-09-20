@@ -8,22 +8,22 @@ use DigitalCraftsman\DateTimeParts\Time;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Time */
-final class TimeIsBeforeOrEqualToTest extends TestCase
+final class IsBeforeTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
      *
-     * @covers ::isBeforeOrEqualTo
+     * @covers ::isBefore
      */
-    public function is_before_or_equal_to_works(
+    public function is_before_works(
         bool $expectedResult,
         Time $time,
         Time $comparator,
     ): void {
         // -- Act & Assert
-        self::assertSame($expectedResult, $time->isBeforeOrEqualTo($comparator));
+        self::assertSame($expectedResult, $time->isBefore($comparator));
     }
 
     /**
@@ -42,7 +42,7 @@ final class TimeIsBeforeOrEqualToTest extends TestCase
                 Time::fromString('15:00:00'),
             ],
             'same time' => [
-                true,
+                false,
                 Time::fromString('15:00:00'),
                 Time::fromString('15:00:00'),
             ],

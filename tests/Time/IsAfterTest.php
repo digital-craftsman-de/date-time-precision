@@ -8,22 +8,22 @@ use DigitalCraftsman\DateTimeParts\Time;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Time */
-final class TimeIsNotEqualToTest extends TestCase
+final class IsAfterTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
      *
-     * @covers ::isNotEqualTo
+     * @covers ::isAfter
      */
-    public function is_not_equal_to_works(
+    public function is_after_works(
         bool $expectedResult,
         Time $time,
         Time $comparator,
     ): void {
         // -- Act & Assert
-        self::assertSame($expectedResult, $time->isNotEqualTo($comparator));
+        self::assertSame($expectedResult, $time->isAfter($comparator));
     }
 
     /**
@@ -37,7 +37,7 @@ final class TimeIsNotEqualToTest extends TestCase
     {
         return [
             '1 hour before' => [
-                true,
+                false,
                 Time::fromString('15:00:00'),
                 Time::fromString('16:00:00'),
             ],

@@ -8,22 +8,23 @@ use DigitalCraftsman\DateTimeParts\Time;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Time */
-final class TimeIsAfterTest extends TestCase
+final class IsEqualToTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
      *
-     * @covers ::isAfter
+     * @covers ::isEqualTo
+     * @covers ::toDateTimeImmutable
      */
-    public function is_after_works(
+    public function is_equal_to_works(
         bool $expectedResult,
         Time $time,
         Time $comparator,
     ): void {
         // -- Act & Assert
-        self::assertSame($expectedResult, $time->isAfter($comparator));
+        self::assertSame($expectedResult, $time->isEqualTo($comparator));
     }
 
     /**
@@ -42,27 +43,27 @@ final class TimeIsAfterTest extends TestCase
                 Time::fromString('16:00:00'),
             ],
             'same time' => [
-                false,
+                true,
                 Time::fromString('15:00:00'),
                 Time::fromString('15:00:00'),
             ],
             '1 hour later' => [
-                true,
+                false,
                 Time::fromString('16:00:00'),
                 Time::fromString('15:00:00'),
             ],
             '1 minute later' => [
-                true,
+                false,
                 Time::fromString('15:01:00'),
                 Time::fromString('15:00:00'),
             ],
             '1 second later' => [
-                true,
+                false,
                 Time::fromString('15:00:01'),
                 Time::fromString('15:00:00'),
             ],
             '1 millisecond later' => [
-                true,
+                false,
                 Time::fromString('15:00:00.000001'),
                 Time::fromString('15:00:00'),
             ],

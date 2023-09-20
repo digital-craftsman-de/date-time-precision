@@ -8,22 +8,22 @@ use DigitalCraftsman\DateTimeParts\Time;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Time */
-final class TimeIsBeforeTest extends TestCase
+final class IsAfterOrEqualToTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
      *
-     * @covers ::isBefore
+     * @covers ::isAfterOrEqualTo
      */
-    public function is_before_works(
+    public function is_after_or_equal_to_works(
         bool $expectedResult,
         Time $time,
         Time $comparator,
     ): void {
         // -- Act & Assert
-        self::assertSame($expectedResult, $time->isBefore($comparator));
+        self::assertSame($expectedResult, $time->isAfterOrEqualTo($comparator));
     }
 
     /**
@@ -36,35 +36,35 @@ final class TimeIsBeforeTest extends TestCase
     public function dataProvider(): array
     {
         return [
-            '1 hour after' => [
+            '1 hour before' => [
                 false,
-                Time::fromString('16:00:00'),
                 Time::fromString('15:00:00'),
+                Time::fromString('16:00:00'),
             ],
             'same time' => [
-                false,
+                true,
                 Time::fromString('15:00:00'),
                 Time::fromString('15:00:00'),
             ],
-            '1 hour before' => [
+            '1 hour later' => [
                 true,
-                Time::fromString('15:00:00'),
                 Time::fromString('16:00:00'),
-            ],
-            '1 minute before' => [
-                true,
                 Time::fromString('15:00:00'),
+            ],
+            '1 minute later' => [
+                true,
                 Time::fromString('15:01:00'),
-            ],
-            '1 second before' => [
-                true,
                 Time::fromString('15:00:00'),
+            ],
+            '1 second later' => [
+                true,
                 Time::fromString('15:00:01'),
-            ],
-            '1 millisecond before' => [
-                true,
                 Time::fromString('15:00:00'),
+            ],
+            '1 millisecond later' => [
+                true,
                 Time::fromString('15:00:00.000001'),
+                Time::fromString('15:00:00'),
             ],
         ];
     }

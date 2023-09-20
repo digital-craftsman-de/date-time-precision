@@ -9,7 +9,7 @@ use DigitalCraftsman\DateTimeParts\Time;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Time */
-final class TimeTest extends TestCase
+final class ConstructionTest extends TestCase
 {
     /**
      * @test
@@ -221,19 +221,5 @@ final class TimeTest extends TestCase
 
         // -- Arrange & Act
         Time::fromString('22:77:00');
-    }
-
-    /**
-     * @test
-     *
-     * @covers ::__toString
-     */
-    public function to_string_works(): void
-    {
-        // -- Arrange & Act
-        $time = Time::fromString('15:00:00');
-
-        // -- Assert
-        self::assertEquals('15:00:00.000000', (string) $time);
     }
 }

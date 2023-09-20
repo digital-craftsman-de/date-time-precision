@@ -8,7 +8,7 @@ use DigitalCraftsman\DateTimeParts\Time;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Time */
-final class TimeDistanceInMinutesTest extends TestCase
+final class DistanceInMinutesTest extends TestCase
 {
     /**
      * @test

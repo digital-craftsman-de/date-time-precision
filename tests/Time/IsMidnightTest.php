@@ -8,43 +8,39 @@ use DigitalCraftsman\DateTimeParts\Time;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Time */
-final class TimeFormatTest extends TestCase
+final class IsMidnightTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
      *
-     * @covers ::format
+     * @covers ::isMidnight
      */
-    public function format_works(
-        string $expectedResult,
+    public function is_midnight_works(
+        bool $expectedResult,
         Time $time,
-        string $format,
     ): void {
         // -- Act & Assert
-        self::assertSame($expectedResult, $time->format($format));
+        self::assertSame($expectedResult, $time->isMidnight());
     }
 
     /**
      * @return array<string, array{
-     *   0: string,
+     *   0: boolean,
      *   1: Time,
-     *   2: string,
      * }>
      */
     public function dataProvider(): array
     {
         return [
-            'format to hour and minute' => [
-                '15:00',
-                Time::fromString('15:00:00'),
-                'H:i',
+            'at midnight' => [
+                true,
+                Time::fromString('00:00:00'),
             ],
-            'format time' => [
-                '15:00:00',
+            'not at midnight' => [
+                false,
                 Time::fromString('15:00:00'),
-                'H:i:s',
             ],
         ];
     }

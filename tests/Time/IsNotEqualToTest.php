@@ -8,23 +8,22 @@ use DigitalCraftsman\DateTimeParts\Time;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Time */
-final class TimeIsEqualToTest extends TestCase
+final class IsNotEqualToTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
      *
-     * @covers ::isEqualTo
-     * @covers ::toDateTimeImmutable
+     * @covers ::isNotEqualTo
      */
-    public function is_equal_to_works(
+    public function is_not_equal_to_works(
         bool $expectedResult,
         Time $time,
         Time $comparator,
     ): void {
         // -- Act & Assert
-        self::assertSame($expectedResult, $time->isEqualTo($comparator));
+        self::assertSame($expectedResult, $time->isNotEqualTo($comparator));
     }
 
     /**
@@ -38,32 +37,32 @@ final class TimeIsEqualToTest extends TestCase
     {
         return [
             '1 hour before' => [
-                false,
+                true,
                 Time::fromString('15:00:00'),
                 Time::fromString('16:00:00'),
             ],
             'same time' => [
-                true,
+                false,
                 Time::fromString('15:00:00'),
                 Time::fromString('15:00:00'),
             ],
             '1 hour later' => [
-                false,
+                true,
                 Time::fromString('16:00:00'),
                 Time::fromString('15:00:00'),
             ],
             '1 minute later' => [
-                false,
+                true,
                 Time::fromString('15:01:00'),
                 Time::fromString('15:00:00'),
             ],
             '1 second later' => [
-                false,
+                true,
                 Time::fromString('15:00:01'),
                 Time::fromString('15:00:00'),
             ],
             '1 millisecond later' => [
-                false,
+                true,
                 Time::fromString('15:00:00.000001'),
                 Time::fromString('15:00:00'),
             ],

@@ -8,38 +8,39 @@ use DigitalCraftsman\DateTimeParts\Time;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Time */
-final class TimeDiffTest extends TestCase
+final class IsNotMidnightTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
      *
-     * @covers ::diff
+     * @covers ::isNotMidnight
      */
-    public function diff_works(
-        \DateInterval $expectedResult,
+    public function is_not_midnight_works(
+        bool $expectedResult,
         Time $time,
-        Time $timeToDiff,
     ): void {
         // -- Act & Assert
-        self::assertEquals($expectedResult, $time->diff($timeToDiff));
+        self::assertSame($expectedResult, $time->isNotMidnight());
     }
 
     /**
      * @return array<string, array{
-     *   0: \DateInterval,
+     *   0: boolean,
      *   1: Time,
-     *   2: Time,
      * }>
      */
     public function dataProvider(): array
     {
         return [
-            '5 minutes' => [
-                (new \DateTimeImmutable('2022-10-08 15:00:00'))->diff(new \DateTimeImmutable('2022-10-08 15:05:00')),
+            'at not midnight' => [
+                true,
                 Time::fromString('15:00:00'),
-                Time::fromString('15:05:00'),
+            ],
+            'at midnight' => [
+                false,
+                Time::fromString('00:00:00'),
             ],
         ];
     }
