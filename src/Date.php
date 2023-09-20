@@ -83,7 +83,7 @@ final class Date implements \Stringable
 
     public function isNotAfter(self $date): bool
     {
-        return $this->toDateTimeImmutable() <= $date->toDateTimeImmutable();
+        return !($this->toDateTimeImmutable() > $date->toDateTimeImmutable());
     }
 
     public function isAfterOrEqualTo(self $date): bool
