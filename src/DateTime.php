@@ -114,7 +114,7 @@ final class DateTime implements \Stringable
 
     public function isNotAfter(self $dateTime): bool
     {
-        return $this->dateTime < $dateTime->dateTime;
+        return !($this->dateTime > $dateTime->dateTime);
     }
 
     public function isAfterOrEqualTo(self $dateTime): bool
@@ -124,7 +124,7 @@ final class DateTime implements \Stringable
 
     public function isNotAfterOrEqualTo(self $dateTime): bool
     {
-        return $this->dateTime <= $dateTime->dateTime;
+        return !($this->dateTime >= $dateTime->dateTime);
     }
 
     public function isBeforeOrEqualTo(self $dateTime): bool
@@ -134,7 +134,7 @@ final class DateTime implements \Stringable
 
     public function isNotBeforeOrEqualTo(self $dateTime): bool
     {
-        return $this->dateTime >= $dateTime->dateTime;
+        return !($this->dateTime <= $dateTime->dateTime);
     }
 
     public function isBefore(self $dateTime): bool
@@ -144,7 +144,7 @@ final class DateTime implements \Stringable
 
     public function isNotBefore(self $dateTime): bool
     {
-        return $this->dateTime > $dateTime->dateTime;
+        return !($this->dateTime < $dateTime->dateTime);
     }
 
     public function compareTo(self $dateTime): int

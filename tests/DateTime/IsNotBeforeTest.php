@@ -42,7 +42,7 @@ final class IsNotBeforeTest extends TestCase
                 DateTime::fromString('2022-10-08 15:00:00'),
             ],
             'is equal' => [
-                false,
+                true,
                 DateTime::fromString('2022-10-08 15:00:00'),
                 DateTime::fromString('2022-10-08 15:00:00'),
             ],
