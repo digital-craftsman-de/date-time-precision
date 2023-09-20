@@ -9,7 +9,7 @@ use DigitalCraftsman\DateTimeParts\Year;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Year */
-final class YearYearsUntilTest extends TestCase
+final class YearsUntilTest extends TestCase
 {
     /**
      * @test

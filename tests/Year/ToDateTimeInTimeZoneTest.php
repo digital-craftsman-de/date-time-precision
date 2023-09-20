@@ -9,7 +9,7 @@ use DigitalCraftsman\DateTimeParts\Year;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Year */
-final class YearToDateTimeInTimeZoneTest extends TestCase
+final class ToDateTimeInTimeZoneTest extends TestCase
 {
     /**
      * @test

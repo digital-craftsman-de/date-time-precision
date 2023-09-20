@@ -8,48 +8,48 @@ use DigitalCraftsman\DateTimeParts\Year;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Year */
-final class YearIsNotEqualToTest extends TestCase
+final class ModifyTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
      *
-     * @covers ::isNotEqualTo
+     * @covers ::modify
      */
-    public function is_not_equal_to_works(
-        bool $expectedResult,
-        Year $year,
-        Year $comparator,
+    public function modify_works(
+        Year $expectedResult,
+        Year $month,
+        string $modifier,
     ): void {
         // -- Act & Assert
-        self::assertSame($expectedResult, $year->isNotEqualTo($comparator));
+        self::assertEquals($expectedResult, $month->modify($modifier));
     }
 
     /**
      * @return array<string, array{
-     *   0: boolean,
+     *   0: Year,
      *   1: Year,
-     *   2: Year,
+     *   2: string,
      * }>
      */
     public function dataProvider(): array
     {
         return [
-            'previous year' => [
-                true,
+            'subtract one year' => [
+                Year::fromString('2021'),
+                Year::fromString('2022'),
+                '- 1 year',
+            ],
+            'add one year' => [
                 Year::fromString('2023'),
                 Year::fromString('2022'),
+                '+ 1 year',
             ],
-            'same date' => [
-                false,
+            'stupid but valid modification with one day' => [
                 Year::fromString('2022'),
                 Year::fromString('2022'),
-            ],
-            'next year' => [
-                true,
-                Year::fromString('2022'),
-                Year::fromString('2023'),
+                '+ 1 day',
             ],
         ];
     }

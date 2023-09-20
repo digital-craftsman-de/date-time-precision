@@ -8,7 +8,7 @@ use DigitalCraftsman\DateTimeParts\Year;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Year */
-final class YearTest extends TestCase
+final class ConstructionTest extends TestCase
 {
     /**
      * @test

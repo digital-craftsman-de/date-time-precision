@@ -8,27 +8,27 @@ use DigitalCraftsman\DateTimeParts\Year;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Year */
-final class YearIsEqualToTest extends TestCase
+final class CompareToTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
      *
-     * @covers ::isEqualTo
+     * @covers ::compareTo
      */
-    public function is_equal_to_works(
-        bool $expectedResult,
+    public function compare_to_works(
+        int $expectedResult,
         Year $year,
         Year $comparator,
     ): void {
         // -- Act & Assert
-        self::assertSame($expectedResult, $year->isEqualTo($comparator));
+        self::assertSame($expectedResult, $year->compareTo($comparator));
     }
 
     /**
      * @return array<string, array{
-     *   0: boolean,
+     *   0: int,
      *   1: Year,
      *   2: Year,
      * }>
@@ -37,17 +37,17 @@ final class YearIsEqualToTest extends TestCase
     {
         return [
             'previous year' => [
-                false,
-                Year::fromString('2023'),
+                1,
                 Year::fromString('2022'),
+                Year::fromString('2021'),
             ],
-            'same date' => [
-                true,
+            'same year' => [
+                0,
                 Year::fromString('2022'),
                 Year::fromString('2022'),
             ],
             'next year' => [
-                false,
+                -1,
                 Year::fromString('2022'),
                 Year::fromString('2023'),
             ],
