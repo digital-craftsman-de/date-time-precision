@@ -37,9 +37,14 @@ final class IsNotAfterTest extends TestCase
     {
         return [
             'previous year' => [
-                false,
-                Date::fromString('2022-10-08'),
+                true,
                 Date::fromString('2021-10-08'),
+                Date::fromString('2022-10-08'),
+            ],
+            'previous day' => [
+                true,
+                Date::fromString('2022-10-07'),
+                Date::fromString('2022-10-08'),
             ],
             'same date' => [
                 true,
@@ -47,19 +52,19 @@ final class IsNotAfterTest extends TestCase
                 Date::fromString('2022-10-08'),
             ],
             'next year' => [
-                true,
-                Date::fromString('2022-10-08'),
+                false,
                 Date::fromString('2023-10-08'),
+                Date::fromString('2022-10-08'),
             ],
             'next month' => [
-                true,
-                Date::fromString('2022-10-08'),
+                false,
                 Date::fromString('2022-11-08'),
+                Date::fromString('2022-10-08'),
             ],
             'next day' => [
-                true,
-                Date::fromString('2022-10-08'),
+                false,
                 Date::fromString('2022-10-09'),
+                Date::fromString('2022-10-08'),
             ],
         ];
     }

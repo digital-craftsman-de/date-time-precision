@@ -108,7 +108,7 @@ final class Date implements \Stringable
 
     public function isNotAfter(self $date): bool
     {
-        if ($this->month->isBeforeOrEqualTo($date->month)) {
+        if ($this->month->isBefore($date->month)) {
             return true;
         }
 
@@ -116,7 +116,7 @@ final class Date implements \Stringable
             return false;
         }
 
-        return $this->day < $date->day;
+        return $this->day <= $date->day;
     }
 
     public function isAfterOrEqualTo(self $date): bool
