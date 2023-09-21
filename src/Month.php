@@ -70,6 +70,11 @@ final class Month implements \Stringable
         return $this->toDateTimeImmutable() < $month->toDateTimeImmutable();
     }
 
+    public function isNotBefore(self $month): bool
+    {
+        return !($this->toDateTimeImmutable() < $month->toDateTimeImmutable());
+    }
+
     public function isBeforeOrEqualTo(self $month): bool
     {
         return $this->toDateTimeImmutable() <= $month->toDateTimeImmutable();
