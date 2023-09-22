@@ -49,6 +49,11 @@ final class Year
         return $this->year < $year->year;
     }
 
+    public function isNotBefore(self $year): bool
+    {
+        return !($this->year < $year->year);
+    }
+
     public function isBeforeOrEqualTo(self $year): bool
     {
         return $this->year <= $year->year;
