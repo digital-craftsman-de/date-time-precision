@@ -75,7 +75,15 @@ The resulting `$bookingsAllowedFrom` is still a date time with timezone `UTC` bu
 ## Integration
 
 For the best code readability, it's best to use the `Moment` provided with the package as a full replacement for `\DateTime` or `\DateTimeImmutable` when you're speaking about a moment in time and the others value objects for the rest.
-The package provides normalizers and doctrine types for `Moment` and all parts.
+The package provides normalizers and Doctrine types for `Moment` and all parts.
+
+The Doctrine types are automatically registered with the bundle with the following type names:
+
+- `dtp_moment`
+- `dtp_time`
+- `dtp_date`
+- `dtp_month`
+- `dtp_year`
 
 ## Design
 
