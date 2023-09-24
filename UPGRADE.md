@@ -14,6 +14,14 @@ Support for Symfony below 6.3 was dropped, so you have to upgrade to at least Sy
 
 Instances of `DateTime` can now only be created in the UTC timezone. This is independent on the configured default timezone in PHP. If you're relying on the another configured timezone, you ether need to specifically set the timezone yourself or use UTC. This is the expected use case.
 
+### Renamed package
+
+Renamed package from `digital-craftsman/datetime-parts` to `digital-craftsman/date-time-precision`. Update your `composer.json` accordingly.
+
+### Renamed `DateTime`
+
+Renamed `DateTime` to `Moment` including normalizer and Doctrine type. Replace all usages of `DateTime` with `Moment`.
+
 ## From 0.6.* to 0.7.0
 
 No breaking changes

@@ -5,6 +5,8 @@
 - **[Breaking change](./UPGRADE.md#upgrade-to-at-least-php-82)**: Dropped support for PHP 8.1.
 - **[Breaking change](./UPGRADE.md#dropped-support-for-symfony-below-63)**: Dropped support for Symfony below 6.3.
 - **[Breaking change](UPGRADE.md#utc-as-supported-timezone)**: Instances of `DateTime` are now always created in the UTC timezone (independent on the configured default timezone in PHP).
+- **[Breaking change](UPGRADE.md#renamed-package)**: Renamed package to `digital-craftsman/date-time-precision`.
+- **[Breaking change](UPGRADE.md#renamed-datetime)**: Renamed `DateTime` to `Moment` including normalizer and Doctrine type.
 - Added support for PHP 8.3.
 - Added support for the new normalizer caching mechanism of Symfony 6.3.
 - Switched classes to be `readonly` (instead of just the properties).
