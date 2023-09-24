@@ -9,22 +9,22 @@ use DigitalCraftsman\DateTimePrecision\Year;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Year */
-final class ToDateTimeInTimeZoneTest extends TestCase
+final class ToMomentInTimeZoneTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
      *
-     * @covers ::toDateTimeInTimeZone
+     * @covers ::toMomentInTimeZone
      */
-    public function format_works(
+    public function to_moment_in_time_zone_works(
         Moment $expectedResult,
         Year $year,
         \DateTimeZone $timeZone,
     ): void {
         // -- Act & Assert
-        self::assertEquals($expectedResult, $year->toDateTimeInTimeZone($timeZone));
+        self::assertEquals($expectedResult, $year->toMomentInTimeZone($timeZone));
     }
 
     /**

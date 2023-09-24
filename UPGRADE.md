@@ -22,6 +22,10 @@ Renamed package from `digital-craftsman/datetime-parts` to `digital-craftsman/da
 
 Renamed `DateTime` to `Moment` including normalizer and Doctrine type. Replace all usages of `DateTime` with `Moment`.
 
+### Updated Doctrine moment type to support milliseconds
+
+When using `MomentType`, you need to migrate the database column to support milliseconds. 
+
 ## From 0.6.* to 0.7.0
 
 No breaking changes

@@ -1,6 +1,6 @@
 services:
 
-  DigitalCraftsman\DateTimePrecision\Serializer\DateTimeNormalizer:
+  DigitalCraftsman\DateTimePrecision\Serializer\MomentNormalizer:
     tags: [ { name: 'serializer.normalizer' } ]
 
   DigitalCraftsman\DateTimePrecision\Serializer\TimeNormalizer:

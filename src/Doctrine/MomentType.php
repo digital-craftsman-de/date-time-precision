@@ -6,6 +6,8 @@ namespace DigitalCraftsman\DateTimePrecision\Doctrine;
 
 use DigitalCraftsman\DateTimePrecision\Moment;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Types\Type;
 
 final class MomentType extends Type
@@ -13,13 +15,21 @@ final class MomentType extends Type
     /** @codeCoverageIgnore */
     public function getName(): string
     {
-        return 'digital_craftsman_moment';
+        return 'dtp_moment';
     }
 
     /** @codeCoverageIgnore */
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        return $platform->getDateTimeTypeDeclarationSQL($column);
+        if ($platform instanceof PostgreSQLPlatform) {
+            return 'TIMESTAMP(6)';
+        }
+
+        if ($platform instanceof MySQLPlatform) {
+            return 'DATETIME(6)';
+        }
+
+        throw new \RuntimeException('Unsupported platform');
     }
 
     /** @param Moment|null $value */
@@ -29,7 +39,7 @@ final class MomentType extends Type
             return null;
         }
 
-        return $value->format($platform->getDateTimeFormatString());
+        return $value->format('Y-m-d H:i:s.u');
     }
 
     /** @param string|null $value */
