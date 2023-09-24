@@ -23,7 +23,7 @@ As it's a central part of an application, it's tested thoroughly (including muta
 
 [![Latest Stable Version](http://poser.pugx.org/digital-craftsman/date-time-precision/v)](https://packagist.org/packages/digital-craftsman/date-time-precision)
 [![PHP Version Require](http://poser.pugx.org/digital-craftsman/date-time-precision/require/php)](https://packagist.org/packages/digital-craftsman/date-time-precision)
-[![codecov](https://codecov.io/gh/digital-craftsman-de/date-time-precision/branch/main/graph/badge.svg?token=BL0JKZYLBG)](https://codecov.io/gh/digital-craftsman-de/date-time-precision)
+[![codecov](https://codecov.io/gh/digital-craftsman-de/date-time-precision/branch/main/graph/badge.svg?token=vZ0IvKPj2f)](https://codecov.io/gh/digital-craftsman-de/date-time-precision)
 [![Total Downloads](http://poser.pugx.org/digital-craftsman/date-time-precision/downloads)](https://packagist.org/packages/digital-craftsman/date-time-precision)
 [![License](http://poser.pugx.org/digital-craftsman/date-time-precision/license)](https://packagist.org/packages/digital-craftsman/date-time-precision)
 
