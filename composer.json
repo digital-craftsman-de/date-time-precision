@@ -1,6 +1,6 @@
 {
-  "name": "digital-craftsman/datetime-parts",
-  "description": "A Symfony bundle to work with parts of what a DateTime consists of (Date, Time, Month and Year).",
+  "name": "digital-craftsman/date-time-precision",
+  "description": "A Symfony bundle for more precise date and time handling through value objects",
   "type": "symfony-bundle",
   "require": {
     "php": "8.2.*|8.3.*",
@@ -16,12 +16,12 @@
   },
   "autoload": {
     "psr-4": {
-      "DigitalCraftsman\\DateTimeParts\\": "src/"
+      "DigitalCraftsman\\DateTimePrecision\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "DigitalCraftsman\\DateTimeParts\\": "tests/"
+      "DigitalCraftsman\\DateTimePrecision\\": "tests/"
     }
   },
   "license": "MIT",

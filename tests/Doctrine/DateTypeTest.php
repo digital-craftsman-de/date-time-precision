@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeParts\Doctrine;
+namespace DigitalCraftsman\DateTimePrecision\Doctrine;
 
-use DigitalCraftsman\DateTimeParts\Date;
+use DigitalCraftsman\DateTimePrecision\Date;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Doctrine\DateType */
+/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Doctrine\DateType */
 final class DateTypeTest extends TestCase
 {
     /**

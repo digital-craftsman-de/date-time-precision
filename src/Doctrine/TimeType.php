@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeParts\Doctrine;
+namespace DigitalCraftsman\DateTimePrecision\Doctrine;
 
-use DigitalCraftsman\DateTimeParts\Time;
+use DigitalCraftsman\DateTimePrecision\Time;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 

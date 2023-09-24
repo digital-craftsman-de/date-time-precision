@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeParts\Date;
+namespace DigitalCraftsman\DateTimePrecision\Date;
 
-use DigitalCraftsman\DateTimeParts\Date;
-use DigitalCraftsman\DateTimeParts\Month;
-use DigitalCraftsman\DateTimeParts\Year;
+use DigitalCraftsman\DateTimePrecision\Date;
+use DigitalCraftsman\DateTimePrecision\Month;
+use DigitalCraftsman\DateTimePrecision\Year;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Date */
+/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Date */
 final class ConstructionTest extends TestCase
 {
     /**

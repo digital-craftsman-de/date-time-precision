@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeParts\Serializer;
+namespace DigitalCraftsman\DateTimePrecision\Serializer;
 
-use DigitalCraftsman\DateTimeParts\Date;
-use DigitalCraftsman\DateTimeParts\Time;
+use DigitalCraftsman\DateTimePrecision\Date;
+use DigitalCraftsman\DateTimePrecision\Time;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Serializer\DateNormalizer */
+/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Serializer\DateNormalizer */
 final class DateNormalizerTest extends TestCase
 {
     /**

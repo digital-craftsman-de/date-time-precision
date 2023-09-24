@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeParts\Year;
+namespace DigitalCraftsman\DateTimePrecision\Year;
 
-use DigitalCraftsman\DateTimeParts\Year;
+use DigitalCraftsman\DateTimePrecision\Year;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Year */
+/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Year */
 final class IsAfterTest extends TestCase
 {
     /**
