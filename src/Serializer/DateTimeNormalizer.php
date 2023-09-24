@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimeParts\Serializer;
 
 use DigitalCraftsman\DateTimeParts\DateTime;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-final class DateTimeNormalizer implements NormalizerInterface, DenormalizerInterface, CacheableSupportsMethodInterface
+final class DateTimeNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     public function supportsNormalization($data, $format = null, array $context = []): bool
     {
@@ -38,9 +37,15 @@ final class DateTimeNormalizer implements NormalizerInterface, DenormalizerInter
             : DateTime::fromString($data);
     }
 
-    /** @codeCoverageIgnore */
-    public function hasCacheableSupportsMethod(): bool
+    /**
+     * @return array<class-string, bool>
+     *
+     * @codeCoverageIgnore
+     */
+    public function getSupportedTypes(?string $format): array
     {
-        return true;
+        return [
+            DateTime::class => true,
+        ];
     }
 }

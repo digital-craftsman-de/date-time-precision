@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimeParts\Serializer;
 
 use DigitalCraftsman\DateTimeParts\Year;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-final class YearNormalizer implements NormalizerInterface, DenormalizerInterface, CacheableSupportsMethodInterface
+final class YearNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     public function supportsNormalization($data, $format = null, array $context = []): bool
     {
@@ -38,9 +37,15 @@ final class YearNormalizer implements NormalizerInterface, DenormalizerInterface
             : new Year($data);
     }
 
-    /** @codeCoverageIgnore */
-    public function hasCacheableSupportsMethod(): bool
+    /**
+     * @return array<class-string, bool>
+     *
+     * @codeCoverageIgnore
+     */
+    public function getSupportedTypes(?string $format): array
     {
-        return true;
+        return [
+            Year::class => true,
+        ];
     }
 }
