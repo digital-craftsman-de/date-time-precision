@@ -17,14 +17,14 @@ final readonly class DateTime implements \Stringable
 
     public static function fromString(string $string): self
     {
-        return new self(new \DateTimeImmutable($string));
+        return new self(new \DateTimeImmutable($string, new \DateTimeZone('UTC')));
     }
 
     public static function fromStringInTimeZone(
         string $string,
         \DateTimeZone $timeZone,
     ): self {
-        $defaultTimeZone = new \DateTimeZone(date_default_timezone_get());
+        $defaultTimeZone = new \DateTimeZone('UTC');
 
         return (new self(new \DateTimeImmutable($string, $timeZone)))
             ->toTimeZone($defaultTimeZone);
@@ -277,13 +277,6 @@ final readonly class DateTime implements \Stringable
     {
         return new self(
             $this->dateTime->setTimezone($timeZone),
-        );
-    }
-
-    public function toUTC(): self
-    {
-        return new self(
-            $this->dateTime->setTimezone(new \DateTimeZone('UTC')),
         );
     }
 
