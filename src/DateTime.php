@@ -92,11 +92,6 @@ final readonly class DateTime implements \Stringable
             ->year();
     }
 
-    public function timeZone(): \DateTimeZone
-    {
-        return $this->dateTime->getTimezone();
-    }
-
     public function isEqualTo(self $dateTime): bool
     {
         return $this->dateTime == $dateTime->dateTime;
