@@ -57,66 +57,52 @@ final class Month implements \Stringable
 
     public function isEqualTo(self $month): bool
     {
-        return $this->month === $month->month
-            && $this->year->isEqualTo($month->year);
+        return $this->toDateTimeImmutable() == $month->toDateTimeImmutable();
     }
 
     public function isNotEqualTo(self $month): bool
     {
-        return $this->month !== $month->month
-            || $this->year->isNotEqualTo($month->year);
+        return $this->toDateTimeImmutable() != $month->toDateTimeImmutable();
     }
 
     public function isBefore(self $month): bool
     {
-        if ($this->year->isBefore($month->year)) {
-            return true;
-        }
+        return $this->toDateTimeImmutable() < $month->toDateTimeImmutable();
+    }
 
-        if ($this->year->isAfter($month->year)) {
-            return false;
-        }
-
-        return $this->month < $month->month;
+    public function isNotBefore(self $month): bool
+    {
+        return !($this->toDateTimeImmutable() < $month->toDateTimeImmutable());
     }
 
     public function isBeforeOrEqualTo(self $month): bool
     {
-        if ($this->year->isBefore($month->year)) {
-            return true;
-        }
+        return $this->toDateTimeImmutable() <= $month->toDateTimeImmutable();
+    }
 
-        if ($this->year->isAfter($month->year)) {
-            return false;
-        }
-
-        return $this->month <= $month->month;
+    public function isNotBeforeOrEqualTo(self $month): bool
+    {
+        return !($this->toDateTimeImmutable() <= $month->toDateTimeImmutable());
     }
 
     public function isAfter(self $month): bool
     {
-        if ($this->year->isAfter($month->year)) {
-            return true;
-        }
+        return $this->toDateTimeImmutable() > $month->toDateTimeImmutable();
+    }
 
-        if ($this->year->isBefore($month->year)) {
-            return false;
-        }
-
-        return $this->month > $month->month;
+    public function isNotAfter(self $month): bool
+    {
+        return !($this->toDateTimeImmutable() > $month->toDateTimeImmutable());
     }
 
     public function isAfterOrEqualTo(self $month): bool
     {
-        if ($this->year->isAfter($month->year)) {
-            return true;
-        }
+        return $this->toDateTimeImmutable() >= $month->toDateTimeImmutable();
+    }
 
-        if ($this->year->isBefore($month->year)) {
-            return false;
-        }
-
-        return $this->month >= $month->month;
+    public function isNotAfterOrEqualTo(self $month): bool
+    {
+        return !($this->toDateTimeImmutable() >= $month->toDateTimeImmutable());
     }
 
     public function compareTo(self $month): int

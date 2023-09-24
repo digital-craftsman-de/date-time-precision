@@ -49,9 +49,19 @@ final class Year
         return $this->year < $year->year;
     }
 
+    public function isNotBefore(self $year): bool
+    {
+        return !($this->year < $year->year);
+    }
+
     public function isBeforeOrEqualTo(self $year): bool
     {
         return $this->year <= $year->year;
+    }
+
+    public function isNotBeforeOrEqualTo(self $year): bool
+    {
+        return !($this->year <= $year->year);
     }
 
     public function isAfter(self $year): bool
@@ -59,14 +69,24 @@ final class Year
         return $this->year > $year->year;
     }
 
+    public function isNotAfter(self $year): bool
+    {
+        return !($this->year > $year->year);
+    }
+
     public function isAfterOrEqualTo(self $year): bool
     {
         return $this->year >= $year->year;
     }
 
+    public function isNotAfterOrEqualTo(self $year): bool
+    {
+        return !($this->year >= $year->year);
+    }
+
     public function compareTo(self $year): int
     {
-        return $this->toDateTimeImmutable() <=> $year->toDateTimeImmutable();
+        return $this->year <=> $year->year;
     }
 
     /**

@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.8.0
+
+- Removed custom code in `Date` and `Month` and used PHP SPL to handle date comparisons.
+- Added `DateTime->isNotAfter`
+- Added `DateTime->isNotAfterOrEqualTo`.
+- Added `DateTime->isNotBeforeOrEqualTo`.
+- Added `DateTime->isNotBefore`.
+- Added `DateTime->isDateNotAfterInTimeZone`.
+- Added `DateTime->isDateNotAfterOrEqualToInTimeZone`.
+- Added `DateTime->isDateNotBeforeInTimeZone`.
+- Added `DateTime->isDateNotBeforeOrEqualToInTimeZone`.
+- Added `Date->isNotAfter`.
+- Added `Date->isNotBefore`.
+- Added `Date->isNotBeforeOrEqualTo`.
+- Added `Date->isNotAfterOrEqualTo`.
+- Added `Month->isNotBefore`.
+- Added `Month->isNotBeforeOrEqualTo`.
+- Added `Month->isNotAfter`.
+- Added `Month->isNotAfterOrEqualTo`.
+- Added `Year->isNotBefore`.
+- Added `Year->isNotAfterOrEqualTo`.
+- Added `Year->isNotAfter`.
+- Added `Year->isNotBeforeOrEqualTo`.
+
 ## 0.7.0
 
 - Added `Date->datesUntil(Date $date, PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END): array`.

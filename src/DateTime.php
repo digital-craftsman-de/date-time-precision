@@ -112,9 +112,19 @@ final class DateTime implements \Stringable
         return $this->dateTime > $dateTime->dateTime;
     }
 
+    public function isNotAfter(self $dateTime): bool
+    {
+        return !($this->dateTime > $dateTime->dateTime);
+    }
+
     public function isAfterOrEqualTo(self $dateTime): bool
     {
         return $this->dateTime >= $dateTime->dateTime;
+    }
+
+    public function isNotAfterOrEqualTo(self $dateTime): bool
+    {
+        return !($this->dateTime >= $dateTime->dateTime);
     }
 
     public function isBeforeOrEqualTo(self $dateTime): bool
@@ -122,9 +132,19 @@ final class DateTime implements \Stringable
         return $this->dateTime <= $dateTime->dateTime;
     }
 
+    public function isNotBeforeOrEqualTo(self $dateTime): bool
+    {
+        return !($this->dateTime <= $dateTime->dateTime);
+    }
+
     public function isBefore(self $dateTime): bool
     {
         return $this->dateTime < $dateTime->dateTime;
+    }
+
+    public function isNotBefore(self $dateTime): bool
+    {
+        return !($this->dateTime < $dateTime->dateTime);
     }
 
     public function compareTo(self $dateTime): int
@@ -139,9 +159,23 @@ final class DateTime implements \Stringable
         );
     }
 
+    public function isDateNotAfterInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    {
+        return $this->dateInTimeZone($timeZone)->isNotAfter(
+            $dateTime->dateInTimeZone($timeZone),
+        );
+    }
+
     public function isDateAfterOrEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isAfterOrEqualTo(
+            $dateTime->dateInTimeZone($timeZone),
+        );
+    }
+
+    public function isDateNotAfterOrEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    {
+        return $this->dateInTimeZone($timeZone)->isNotAfterOrEqualTo(
             $dateTime->dateInTimeZone($timeZone),
         );
     }
@@ -167,9 +201,23 @@ final class DateTime implements \Stringable
         );
     }
 
+    public function isDateNotBeforeInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    {
+        return $this->dateInTimeZone($timeZone)->isNotBefore(
+            $dateTime->dateInTimeZone($timeZone),
+        );
+    }
+
     public function isDateBeforeOrEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isBeforeOrEqualTo(
+            $dateTime->dateInTimeZone($timeZone),
+        );
+    }
+
+    public function isDateNotBeforeOrEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    {
+        return $this->dateInTimeZone($timeZone)->isNotBeforeOrEqualTo(
             $dateTime->dateInTimeZone($timeZone),
         );
     }

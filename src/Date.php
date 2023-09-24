@@ -58,65 +58,52 @@ final class Date implements \Stringable
 
     public function isEqualTo(self $date): bool
     {
-        return $this->day === $date->day
-            && $this->month->isEqualTo($date->month);
+        return $this->toDateTimeImmutable() == $date->toDateTimeImmutable();
     }
 
     public function isNotEqualTo(self $date): bool
     {
-        return !$this->isEqualTo($date);
+        return $this->toDateTimeImmutable() != $date->toDateTimeImmutable();
     }
 
     public function isBefore(self $date): bool
     {
-        if ($this->month->isBefore($date->month)) {
-            return true;
-        }
+        return $this->toDateTimeImmutable() < $date->toDateTimeImmutable();
+    }
 
-        if ($this->month->isAfter($date->month)) {
-            return false;
-        }
-
-        return $this->day < $date->day;
+    public function isNotBefore(self $date): bool
+    {
+        return !($this->toDateTimeImmutable() < $date->toDateTimeImmutable());
     }
 
     public function isBeforeOrEqualTo(self $date): bool
     {
-        if ($this->month->isBefore($date->month)) {
-            return true;
-        }
+        return $this->toDateTimeImmutable() <= $date->toDateTimeImmutable();
+    }
 
-        if ($this->month->isAfter($date->month)) {
-            return false;
-        }
-
-        return $this->day <= $date->day;
+    public function isNotBeforeOrEqualTo(self $date): bool
+    {
+        return !($this->toDateTimeImmutable() <= $date->toDateTimeImmutable());
     }
 
     public function isAfter(self $date): bool
     {
-        if ($this->month->isAfter($date->month)) {
-            return true;
-        }
+        return $this->toDateTimeImmutable() > $date->toDateTimeImmutable();
+    }
 
-        if ($this->month->isBefore($date->month)) {
-            return false;
-        }
-
-        return $this->day > $date->day;
+    public function isNotAfter(self $date): bool
+    {
+        return !($this->toDateTimeImmutable() > $date->toDateTimeImmutable());
     }
 
     public function isAfterOrEqualTo(self $date): bool
     {
-        if ($this->month->isAfter($date->month)) {
-            return true;
-        }
+        return $this->toDateTimeImmutable() >= $date->toDateTimeImmutable();
+    }
 
-        if ($this->month->isBefore($date->month)) {
-            return false;
-        }
-
-        return $this->day >= $date->day;
+    public function isNotAfterOrEqualTo(self $date): bool
+    {
+        return !($this->toDateTimeImmutable() >= $date->toDateTimeImmutable());
     }
 
     public function compareTo(self $date): int
