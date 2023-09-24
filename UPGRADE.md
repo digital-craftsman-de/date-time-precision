@@ -10,6 +10,10 @@ Support for PHP 8.1 was dropped, so you have to upgrade to at least PHP 8.2.
 
 Support for Symfony below 6.3 was dropped, so you have to upgrade to at least Symfony 6.3. This is the only way to prevent deprecations from being thrown for the cachable support.
 
+### UTC as supported timezone
+
+Instances of `DateTime` can now only be created in the UTC timezone. This is independent on the configured default timezone in PHP. If you're relying on the another configured timezone, you ether need to specifically set the timezone yourself or use UTC. This is the expected use case.
+
 ## From 0.6.* to 0.7.0
 
 No breaking changes
