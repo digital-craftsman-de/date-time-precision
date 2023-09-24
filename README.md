@@ -8,12 +8,12 @@ The only class in the PHP SPL to work with dates and times is `DateTime` (and it
 
 Basically, every time you're not talking about a specific moment, the `DateTime` classes contain not just more informationen then needed, but even misleading information.
 
-This bundle / package tries to solve this issue by introducing value objects for the more precise sub sets like `Time`, `Date`, `Month` and `Year`. It's only a thin wrapper over `DateTime` and uses it internally for all modifications and comparisons. This way
+This bundle / package tries to solve this issue by introducing value objects for the more precise sub sets like `Time`, `Date`, `Month` and `Year`. It's only a thin wrapper over `DateTime` and uses it internally for all modifications and comparisons. This way you don't have to make sure that your `DateTime` is
 
-- You don't have to make sure that your `DateTime` is at a specific date to compare times.
-- You don't have to make sure that your `DateTime` is at midnight to compare dates.
-- You don't have to make sure that your `DateTime` is at the first of the month to compare months.
-- You don't have to make sure that your `DateTime` is at the first of the year to compare years.
+- at a specific date to compare times.
+- at midnight to compare dates.
+- at the first of the month to compare months.
+- at the first of the year to compare years.
 
 Additionally, the package provides a streamlined way to have the system running in `UTC` but still do the modifications in the relevant timezone. The internal `DateTime` is always in `UTC` and only internally converted to the relevant timezone for modifications. This way you can be sure that you're not missing or receiving an hour due to a switch of summer-time to winter-time in the relevant timezone.
 
