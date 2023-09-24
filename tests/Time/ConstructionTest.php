@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision\Time;
 
-use DigitalCraftsman\DateTimePrecision\DateTime;
+use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Time;
 use PHPUnit\Framework\TestCase;
 
@@ -183,7 +183,7 @@ final class ConstructionTest extends TestCase
     {
         // -- Arrange
         $expectedTime = new Time(22, 15, 0);
-        $dateTime = DateTime::fromString('2022-10-08 22:15:00');
+        $dateTime = Moment::fromString('2022-10-08 22:15:00');
 
         // -- Act
         $time = Time::fromDateTime($dateTime->dateTime);

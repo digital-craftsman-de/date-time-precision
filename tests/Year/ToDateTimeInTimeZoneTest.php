@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision\Year;
 
-use DigitalCraftsman\DateTimePrecision\DateTime;
+use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Year;
 use PHPUnit\Framework\TestCase;
 
@@ -19,7 +19,7 @@ final class ToDateTimeInTimeZoneTest extends TestCase
      * @covers ::toDateTimeInTimeZone
      */
     public function format_works(
-        DateTime $expectedResult,
+        Moment $expectedResult,
         Year $year,
         \DateTimeZone $timeZone,
     ): void {
@@ -29,7 +29,7 @@ final class ToDateTimeInTimeZoneTest extends TestCase
 
     /**
      * @return array<string, array{
-     *   0: DateTime,
+     *   0: Moment,
      *   1: Year,
      *   2: \DateTimeZone,
      * }>
@@ -38,12 +38,12 @@ final class ToDateTimeInTimeZoneTest extends TestCase
     {
         return [
             'year 2022 in Europe/Berlin' => [
-                DateTime::fromStringInTimeZone('2022-01-01 00:00:00', new \DateTimeZone('Europe/Berlin')),
+                Moment::fromStringInTimeZone('2022-01-01 00:00:00', new \DateTimeZone('Europe/Berlin')),
                 new Year(2022),
                 new \DateTimeZone('Europe/Berlin'),
             ],
             'year 2023 in UTC' => [
-                DateTime::fromStringInTimeZone('2023-01-01 00:00:00', new \DateTimeZone('UTC')),
+                Moment::fromStringInTimeZone('2023-01-01 00:00:00', new \DateTimeZone('UTC')),
                 new Year(2023),
                 new \DateTimeZone('UTC'),
             ],

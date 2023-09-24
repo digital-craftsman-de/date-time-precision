@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Date;
 
 use DigitalCraftsman\DateTimePrecision\Date;
-use DigitalCraftsman\DateTimePrecision\DateTime;
+use DigitalCraftsman\DateTimePrecision\Moment;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Date */
@@ -16,20 +16,20 @@ final class ToDateTimeInTimeZoneTest extends TestCase
      *
      * @dataProvider dataProvider
      *
-     * @covers ::toDateTimeInTimeZone
+     * @covers ::toMomentInTimeZone
      */
     public function format_works(
-        DateTime $expectedResult,
+        Moment $expectedResult,
         Date $date,
         \DateTimeZone $timeZone,
     ): void {
         // -- Act & Assert
-        self::assertEquals($expectedResult, $date->toDateTimeInTimeZone($timeZone));
+        self::assertEquals($expectedResult, $date->toMomentInTimeZone($timeZone));
     }
 
     /**
      * @return array<string, array{
-     *   0: DateTime,
+     *   0: Moment,
      *   1: Date,
      *   2: \DateTimeZone,
      * }>
@@ -38,12 +38,12 @@ final class ToDateTimeInTimeZoneTest extends TestCase
     {
         return [
             '2. october 2022 in Europe/Berlin' => [
-                DateTime::fromStringInTimeZone('2022-10-02 00:00:00', new \DateTimeZone('Europe/Berlin')),
+                Moment::fromStringInTimeZone('2022-10-02 00:00:00', new \DateTimeZone('Europe/Berlin')),
                 Date::fromString('2022-10-02'),
                 new \DateTimeZone('Europe/Berlin'),
             ],
             '2. october 2023 in UTC' => [
-                DateTime::fromStringInTimeZone('2023-10-02 00:00:00', new \DateTimeZone('UTC')),
+                Moment::fromStringInTimeZone('2023-10-02 00:00:00', new \DateTimeZone('UTC')),
                 Date::fromString('2023-10-02'),
                 new \DateTimeZone('UTC'),
             ],

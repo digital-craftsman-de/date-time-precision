@@ -8,8 +8,8 @@ use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Time;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Serializer\TimeNormalizer */
-final class TimeNormalizerTest extends TestCase
+/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Serializer\MomentNormalizer */
+final class MomentNormalizerTest extends TestCase
 {
     /**
      * @test
@@ -17,19 +17,19 @@ final class TimeNormalizerTest extends TestCase
      * @covers ::normalize
      * @covers ::denormalize
      */
-    public function time_normalization_and_denormalization_works(): void
+    public function moment_normalization_and_denormalization_works(): void
     {
         // -- Arrange
-        $time = Time::fromString('14:50:10.234232');
+        $dateTime = Moment::fromString('2022-10-03 15:34:34');
 
-        $normalizer = new TimeNormalizer();
+        $normalizer = new MomentNormalizer();
 
         // -- Act
-        $normalizedData = $normalizer->normalize($time);
-        $denormalizedData = $normalizer->denormalize($normalizedData, Time::class);
+        $normalizedData = $normalizer->normalize($dateTime);
+        $denormalizedData = $normalizer->denormalize($normalizedData, Moment::class);
 
         // -- Assert
-        self::assertEquals($time, $denormalizedData);
+        self::assertEquals($dateTime, $denormalizedData);
     }
 
     /**
@@ -37,10 +37,10 @@ final class TimeNormalizerTest extends TestCase
      *
      * @covers ::normalize
      */
-    public function time_normalization_with_null_works(): void
+    public function moment_normalization_with_null_works(): void
     {
         // -- Arrange
-        $normalizer = new TimeNormalizer();
+        $normalizer = new MomentNormalizer();
 
         // -- Act
         $normalizedData = $normalizer->normalize(null);
@@ -54,13 +54,13 @@ final class TimeNormalizerTest extends TestCase
      *
      * @covers ::denormalize
      */
-    public function time_denormalization_with_null_works(): void
+    public function moment_denormalization_with_null_works(): void
     {
         // -- Arrange
-        $normalizer = new TimeNormalizer();
+        $normalizer = new MomentNormalizer();
 
         // -- Act
-        $denormalizedData = $normalizer->denormalize(null, Time::class);
+        $denormalizedData = $normalizer->denormalize(null, Moment::class);
 
         // -- Assert
         self::assertNull($denormalizedData);
@@ -74,12 +74,12 @@ final class TimeNormalizerTest extends TestCase
     public function supports_normalization(): void
     {
         // -- Arrange
-        $time = Time::fromString('14:50:10');
+        $dateTime = Moment::fromString('2022-10-03 15:34:34');
 
-        $normalizer = new TimeNormalizer();
+        $normalizer = new MomentNormalizer();
 
         // -- Act & Assert
-        self::assertTrue($normalizer->supportsNormalization($time));
+        self::assertTrue($normalizer->supportsNormalization($dateTime));
     }
 
     /**
@@ -90,12 +90,12 @@ final class TimeNormalizerTest extends TestCase
     public function supports_normalization_fails(): void
     {
         // -- Arrange
-        $dateTime = Moment::fromString('2022-08-10 14:50:10');
+        $time = Time::fromString('15:34:34');
 
-        $normalizer = new TimeNormalizer();
+        $normalizer = new MomentNormalizer();
 
         // -- Act & Assert
-        self::assertFalse($normalizer->supportsNormalization($dateTime));
+        self::assertFalse($normalizer->supportsNormalization($time));
     }
 
     /**
@@ -106,9 +106,9 @@ final class TimeNormalizerTest extends TestCase
     public function supports_denormalization(): void
     {
         // -- Arrange
-        $normalizer = new TimeNormalizer();
+        $normalizer = new MomentNormalizer();
 
         // -- Act & Assert
-        self::assertTrue($normalizer->supportsDenormalization(null, Time::class));
+        self::assertTrue($normalizer->supportsDenormalization(null, Moment::class));
     }
 }

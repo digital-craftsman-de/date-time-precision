@@ -167,9 +167,9 @@ final readonly class Date implements \Stringable
         return self::fromDateTime($modifiedDateTime);
     }
 
-    public function toDateTimeInTimeZone(\DateTimeZone $timeZone): DateTime
+    public function toMomentInTimeZone(\DateTimeZone $timeZone): Moment
     {
-        return DateTime::fromStringInTimeZone(
+        return Moment::fromStringInTimeZone(
             sprintf(
                 '%d-%d-%d 00:00:00',
                 $this->month->year->year,

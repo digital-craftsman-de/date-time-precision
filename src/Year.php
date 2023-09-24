@@ -145,9 +145,9 @@ final readonly class Year
         return self::fromDateTime($modifiedDateTime);
     }
 
-    public function toDateTimeInTimeZone(\DateTimeZone $timeZone): DateTime
+    public function toDateTimeInTimeZone(\DateTimeZone $timeZone): Moment
     {
-        return DateTime::fromStringInTimeZone(
+        return Moment::fromStringInTimeZone(
             sprintf(
                 '%d-01-01 00:00:00',
                 $this->year,

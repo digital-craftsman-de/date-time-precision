@@ -8,7 +8,8 @@ The only class in the PHP SPL to work with dates and times is `DateTime` (and it
 
 Basically, every time you're not talking about a specific moment, the `DateTime` classes contain not just more informationen then needed, but even misleading information.
 
-This bundle / package tries to solve this issue by introducing value objects for the more precise sub sets like `Time`, `Date`, `Month` and `Year`. It's only a thin wrapper over `DateTime` and uses it internally for all modifications and comparisons. This way you don't have to make sure that your `DateTime` is
+This bundle / package tries to solve this issue by introducing a wrapper value object `Moment` for a moment in time and value objects for the more precise sub sets like `Time`, `Date`, `Month` and `Year`. 
+It's only a thin wrapper over `DateTime` and uses it internally for all modifications and comparisons. This way you don't have to make sure that your `DateTime` is
 
 - at a specific date to compare times.
 - at midnight to compare dates.
@@ -73,14 +74,14 @@ The resulting `$bookingsAllowedFrom` is still a date time with timezone `UTC` bu
 
 ## Integration
 
-For the best code readability, it's best to use the `DateTime` provided with the package as a full replacement for `\DateTime` or `\DateTimeImmutable`.
-The package provides normalizers and doctrine types for `DateTime` and all parts.
+For the best code readability, it's best to use the `Moment` provided with the package as a full replacement for `\DateTime` or `\DateTimeImmutable` when you're speaking about a moment in time and the others value objects for the rest.
+The package provides normalizers and doctrine types for `Moment` and all parts.
 
 ## Design
 
 ### Immutability
 
-All mutations on the `DateTime` and its parts are immutable.
+All mutations on the `Moment` and its parts are immutable.
 
 ## Contribution
 
