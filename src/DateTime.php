@@ -173,6 +173,13 @@ final class DateTime implements \Stringable
         );
     }
 
+    public function isDateNotAfterOrEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    {
+        return $this->dateInTimeZone($timeZone)->isNotAfterOrEqualTo(
+            $dateTime->dateInTimeZone($timeZone),
+        );
+    }
+
     public function isDateEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isEqualTo(
@@ -194,9 +201,23 @@ final class DateTime implements \Stringable
         );
     }
 
+    public function isDateNotBeforeInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    {
+        return $this->dateInTimeZone($timeZone)->isNotBefore(
+            $dateTime->dateInTimeZone($timeZone),
+        );
+    }
+
     public function isDateBeforeOrEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isBeforeOrEqualTo(
+            $dateTime->dateInTimeZone($timeZone),
+        );
+    }
+
+    public function isDateNotBeforeOrEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    {
+        return $this->dateInTimeZone($timeZone)->isNotBeforeOrEqualTo(
             $dateTime->dateInTimeZone($timeZone),
         );
     }
