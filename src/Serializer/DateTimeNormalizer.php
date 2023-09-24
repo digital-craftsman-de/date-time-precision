@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeParts\Serializer;
+namespace DigitalCraftsman\DateTimePrecision\Serializer;
 
-use DigitalCraftsman\DateTimeParts\DateTime;
+use DigitalCraftsman\DateTimePrecision\DateTime;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 

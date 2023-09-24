@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeParts\Month;
+namespace DigitalCraftsman\DateTimePrecision\Month;
 
-use DigitalCraftsman\DateTimeParts\DateTime;
-use DigitalCraftsman\DateTimeParts\Month;
+use DigitalCraftsman\DateTimePrecision\DateTime;
+use DigitalCraftsman\DateTimePrecision\Month;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Month */
+/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Month */
 final class ToDateTimeInTimeZoneTest extends TestCase
 {
     /**

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeParts\Time;
+namespace DigitalCraftsman\DateTimePrecision\Time;
 
-use DigitalCraftsman\DateTimeParts\Time;
+use DigitalCraftsman\DateTimePrecision\Time;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Time */
+/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Time */
 final class ToStringTest extends TestCase
 {
     /**

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeParts\Month;
+namespace DigitalCraftsman\DateTimePrecision\Month;
 
-use DigitalCraftsman\DateTimeParts\Month;
-use DigitalCraftsman\DateTimeParts\PeriodLimit;
+use DigitalCraftsman\DateTimePrecision\Month;
+use DigitalCraftsman\DateTimePrecision\PeriodLimit;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimeParts\Month */
+/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Month */
 final class MonthsUntilTest extends TestCase
 {
     /**

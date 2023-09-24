@@ -1,16 +1,16 @@
 services:
 
-  DigitalCraftsman\DateTimeParts\Serializer\DateTimeNormalizer:
+  DigitalCraftsman\DateTimePrecision\Serializer\DateTimeNormalizer:
     tags: [ { name: 'serializer.normalizer' } ]
 
-  DigitalCraftsman\DateTimeParts\Serializer\TimeNormalizer:
+  DigitalCraftsman\DateTimePrecision\Serializer\TimeNormalizer:
     tags: [ { name: 'serializer.normalizer' } ]
 
-  DigitalCraftsman\DateTimeParts\Serializer\DateNormalizer:
+  DigitalCraftsman\DateTimePrecision\Serializer\DateNormalizer:
     tags: [ { name: 'serializer.normalizer' } ]
 
-  DigitalCraftsman\DateTimeParts\Serializer\MonthNormalizer:
+  DigitalCraftsman\DateTimePrecision\Serializer\MonthNormalizer:
     tags: [ { name: 'serializer.normalizer' } ]
 
-  DigitalCraftsman\DateTimeParts\Serializer\YearNormalizer:
+  DigitalCraftsman\DateTimePrecision\Serializer\YearNormalizer:
     tags: [ { name: 'serializer.normalizer' } ]

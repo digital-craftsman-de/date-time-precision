@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimeParts;
+namespace DigitalCraftsman\DateTimePrecision;
 
 /** @psalm-immutable */
 final readonly class Date implements \Stringable
