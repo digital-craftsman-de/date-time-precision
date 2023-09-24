@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimeParts;
 
 /** @psalm-immutable */
-final class Year
+final readonly class Year
 {
     // -- Construction
 
     public function __construct(
-        public readonly int $year,
+        public int $year,
     ) {
     }
 

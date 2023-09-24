@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimeParts;
 
 /** @psalm-immutable */
-final class Date implements \Stringable
+final readonly class Date implements \Stringable
 {
     private const DATE_FORMAT = 'Y-m-d';
 
     // -- Construction
 
     public function __construct(
-        public readonly Month $month,
-        public readonly int $day,
+        public Month $month,
+        public int $day,
     ) {
     }
 
