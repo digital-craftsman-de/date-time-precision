@@ -10,6 +10,7 @@
 - Added support for PHP 8.3.
 - Added support for the new normalizer caching mechanism of Symfony 6.3.
 - Switched classes to be `readonly` (instead of just the properties).
+- Automatically register the Doctrine types.
 - Removed custom code in `Date` and `Month` and used PHP SPL to handle date comparisons.
 - Added `DateTime->isNotAfter`
 - Added `DateTime->isNotAfterOrEqualTo`.
