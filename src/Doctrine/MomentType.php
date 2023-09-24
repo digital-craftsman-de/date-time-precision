@@ -13,7 +13,7 @@ final class MomentType extends Type
     /** @codeCoverageIgnore */
     public function getName(): string
     {
-        return 'digital_craftsman_moment';
+        return 'dtp_moment';
     }
 
     /** @codeCoverageIgnore */

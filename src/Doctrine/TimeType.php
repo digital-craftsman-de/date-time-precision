@@ -13,7 +13,7 @@ final class TimeType extends Type
     /** @codeCoverageIgnore */
     public function getName(): string
     {
-        return 'digital_craftsman_time';
+        return 'dtp_time';
     }
 
     /** @codeCoverageIgnore */

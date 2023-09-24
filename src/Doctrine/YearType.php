@@ -13,7 +13,7 @@ final class YearType extends Type
     /** @codeCoverageIgnore */
     public function getName(): string
     {
-        return 'digital_craftsman_year';
+        return 'dtp_year';
     }
 
     /** @codeCoverageIgnore */

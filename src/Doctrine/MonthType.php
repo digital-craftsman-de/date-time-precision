@@ -13,7 +13,7 @@ final class MonthType extends StringType
     /** @codeCoverageIgnore */
     public function getName(): string
     {
-        return 'digital_craftsman_month';
+        return 'dtp_month';
     }
 
     /** @param Month|null $value */
