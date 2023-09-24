@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimeParts;
 
 /** @psalm-immutable */
-final class Time implements \Stringable
+final readonly class Time implements \Stringable
 {
     private const TIME_FORMAT = 'H:i:s.u';
     private const MINUTES_IN_AN_HOUR = 60;
@@ -13,10 +13,10 @@ final class Time implements \Stringable
     // -- Construction
 
     public function __construct(
-        public readonly int $hour,
-        public readonly int $minute,
-        public readonly int $second,
-        public readonly int $microsecond = 0,
+        public int $hour,
+        public int $minute,
+        public int $second,
+        public int $microsecond = 0,
     ) {
         if ($this->hour < 0
             || $this->hour > 23

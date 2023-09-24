@@ -2,7 +2,13 @@
 
 ## From 0.7.* to 0.8.0
 
-No breaking changes
+### Upgrade to at least PHP 8.2
+
+Support for PHP 8.1 was dropped, so you have to upgrade to at least PHP 8.2.
+
+### Dropped support for Symfony below 6.3
+
+Support for Symfony below 6.3 was dropped, so you have to upgrade to at least Symfony 6.3. This is the only way to prevent deprecations from being thrown for the cachable support.
 
 ## From 0.6.* to 0.7.0
 

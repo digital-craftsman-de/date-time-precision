@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimeParts;
 
-final class DateTime implements \Stringable
+final readonly class DateTime implements \Stringable
 {
     private const DATE_TIME_FORMAT = \DateTimeInterface::ATOM;
 
     // -- Construction
 
     public function __construct(
-        public readonly \DateTimeImmutable $dateTime,
+        public \DateTimeImmutable $dateTime,
     ) {
     }
 

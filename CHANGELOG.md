@@ -2,6 +2,11 @@
 
 ## 0.8.0
 
+- **[Breaking change](./UPGRADE.md#upgrade-to-at-least-php-82)**: Dropped support for PHP 8.1.
+**[Breaking change](./UPGRADE.md#dropped-support-for-symfony-below-63)**: Dropped support for Symfony below 6.3.
+- Added support for PHP 8.3.
+- Added support for the new normalizer caching mechanism of Symfony 6.3.
+- Switched classes to be `readonly` (instead of just the properties).
 - Removed custom code in `Date` and `Month` and used PHP SPL to handle date comparisons.
 - Added `DateTime->isNotAfter`
 - Added `DateTime->isNotAfterOrEqualTo`.

@@ -3,9 +3,9 @@
   "description": "A Symfony bundle to work with parts of what a DateTime consists of (Date, Time, Month and Year).",
   "type": "symfony-bundle",
   "require": {
-    "php": "8.1.*|8.2.*",
-    "symfony/framework-bundle": "^5.4|^6.0",
-    "symfony/serializer": "^5.4|^6.0",
+    "php": "8.2.*|8.3.*",
+    "symfony/framework-bundle": "^6.3",
+    "symfony/serializer": "^6.3",
     "doctrine/dbal": "^3.4.0"
   },
   "require-dev": {
