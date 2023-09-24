@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision\Month;
 
-use DigitalCraftsman\DateTimePrecision\DateTime;
+use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Month;
 use PHPUnit\Framework\TestCase;
 
@@ -19,7 +19,7 @@ final class ToDateTimeInTimeZoneTest extends TestCase
      * @covers ::toDateTimeInTimeZone
      */
     public function format_works(
-        DateTime $expectedResult,
+        Moment $expectedResult,
         Month $month,
         \DateTimeZone $timeZone,
     ): void {
@@ -29,7 +29,7 @@ final class ToDateTimeInTimeZoneTest extends TestCase
 
     /**
      * @return array<string, array{
-     *   0: DateTime,
+     *   0: Moment,
      *   1: Month,
      *   2: \DateTimeZone,
      * }>
@@ -38,12 +38,12 @@ final class ToDateTimeInTimeZoneTest extends TestCase
     {
         return [
             'october 2022 in Europe/Berlin' => [
-                DateTime::fromStringInTimeZone('2022-10-01 00:00:00', new \DateTimeZone('Europe/Berlin')),
+                Moment::fromStringInTimeZone('2022-10-01 00:00:00', new \DateTimeZone('Europe/Berlin')),
                 Month::fromString('2022-10'),
                 new \DateTimeZone('Europe/Berlin'),
             ],
             'october 2023 in UTC' => [
-                DateTime::fromStringInTimeZone('2023-10-01 00:00:00', new \DateTimeZone('UTC')),
+                Moment::fromStringInTimeZone('2023-10-01 00:00:00', new \DateTimeZone('UTC')),
                 Month::fromString('2023-10'),
                 new \DateTimeZone('UTC'),
             ],
