@@ -1,6 +1,6 @@
 # Using `DateTime` with precision
 
-The only class in the PHP SPL to work with dates and times is `DateTime`. It represents a specific moment in time in a specific timezone (whether that timezone/offset is explicitly defined or not). Unfortunately dates are complex and there is more than just a moment in time. For example there are
+The only class in the PHP SPL to work with dates and times is `DateTime` (and it's immutable counterpart). It represents a specific moment in time in a specific timezone (whether that timezone/offset is explicitly defined or not). Unfortunately dates are complex and there is more than just a moment in time. For example there are
 
 - time of day which is relevant on every day (like business hours).
 - a specific date (like Christmas) which isn't bound to a timezone.
