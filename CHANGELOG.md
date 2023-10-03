@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.1
+
+- Added missing return type in `DateTimePrecisionExtension`.
+
 ## 0.8.0
 
 - **[Breaking change](./UPGRADE.md#upgrade-to-at-least-php-82)**: Dropped support for PHP 8.1.
