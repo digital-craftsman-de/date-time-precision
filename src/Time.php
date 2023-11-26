@@ -45,7 +45,10 @@ final readonly class Time implements \Stringable
 
     public static function fromDateTime(\DateTimeImmutable $dateTime): self
     {
-        /** @psalm-suppress PossiblyNullArrayAccess */
+        /**
+         * @psalm-suppress PossiblyNullArrayAccess
+         * @psalm-suppress PossiblyUndefinedArrayOffset
+         */
         [$hour, $minute, $second, $microsecond] = sscanf(
             $dateTime->format('H-i-s.u'),
             '%d-%d-%d.%d',

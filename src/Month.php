@@ -19,7 +19,10 @@ final readonly class Month implements \Stringable
 
     public static function fromDateTime(\DateTimeImmutable $dateTime): self
     {
-        /** @psalm-suppress PossiblyNullArrayAccess */
+        /**
+         * @psalm-suppress PossiblyNullArrayAccess
+         * @psalm-suppress PossiblyUndefinedArrayOffset
+         */
         [$year, $month] = sscanf(
             $dateTime->format('Y-n'),
             '%d-%d',

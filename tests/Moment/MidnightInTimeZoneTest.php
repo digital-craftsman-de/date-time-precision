@@ -30,6 +30,7 @@ final class MidnightInTimeZoneTest extends TestCase
      * @return array<string, array{
      *   0: Moment,
      *   1: Moment,
+     *   2: \DateTimeZone,
      * }>
      */
     public function dataProvider(): array
