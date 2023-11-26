@@ -92,128 +92,128 @@ final readonly class Moment implements \Stringable
             ->year();
     }
 
-    public function isEqualTo(self $dateTime): bool
+    public function isEqualTo(self $moment): bool
     {
-        return $this->dateTime == $dateTime->dateTime;
+        return $this->dateTime == $moment->dateTime;
     }
 
-    public function isNotEqualTo(self $dateTime): bool
+    public function isNotEqualTo(self $moment): bool
     {
-        return $this->dateTime != $dateTime->dateTime;
+        return $this->dateTime != $moment->dateTime;
     }
 
-    public function isAfter(self $dateTime): bool
+    public function isAfter(self $moment): bool
     {
-        return $this->dateTime > $dateTime->dateTime;
+        return $this->dateTime > $moment->dateTime;
     }
 
-    public function isNotAfter(self $dateTime): bool
+    public function isNotAfter(self $moment): bool
     {
-        return !($this->dateTime > $dateTime->dateTime);
+        return !($this->dateTime > $moment->dateTime);
     }
 
-    public function isAfterOrEqualTo(self $dateTime): bool
+    public function isAfterOrEqualTo(self $moment): bool
     {
-        return $this->dateTime >= $dateTime->dateTime;
+        return $this->dateTime >= $moment->dateTime;
     }
 
-    public function isNotAfterOrEqualTo(self $dateTime): bool
+    public function isNotAfterOrEqualTo(self $moment): bool
     {
-        return !($this->dateTime >= $dateTime->dateTime);
+        return !($this->dateTime >= $moment->dateTime);
     }
 
-    public function isBeforeOrEqualTo(self $dateTime): bool
+    public function isBeforeOrEqualTo(self $moment): bool
     {
-        return $this->dateTime <= $dateTime->dateTime;
+        return $this->dateTime <= $moment->dateTime;
     }
 
-    public function isNotBeforeOrEqualTo(self $dateTime): bool
+    public function isNotBeforeOrEqualTo(self $moment): bool
     {
-        return !($this->dateTime <= $dateTime->dateTime);
+        return !($this->dateTime <= $moment->dateTime);
     }
 
-    public function isBefore(self $dateTime): bool
+    public function isBefore(self $moment): bool
     {
-        return $this->dateTime < $dateTime->dateTime;
+        return $this->dateTime < $moment->dateTime;
     }
 
-    public function isNotBefore(self $dateTime): bool
+    public function isNotBefore(self $moment): bool
     {
-        return !($this->dateTime < $dateTime->dateTime);
+        return !($this->dateTime < $moment->dateTime);
     }
 
-    public function compareTo(self $dateTime): int
+    public function compareTo(self $moment): int
     {
-        return $this->dateTime <=> $dateTime->dateTime;
+        return $this->dateTime <=> $moment->dateTime;
     }
 
-    public function isDateAfterInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    public function isDateAfterInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isAfter(
-            $dateTime->dateInTimeZone($timeZone),
+            $moment->dateInTimeZone($timeZone),
         );
     }
 
-    public function isDateNotAfterInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    public function isDateNotAfterInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isNotAfter(
-            $dateTime->dateInTimeZone($timeZone),
+            $moment->dateInTimeZone($timeZone),
         );
     }
 
-    public function isDateAfterOrEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    public function isDateAfterOrEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isAfterOrEqualTo(
-            $dateTime->dateInTimeZone($timeZone),
+            $moment->dateInTimeZone($timeZone),
         );
     }
 
-    public function isDateNotAfterOrEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    public function isDateNotAfterOrEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isNotAfterOrEqualTo(
-            $dateTime->dateInTimeZone($timeZone),
+            $moment->dateInTimeZone($timeZone),
         );
     }
 
-    public function isDateEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    public function isDateEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isEqualTo(
-            $dateTime->dateInTimeZone($timeZone),
+            $moment->dateInTimeZone($timeZone),
         );
     }
 
-    public function isDateNotEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    public function isDateNotEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isNotEqualTo(
-            $dateTime->dateInTimeZone($timeZone),
+            $moment->dateInTimeZone($timeZone),
         );
     }
 
-    public function isDateBeforeInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    public function isDateBeforeInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isBefore(
-            $dateTime->dateInTimeZone($timeZone),
+            $moment->dateInTimeZone($timeZone),
         );
     }
 
-    public function isDateNotBeforeInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    public function isDateNotBeforeInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isNotBefore(
-            $dateTime->dateInTimeZone($timeZone),
+            $moment->dateInTimeZone($timeZone),
         );
     }
 
-    public function isDateBeforeOrEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    public function isDateBeforeOrEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isBeforeOrEqualTo(
-            $dateTime->dateInTimeZone($timeZone),
+            $moment->dateInTimeZone($timeZone),
         );
     }
 
-    public function isDateNotBeforeOrEqualToInTimeZone(self $dateTime, \DateTimeZone $timeZone): bool
+    public function isDateNotBeforeOrEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isNotBeforeOrEqualTo(
-            $dateTime->dateInTimeZone($timeZone),
+            $moment->dateInTimeZone($timeZone),
         );
     }
 
