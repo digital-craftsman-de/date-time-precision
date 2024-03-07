@@ -31,7 +31,7 @@ final class IsAtMidnightTest extends TestCase
      *   1: Moment,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'midnight at 00:00:00' => [

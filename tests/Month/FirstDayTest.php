@@ -32,7 +32,7 @@ final class FirstDayTest extends TestCase
      *   1: Month,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'januar 2022' => [

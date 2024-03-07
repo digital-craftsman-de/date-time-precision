@@ -36,7 +36,7 @@ final class YearsUntilTest extends TestCase
      *   3: PeriodLimit,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'two years apart with start and end included' => [

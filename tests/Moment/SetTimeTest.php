@@ -34,7 +34,7 @@ final class SetTimeTest extends TestCase
      *   2: Time,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'set time in UTC' => [

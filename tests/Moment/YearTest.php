@@ -32,7 +32,7 @@ final class YearTest extends TestCase
      *   1: Moment,
      * }>
      */
-    public function dataProviderForYear(): array
+    public static function dataProviderForYear(): array
     {
         return [
             'same year in UTC' => [
@@ -74,7 +74,7 @@ final class YearTest extends TestCase
      *   2: \DateTimeZone,
      * }>
      */
-    public function dataProviderForYearInTimeZone(): array
+    public static function dataProviderForYearInTimeZone(): array
     {
         return [
             'same year in UTC' => [

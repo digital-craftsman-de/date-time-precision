@@ -35,7 +35,7 @@ final class IsDateBeforeOrEqualToInTimeZoneTest extends TestCase
      *   3: \DateTimeZone
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'previous day in UTC' => [

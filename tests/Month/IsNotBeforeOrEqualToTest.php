@@ -33,7 +33,7 @@ final class IsNotBeforeOrEqualToTest extends TestCase
      *   2: Month,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'previous year' => [

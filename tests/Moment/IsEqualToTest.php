@@ -33,7 +33,7 @@ final class IsEqualToTest extends TestCase
      *   2: Moment,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'is equal' => [

@@ -33,7 +33,7 @@ final class ToTimeZoneTest extends TestCase
      *   2: \DateTimeZone,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'from UTC to Europe/Berlin' => [

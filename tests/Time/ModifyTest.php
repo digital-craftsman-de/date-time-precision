@@ -33,7 +33,7 @@ final class ModifyTest extends TestCase
      *   2: string,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'subtract one minute' => [

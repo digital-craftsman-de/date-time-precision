@@ -36,7 +36,7 @@ final class MonthsUntilTest extends TestCase
      *   3: PeriodLimit,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'two months apart with start and end included' => [

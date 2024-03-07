@@ -32,7 +32,7 @@ final class MonthTest extends TestCase
      *   1: Moment,
      * }>
      */
-    public function dataProviderForMonth(): array
+    public static function dataProviderForMonth(): array
     {
         return [
             'same month in UTC' => [
@@ -74,7 +74,7 @@ final class MonthTest extends TestCase
      *   2: \DateTimeZone,
      * }>
      */
-    public function dataProviderForMonthInTimeZone(): array
+    public static function dataProviderForMonthInTimeZone(): array
     {
         return [
             'same month in UTC' => [
