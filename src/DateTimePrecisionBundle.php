@@ -6,9 +6,7 @@ use DigitalCraftsman\DateTimePrecision\DependencyInjection\DoctrineTypeRegisterC
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-/**
- * @codeCoverageIgnore
- */
+/** @codeCoverageIgnore */
 final class DateTimePrecisionBundle extends Bundle
 {
     public function build(ContainerBuilder $container): void
