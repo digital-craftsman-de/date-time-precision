@@ -1,5 +1,11 @@
 # Upgrade guide
 
+## From 0.8.* to 0.9.0
+
+### Dropped support for Symfony 6.3
+
+Support for Symfony 6.3 was dropped, so you have to upgrade to at least Symfony 6.4. You can also immediately upgrade to Symfony 7.
+
 ## From 0.7.* to 0.8.0
 
 ### Upgrade to at least PHP 8.2
