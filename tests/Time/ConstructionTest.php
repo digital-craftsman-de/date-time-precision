@@ -38,7 +38,7 @@ final class ConstructionTest extends TestCase
      *   3: int,
      * }>
      */
-    public function dataProviderConstructWorks(): array
+    public static function dataProviderConstructWorks(): array
     {
         return [
             'upper border of hour' => [
@@ -120,7 +120,7 @@ final class ConstructionTest extends TestCase
      *   3: int,
      * }>
      */
-    public function dataProviderConstructDoesNotWork(): array
+    public static function dataProviderConstructDoesNotWork(): array
     {
         return [
             'hour to high' => [

@@ -32,7 +32,7 @@ final class DateTest extends TestCase
      *   1: Moment,
      * }>
      */
-    public function dataProviderForDate(): array
+    public static function dataProviderForDate(): array
     {
         return [
             'same date in UTC' => [

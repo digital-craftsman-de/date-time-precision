@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.0
+
+- **[Breaking change](./UPGRADE.md#dropped-support-for-symfony-63)**: Dropped support for Symfony 6.3.
+- Added support for Symfony 7.
+- Fixed naming in functions of `Moment` class. Parameter was called `$dateTime`, but should have been `$moment`.
+
 ## 0.8.1
 
 - Added missing return type in `DateTimePrecisionExtension`.

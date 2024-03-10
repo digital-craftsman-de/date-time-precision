@@ -34,7 +34,7 @@ final class FormatTest extends TestCase
      *   2: string,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'format to atom' => [

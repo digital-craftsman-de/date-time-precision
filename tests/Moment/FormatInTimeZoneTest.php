@@ -35,7 +35,7 @@ final class FormatInTimeZoneTest extends TestCase
      *   3: \DateTimeZone,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'format to atom' => [

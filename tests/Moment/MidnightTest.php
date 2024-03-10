@@ -31,7 +31,7 @@ final class MidnightTest extends TestCase
      *   1: Moment,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'midnight from 15:00:00' => [

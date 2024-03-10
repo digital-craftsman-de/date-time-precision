@@ -32,7 +32,7 @@ final class TimeTest extends TestCase
      *   1: Moment,
      * }>
      */
-    public function dataProviderForTime(): array
+    public static function dataProviderForTime(): array
     {
         return [
             'same time in UTC' => [
@@ -70,7 +70,7 @@ final class TimeTest extends TestCase
      *   2: \DateTimeZone,
      * }>
      */
-    public function dataProviderForTimeInTimeZone(): array
+    public static function dataProviderForTimeInTimeZone(): array
     {
         return [
             'same time in UTC' => [

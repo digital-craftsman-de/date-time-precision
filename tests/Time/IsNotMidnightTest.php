@@ -31,7 +31,7 @@ final class IsNotMidnightTest extends TestCase
      *   1: Time,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'at not midnight' => [

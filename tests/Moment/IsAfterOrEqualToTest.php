@@ -33,7 +33,7 @@ final class IsAfterOrEqualToTest extends TestCase
      *   2: Moment,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'previous year' => [

@@ -33,7 +33,7 @@ final class IsAfterTest extends TestCase
      *   2: Date,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'previous year' => [

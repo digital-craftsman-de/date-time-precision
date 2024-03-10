@@ -19,7 +19,10 @@ final readonly class Date implements \Stringable
 
     public static function fromDateTime(\DateTimeImmutable $dateTime): self
     {
-        /** @psalm-suppress PossiblyNullArrayAccess */
+        /**
+         * @psalm-suppress PossiblyNullArrayAccess
+         * @psalm-suppress PossiblyUndefinedArrayOffset
+         */
         [$year, $month, $day] = sscanf(
             $dateTime->format(self::DATE_FORMAT),
             '%d-%d-%d',

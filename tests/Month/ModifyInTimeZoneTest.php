@@ -35,7 +35,7 @@ final class ModifyInTimeZoneTest extends TestCase
      *   3: \DateTimeZone,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'october 2022 + 1 month in Europe/Berlin' => [

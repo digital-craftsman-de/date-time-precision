@@ -33,7 +33,7 @@ final class IsBeforeTest extends TestCase
      *   2: Time,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             '1 hour after' => [

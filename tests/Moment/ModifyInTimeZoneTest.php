@@ -35,7 +35,7 @@ final class ModifyInTimeZoneTest extends TestCase
      *   3: string,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'subtract 15 minutes' => [

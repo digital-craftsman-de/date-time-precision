@@ -34,7 +34,7 @@ final class ToMomentInTimeZoneTest extends TestCase
      *   2: \DateTimeZone,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'october 2022 in Europe/Berlin' => [

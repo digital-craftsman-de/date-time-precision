@@ -33,7 +33,7 @@ final class IsAtMidnightInTimeZoneTest extends TestCase
      *   2: \DateTimeZone,
      * }>
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'midnight at 00:00:00 in UTC' => [

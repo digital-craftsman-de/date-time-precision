@@ -34,7 +34,7 @@ final class DateInTimeZoneTest extends TestCase
      *   2: \DateTimeZone,
      * }>
      */
-    public function dataProviderForDateInTimeZone(): array
+    public static function dataProviderForDateInTimeZone(): array
     {
         return [
             'same date in UTC' => [

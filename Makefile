@@ -52,23 +52,23 @@ reset: .reset
 .PHONY: .reset
 .reset: .down .install .up
 
-## install			Install PHP dependencies with the default PHP version (8.2).
+## install			Install PHP dependencies with PHP 8.3.
 .PHONY: .install
-install: install-8.2
+install: install-8.3
 
 ## install-8.2			Install PHP dependencies with PHP 8.2.
 .PHONY: install-8.2
 install-8.2:
 	docker-compose run --rm php-8.2 composer install
 
-## install-8.3			Install PHP dependencies with PHP 8.3.
+## install-8.3			Install PHP dependencies with the default PHP version (8.3).
 .PHONY: install-8.3
 install-8.3:
-	docker-compose run --rm php-8.2 composer install
+	docker-compose run --rm php-8.3 composer install
 
-## php-cli			Enter a shell for the default PHP version (8.2).
+## php-cli			Enter a shell for the default PHP version (8.3).
 .PHONY: .php-cli
-php-cli: php-8.2-cli
+php-cli: php-8.3-cli
 
 ## php-8.2-cli			Enter a shell for PHP 8.2.
 .PHONY: php-8.2-cli
@@ -116,13 +116,13 @@ php-8.3-tests-html-coverage:
 ## php-code-validation		Run code fixers and linters with default PHP version (8.2).
 .PHONY: php-code-validation
 php-code-validation:
-	docker-compose run --rm php-8.2 ./vendor/bin/php-cs-fixer fix
-	docker-compose run --rm php-8.2 ./vendor/bin/psalm --show-info=false --no-diff
+	docker-compose run --rm php-8.3 ./vendor/bin/php-cs-fixer fix
+	docker-compose run --rm php-8.3 ./vendor/bin/psalm --show-info=false --no-diff
 
 ## php-mutation-testing		Run mutation testing with default PHP version (8.2).
 .PHONY: php-mutation-testing
 php-mutation-testing:
-	docker-compose run --rm php-8.2 ./vendor/bin/infection --show-mutations --only-covered --threads=8
+	docker-compose run --rm php-8.3 ./vendor/bin/infection --show-mutations --only-covered --threads=8
 
 ##
 ## CI
@@ -142,4 +142,4 @@ php-8.3-tests-ci:
 ## php-mutation-testing-ci	Run mutation testing for CI.
 .PHONY: php-mutation-testing-ci
 php-mutation-testing-ci:
-	docker-compose run --rm php-8.2 ./vendor/bin/infection --only-covered --threads=max
+	docker-compose run --rm php-8.3 ./vendor/bin/infection --only-covered --threads=max
