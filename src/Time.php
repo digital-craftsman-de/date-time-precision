@@ -86,72 +86,52 @@ final readonly class Time implements \Stringable
 
     public function isAfter(self $time): bool
     {
-        $thisAsDateTime = $this->toDateTimeImmutable();
-        $comparedTo = $thisAsDateTime->setTime(
-            $time->hour,
-            $time->minute,
-            $time->second,
-            $time->microsecond,
-        );
+        return $this->toDateTimeImmutable() > $time->toDateTimeImmutable();
+    }
 
-        return $thisAsDateTime > $comparedTo;
+    public function isNotAfter(self $time): bool
+    {
+        return !($this->toDateTimeImmutable() > $time->toDateTimeImmutable());
     }
 
     public function isAfterOrEqualTo(self $time): bool
     {
-        $thisAsDateTime = $this->toDateTimeImmutable();
-        $comparedTo = $thisAsDateTime->setTime(
-            $time->hour,
-            $time->minute,
-            $time->second,
-            $time->microsecond,
-        );
+        return $this->toDateTimeImmutable() >= $time->toDateTimeImmutable();
+    }
 
-        return $thisAsDateTime >= $comparedTo;
+    public function isNotAfterOrEqualTo(self $time): bool
+    {
+        return !($this->toDateTimeImmutable() >= $time->toDateTimeImmutable());
     }
 
     public function isEqualTo(self $time): bool
     {
-        $thisAsDateTime = $this->toDateTimeImmutable();
-        $comparedTo = $thisAsDateTime->setTime(
-            $time->hour,
-            $time->minute,
-            $time->second,
-            $time->microsecond,
-        );
-
-        return $thisAsDateTime == $comparedTo;
+        return $this->toDateTimeImmutable() == $time->toDateTimeImmutable();
     }
 
     public function isNotEqualTo(self $time): bool
     {
-        return !$this->isEqualTo($time);
+        return $this->toDateTimeImmutable() != $time->toDateTimeImmutable();
     }
 
     public function isBefore(self $time): bool
     {
-        $thisAsDateTime = $this->toDateTimeImmutable();
-        $comparedTo = $thisAsDateTime->setTime(
-            $time->hour,
-            $time->minute,
-            $time->second,
-            $time->microsecond,
-        );
+        return $this->toDateTimeImmutable() < $time->toDateTimeImmutable();
+    }
 
-        return $thisAsDateTime < $comparedTo;
+    public function isNotBefore(self $time): bool
+    {
+        return !($this->toDateTimeImmutable() < $time->toDateTimeImmutable());
     }
 
     public function isBeforeOrEqualTo(self $time): bool
     {
-        $thisAsDateTime = $this->toDateTimeImmutable();
-        $comparedTo = $thisAsDateTime->setTime(
-            $time->hour,
-            $time->minute,
-            $time->second,
-            $time->microsecond,
-        );
+        return $this->toDateTimeImmutable() <= $time->toDateTimeImmutable();
+    }
 
-        return $thisAsDateTime <= $comparedTo;
+    public function isNotBeforeOrEqualTo(self $time): bool
+    {
+        return !($this->toDateTimeImmutable() <= $time->toDateTimeImmutable());
     }
 
     public function isMidnight(): bool
@@ -164,7 +144,10 @@ final readonly class Time implements \Stringable
 
     public function isNotMidnight(): bool
     {
-        return !$this->isMidnight();
+        return $this->hour !== 0
+            || $this->minute !== 0
+            || $this->second !== 0
+            || $this->microsecond !== 0;
     }
 
     public function compareTo(self $time): int
