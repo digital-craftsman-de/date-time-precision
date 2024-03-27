@@ -268,7 +268,9 @@ final readonly class Moment implements \Stringable
         return $this->dateTime <=> $moment->dateTime;
     }
 
-    /** @deprecated Will be removed in one of the next minor releases */
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isAfterInTimeZone instead.
+     */
     public function isDateAfterInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isAfter(
@@ -276,7 +278,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
-    /** @deprecated Will be removed in one of the next minor releases */
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isNotAfterInTimeZone instead.
+     */
     public function isDateNotAfterInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isNotAfter(
@@ -284,7 +288,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
-    /** @deprecated Will be removed in one of the next minor releases */
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isAfterOrEqualToInTimeZone instead.
+     */
     public function isDateAfterOrEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isAfterOrEqualTo(
@@ -292,7 +298,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
-    /** @deprecated Will be removed in one of the next minor releases */
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isNotAfterOrEqualToInTimeZone instead.
+     */
     public function isDateNotAfterOrEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isNotAfterOrEqualTo(
@@ -300,7 +308,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
-    /** @deprecated Will be removed in one of the next minor releases */
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isEqualToInTimeZone instead.
+     */
     public function isDateEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isEqualTo(
@@ -308,7 +318,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
-    /** @deprecated Will be removed in one of the next minor releases */
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isNotEqualToInTimeZone instead.
+     */
     public function isDateNotEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isNotEqualTo(
@@ -316,7 +328,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
-    /** @deprecated Will be removed in one of the next minor releases */
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isBeforeInTimeZone instead.
+     */
     public function isDateBeforeInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isBefore(
@@ -324,7 +338,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
-    /** @deprecated Will be removed in one of the next minor releases */
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isNotBeforeInTimeZone instead.
+     */
     public function isDateNotBeforeInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isNotBefore(
@@ -332,7 +348,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
-    /** @deprecated Will be removed in one of the next minor releases */
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isBeforeOrEqualToInTimeZone instead.
+     */
     public function isDateBeforeOrEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isBeforeOrEqualTo(
@@ -340,7 +358,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
-    /** @deprecated Will be removed in one of the next minor releases */
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isNotBeforeOrEqualToInTimeZone instead.
+     */
     public function isDateNotBeforeOrEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isNotBeforeOrEqualTo(
