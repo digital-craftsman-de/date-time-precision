@@ -42,7 +42,7 @@ composer require digital-craftsman/date-time-precision
 
 Basically whenever you use a `DateTime` object for something other than a single moment.
 
-Storing more information in those cases just lead to more questions, like "When storing the month, do we store the first of month at midnight?" and therefore increases complexity. Additionally, you need mutate or reduce the point in time to be able to compare it. With the package it will be as easy as:
+Storing more information in those cases just lead to more questions, like "When storing the month, do we store the first day of month at midnight, and if so, in which time zone?" and therefore increases complexity. Additionally, you need mutate or reduce the point in time to be able to compare it. With the package it will be as easy as:
 
 ```php
 if ($now->isBeforeInTimeZone($facility->openFrom, $facilityTimeZone)) {
