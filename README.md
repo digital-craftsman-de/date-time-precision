@@ -51,7 +51,7 @@ if ($now->isBeforeInTimeZone($facility->openFrom, $facilityTimeZone)) {
 ```
 `$now` is a `Moment` (in UTC) and `$facility->openFrom` is a `Time` (in the timezone of the facility).
 
-The idea is that your system and all variables can still remain in the timezone `UTC` and you only call mutations on it when needed for a comparison.
+The idea is that your system can run in `UTC` and all moments are in the timezone `UTC`. But all values that have an implicit time zone like a date or a time of day will be stored with just the data needed. This way we're getting rid of additional data that creates more surface for possible bugs. Through precise value objects and specific comparison functions, the code is more readable than before.
 
 ```php
 if ($now->isBeforeInTimeZone($facility->earliestDayOfBooking)) {
