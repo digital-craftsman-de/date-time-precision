@@ -45,24 +45,20 @@ Basically whenever you use a `DateTime` object for something other than a single
 Storing more information in those cases just lead to more questions, like "When storing the month, do we store the first of month at midnight?" and therefore increases complexity. Additionally, you need mutate or reduce the point in time to be able to compare it. With the package it will be as easy as:
 
 ```php
-if ($now
-    ->timeInTimeZone($facilityTimeZone)
-    ->isBefore($facility->openFrom)
-) {
+if ($now->isBeforeInTimeZone($facility->openFrom, $facilityTimeZone)) {
     throw new FacilityIsNotOpenYet();
 }
 ```
+`$now` is a `Moment` (in UTC) and `$facility->openFrom` is a `Time` (in the timezone of the facility).
 
 The idea is that your system and all variables can still remain in the timezone `UTC` and you only call mutations on it when needed for a comparison.
 
 ```php
-if ($now
-    ->dateInTimeZone($facilityTimeZone)
-    ->isBefore($facility->earliestDayOfBooking)
-) {
+if ($now->isBeforeInTimeZone($facility->earliestDayOfBooking)) {
     throw new BookingNotPossibleYet();
 }
 ```
+`$now` is a `Moment` (in UTC) and `$facility->earliestDayOfBooking` is a `Date` (in the timezone of the facility). The same method `isBeforeInTimeZone` that is used previously for the time comparison is the same that is used here. Depending on the type of the second parameter, the comparison is done on the relevant part of the moment.
 
 Modifications work the same way.
 
