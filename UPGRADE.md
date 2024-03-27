@@ -1,5 +1,9 @@
 # Upgrade guide
 
+## From 0.9.* to 0.10.0
+
+No breaking changes (just deprecations).
+
 ## From 0.8.* to 0.9.0
 
 ### Dropped support for Symfony 6.3
