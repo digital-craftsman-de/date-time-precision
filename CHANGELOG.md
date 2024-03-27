@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.0
+
+- Added `is*InTimeZone(Time | Date | Month | Year $equalTo, \DateTimeZone $timeZone): bool` methods to `Moment`.
+- Added missing comparison methods to `Time` (like `isNotAfter(self $time): bool`).
+- Deprecated `isDate*InTimeZone` methods from `Moment` (will be removed in next minor version).
+
 ## 0.9.0
 
 - **[Breaking change](./UPGRADE.md#dropped-support-for-symfony-63)**: Dropped support for Symfony 6.3.

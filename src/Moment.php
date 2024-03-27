@@ -97,9 +97,33 @@ final readonly class Moment implements \Stringable
         return $this->dateTime == $moment->dateTime;
     }
 
+    public function isEqualToInTimeZone(
+        Time | Date | Month | Year $comparator,
+        \DateTimeZone $timeZone,
+    ): bool {
+        return match (true) {
+            $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isEqualTo($comparator),
+            $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isEqualTo($comparator),
+            $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isEqualTo($comparator),
+            $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isEqualTo($comparator),
+        };
+    }
+
     public function isNotEqualTo(self $moment): bool
     {
         return $this->dateTime != $moment->dateTime;
+    }
+
+    public function isNotEqualToInTimeZone(
+        Time | Date | Month | Year $comparator,
+        \DateTimeZone $timeZone,
+    ): bool {
+        return match (true) {
+            $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isNotEqualTo($comparator),
+            $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isNotEqualTo($comparator),
+            $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isNotEqualTo($comparator),
+            $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isNotEqualTo($comparator),
+        };
     }
 
     public function isAfter(self $moment): bool
@@ -107,9 +131,33 @@ final readonly class Moment implements \Stringable
         return $this->dateTime > $moment->dateTime;
     }
 
+    public function isAfterInTimeZone(
+        Time | Date | Month | Year $comparator,
+        \DateTimeZone $timeZone,
+    ): bool {
+        return match (true) {
+            $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isAfter($comparator),
+            $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isAfter($comparator),
+            $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isAfter($comparator),
+            $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isAfter($comparator),
+        };
+    }
+
     public function isNotAfter(self $moment): bool
     {
         return !($this->dateTime > $moment->dateTime);
+    }
+
+    public function isNotAfterInTimeZone(
+        Time | Date | Month | Year $comparator,
+        \DateTimeZone $timeZone,
+    ): bool {
+        return match (true) {
+            $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isNotAfter($comparator),
+            $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isNotAfter($comparator),
+            $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isNotAfter($comparator),
+            $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isNotAfter($comparator),
+        };
     }
 
     public function isAfterOrEqualTo(self $moment): bool
@@ -117,9 +165,33 @@ final readonly class Moment implements \Stringable
         return $this->dateTime >= $moment->dateTime;
     }
 
+    public function isAfterOrEqualToInTimeZone(
+        Time | Date | Month | Year $comparator,
+        \DateTimeZone $timeZone,
+    ): bool {
+        return match (true) {
+            $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isAfterOrEqualTo($comparator),
+            $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isAfterOrEqualTo($comparator),
+            $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isAfterOrEqualTo($comparator),
+            $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isAfterOrEqualTo($comparator),
+        };
+    }
+
     public function isNotAfterOrEqualTo(self $moment): bool
     {
         return !($this->dateTime >= $moment->dateTime);
+    }
+
+    public function isNotAfterOrEqualToInTimeZone(
+        Time | Date | Month | Year $comparator,
+        \DateTimeZone $timeZone,
+    ): bool {
+        return match (true) {
+            $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isNotAfterOrEqualTo($comparator),
+            $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isNotAfterOrEqualTo($comparator),
+            $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isNotAfterOrEqualTo($comparator),
+            $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isNotAfterOrEqualTo($comparator),
+        };
     }
 
     public function isBeforeOrEqualTo(self $moment): bool
@@ -127,14 +199,51 @@ final readonly class Moment implements \Stringable
         return $this->dateTime <= $moment->dateTime;
     }
 
+    public function isBeforeOrEqualToInTimeZone(
+        Time | Date | Month | Year $comparator,
+        \DateTimeZone $timeZone,
+    ): bool {
+        return match (true) {
+            $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isBeforeOrEqualTo($comparator),
+            $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isBeforeOrEqualTo($comparator),
+            $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isBeforeOrEqualTo($comparator),
+            $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isBeforeOrEqualTo($comparator),
+        };
+    }
+
     public function isNotBeforeOrEqualTo(self $moment): bool
     {
         return !($this->dateTime <= $moment->dateTime);
     }
 
-    public function isBefore(self $moment): bool
-    {
-        return $this->dateTime < $moment->dateTime;
+    public function isNotBeforeOrEqualToInTimeZone(
+        Time | Date | Month | Year $comparator,
+        \DateTimeZone $timeZone,
+    ): bool {
+        return match (true) {
+            $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isNotBeforeOrEqualTo($comparator),
+            $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isNotBeforeOrEqualTo($comparator),
+            $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isNotBeforeOrEqualTo($comparator),
+            $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isNotBeforeOrEqualTo($comparator),
+        };
+    }
+
+    public function isBefore(
+        self $before,
+    ): bool {
+        return $this->dateTime < $before->dateTime;
+    }
+
+    public function isBeforeInTimeZone(
+        Time | Date | Month | Year $comparator,
+        \DateTimeZone $timeZone,
+    ): bool {
+        return match (true) {
+            $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isBefore($comparator),
+            $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isBefore($comparator),
+            $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isBefore($comparator),
+            $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isBefore($comparator),
+        };
     }
 
     public function isNotBefore(self $moment): bool
@@ -142,11 +251,26 @@ final readonly class Moment implements \Stringable
         return !($this->dateTime < $moment->dateTime);
     }
 
+    public function isNotBeforeInTimeZone(
+        Time | Date | Month | Year $comparator,
+        \DateTimeZone $timeZone,
+    ): bool {
+        return match (true) {
+            $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isNotBefore($comparator),
+            $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isNotBefore($comparator),
+            $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isNotBefore($comparator),
+            $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isNotBefore($comparator),
+        };
+    }
+
     public function compareTo(self $moment): int
     {
         return $this->dateTime <=> $moment->dateTime;
     }
 
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isAfterInTimeZone instead.
+     */
     public function isDateAfterInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isAfter(
@@ -154,6 +278,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isNotAfterInTimeZone instead.
+     */
     public function isDateNotAfterInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isNotAfter(
@@ -161,6 +288,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isAfterOrEqualToInTimeZone instead.
+     */
     public function isDateAfterOrEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isAfterOrEqualTo(
@@ -168,6 +298,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isNotAfterOrEqualToInTimeZone instead.
+     */
     public function isDateNotAfterOrEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isNotAfterOrEqualTo(
@@ -175,6 +308,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isEqualToInTimeZone instead.
+     */
     public function isDateEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isEqualTo(
@@ -182,6 +318,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isNotEqualToInTimeZone instead.
+     */
     public function isDateNotEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isNotEqualTo(
@@ -189,6 +328,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isBeforeInTimeZone instead.
+     */
     public function isDateBeforeInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isBefore(
@@ -196,6 +338,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isNotBeforeInTimeZone instead.
+     */
     public function isDateNotBeforeInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isNotBefore(
@@ -203,6 +348,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isBeforeOrEqualToInTimeZone instead.
+     */
     public function isDateBeforeOrEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isBeforeOrEqualTo(
@@ -210,6 +358,9 @@ final readonly class Moment implements \Stringable
         );
     }
 
+    /**
+     * @deprecated Will be removed in one of the next minor releases. Use @see Date->isNotBeforeOrEqualToInTimeZone instead.
+     */
     public function isDateNotBeforeOrEqualToInTimeZone(self $moment, \DateTimeZone $timeZone): bool
     {
         return $this->dateInTimeZone($timeZone)->isNotBeforeOrEqualTo(
