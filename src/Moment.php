@@ -68,6 +68,18 @@ final readonly class Moment implements \Stringable
             ->time();
     }
 
+    public function weekday(): Weekday
+    {
+        return Weekday::fromDateTime($this->dateTime);
+    }
+
+    public function weekdayInTimeZone(\DateTimeZone $timeZone): Weekday
+    {
+        return $this
+            ->toTimeZone($timeZone)
+            ->weekday();
+    }
+
     public function month(): Month
     {
         return Month::fromDateTime($this->dateTime);
@@ -98,11 +110,12 @@ final readonly class Moment implements \Stringable
     }
 
     public function isEqualToInTimeZone(
-        Time | Date | Month | Year $comparator,
+        Time | Weekday | Date | Month | Year $comparator,
         \DateTimeZone $timeZone,
     ): bool {
         return match (true) {
             $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isEqualTo($comparator),
+            $comparator instanceof Weekday => $this->weekdayInTimeZone($timeZone)->isEqualTo($comparator),
             $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isEqualTo($comparator),
             $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isEqualTo($comparator),
             $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isEqualTo($comparator),
