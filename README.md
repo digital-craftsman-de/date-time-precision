@@ -1,5 +1,31 @@
 # Using `DateTime` with precision
 
+When talking about dates, our language is quite imprecise. And that's usually not a problem as it's always used within a given context that is obvious to the parties involved in the discussion. As developers, we're often not domain experts and therefore, the context will most likely not be obvious to us. To improve the readability and reduce the potential for bugs, we must be as explicit as possible in our code.
+
+The problem with PHP is, that the standard library only has `DateTime` (and it's immutable counterpart) for use to work with. It represents a specific moment in time in a specific timezone (whether that timezone/offset is explicitly defined or not). You can parse pretty much every date / time string into a `DateTime`, but it will always result in a moment. So comparing two `DateTime` objects to see if it's the same date, will fail when one of them is even a millisecond off or when one of them is in a different timezone then the other. Which is even more of an issue when you want to store all moments in UTC to be independent of the timezone of the user.
+
+To solve this issue, this package introduces specific classes to work with more precision. 
+- `Moment` (specific moment in time like `2024-05-03 17:59:10.632842` in time zone `UTC`) 
+- `Time` (`00:00:00` to `23:59:59` like `15:30:00`)
+- `Date` (like `2024-05-03`)
+- `Weekday` (`MONDAY` to `SUNDAY` like `FRIDAY`)
+- `Week` (year and week like `2024-18`)
+- `CalendarWeek` (`1` to `53`, independent of year like `18`)
+- `Month` (year and month like `2024-03`)
+- `CalendarMonth` (`JANUARY` to `DECEMBER` like `MAY`)
+- `Year` (like `2024`) 
+
+TODO: Add `Weekday` as `MONDAY` to `SUNDAY`, `CalendarWeek` as 1 to 53 and `CalendarMonth` as `JANUARY` to `DECEMBER`.  
+TODO: Remove milliseconds from `Time`.
+TODO: Manipulation / Calculation of one component into another one is simpler
+TODO: Add Clock component that returns `Moment` with `->now()`
+TODO: Examples for use cases 
+  - date of current moment, running in UTC
+  - Is same month
+  - Is after from moment to date
+  - Move event from one day of the week to another (independent of whether it's forward or backwards)
+TODO: Classes for `Hour`, `Minute`, `Second`, `Millisecond`?
+
 The only class in the PHP SPL to work with dates and times is `DateTime` (and it's immutable counterpart). It represents a specific moment in time in a specific timezone (whether that timezone/offset is explicitly defined or not). Unfortunately dates are complex and there is more than just a moment in time. For example there are
 
 - time of day which is relevant on every day (like business hours).
