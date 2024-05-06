@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.0
+
+- Added `Clock` implementation with `SystemClock` and `FixedClock`.
+
 ## 0.10.0
 
 - Added `is*InTimeZone(Time | Date | Month | Year $equalTo, \DateTimeZone $timeZone): bool` methods to `Moment`.
