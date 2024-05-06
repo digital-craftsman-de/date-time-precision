@@ -81,7 +81,7 @@ The Doctrine types are automatically registered with the bundle with the followi
 - `dtp_month`
 - `dtp_year`
 
-The package also contains a clock component consisting of the interface `Clock` the two implementations `SystemClock` (for general use) and `FrozenClock` (for testing). The `SystemClock` will be autowired for the `Clock` and automatically replaced with `FrozenClock` in the test environment.
+The package also contains a clock component consisting of the interface `Clock` with the two implementations `SystemClock` (for general use) and `FrozenClock` (for testing). The `SystemClock` will be autowired for the `Clock` and automatically replaced with `FrozenClock` in the test environment.
 
 ## Design
 
