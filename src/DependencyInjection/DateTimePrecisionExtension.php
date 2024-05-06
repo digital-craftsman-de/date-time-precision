@@ -16,5 +16,9 @@ final class DateTimePrecisionExtension extends Extension
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yaml');
+
+        if ($container->getParameter('kernel.environment') === 'test') {
+            $loader->load('services_test.yaml');
+        }
     }
 }

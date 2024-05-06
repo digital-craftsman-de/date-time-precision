@@ -1,0 +1,7 @@
+services:
+
+  # Interface autowiring
+  DigitalCraftsman\DateTimePrecision\Clock\Clock: '@DigitalCraftsman\DateTimePrecision\Clock\FrozenClock'
+
+  DigitalCraftsman\DateTimePrecision\Clock\FrozenClock:
+    class: DigitalCraftsman\DateTimePrecision\Clock\FrozenClock
