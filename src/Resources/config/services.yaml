@@ -21,12 +21,3 @@ services:
 
   DigitalCraftsman\DateTimePrecision\Serializer\YearNormalizer:
     tags: [ { name: 'serializer.normalizer' } ]
-
-when@test:
-  services:
-
-    # Interface autowiring
-    DigitalCraftsman\DateTimePrecision\Clock\Clock: '@DigitalCraftsman\DateTimePrecision\Clock\FrozenClock'
-
-    DigitalCraftsman\DateTimePrecision\Clock\FrozenClock:
-      class: DigitalCraftsman\DateTimePrecision\Clock\FrozenClock
