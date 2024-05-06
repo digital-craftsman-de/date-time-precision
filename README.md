@@ -15,6 +15,8 @@ To solve this issue, this package introduces specific classes to work with more 
 - `CalendarMonth` (`JANUARY` to `DECEMBER` like `MAY`)
 - `Year` (like `2024`) 
 
+TODO: OVERALL: Split into parts that are valuable right now and which can come later. Dependent on a current project.
+
 TODO: Add `Weekday` as `MONDAY` to `SUNDAY`, `CalendarWeek` as 1 to 53 and `CalendarMonth` as `JANUARY` to `DECEMBER`.  
 TODO: Remove milliseconds from `Time`.
 TODO: Manipulation / Calculation of one component into another one is simpler
@@ -25,6 +27,7 @@ TODO: Examples for use cases
   - Is after from moment to date
   - Move event from one day of the week to another (independent of whether it's forward or backwards)
 TODO: Classes for `Hour`, `Minute`, `Second`, `Millisecond`?
+TODO: TimeFrames? For all elements.
 
 The only class in the PHP SPL to work with dates and times is `DateTime` (and it's immutable counterpart). It represents a specific moment in time in a specific timezone (whether that timezone/offset is explicitly defined or not). Unfortunately dates are complex and there is more than just a moment in time. For example there are
 
