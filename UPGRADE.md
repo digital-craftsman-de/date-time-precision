@@ -1,5 +1,9 @@
 # Upgrade guide
 
+## From 0.10.* to 0.11.0
+
+No breaking changes.
+
 ## From 0.9.* to 0.10.0
 
 No breaking changes (just deprecations).
@@ -38,11 +42,11 @@ When using `MomentType`, you need to migrate the database column to support mill
 
 ## From 0.6.* to 0.7.0
 
-No breaking changes
+No breaking changes.
 
 ## From 0.5.* to 0.6.0
 
-No breaking changes
+No breaking changes.
 
 ## From 0.4.* to 0.5.0
 
@@ -50,7 +54,7 @@ You can remove `YearNormalizer` from your normalizers if you registered it manua
 
 ## From 0.3.* to 0.4.0
 
-No breaking changes
+No breaking changes.
 
 ## From 0.2.* to 0.3.0
 
@@ -85,4 +89,4 @@ if ($date->day === 15) {
 
 ## From 0.1.* to 0.2.0
 
-No breaking changes
+No breaking changes.
