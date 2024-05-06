@@ -1,5 +1,9 @@
 services:
 
+  # Interface autowiring
+  DigitalCraftsman\DateTimePrecision\Clock\Clock: '@DigitalCraftsman\DateTimePrecision\Clock\SystemClock'
+
+  # Normalizers
   DigitalCraftsman\DateTimePrecision\Serializer\MomentNormalizer:
     tags: [ { name: 'serializer.normalizer' } ]
 
