@@ -2,7 +2,7 @@
 
 ## 0.11.0
 
-- Added `Clock` implementation with `SystemClock` and `FixedClock`.
+- Added `Clock` implementation with `SystemClock` and `FrozenClock`.
 
 ## 0.10.0
 

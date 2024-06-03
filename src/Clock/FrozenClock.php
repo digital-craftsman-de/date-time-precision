@@ -12,7 +12,7 @@ final class FrozenClock implements Clock
 
     public function __construct(?Moment $moment = null)
     {
-        $this->moment = $moment ?? Moment::fromDateTime(new \DateTimeImmutable('now'));
+        $this->moment = $moment ?? Moment::fromString('now');
     }
 
     public function freeze(Moment $moment): void
