@@ -8,6 +8,7 @@ use DigitalCraftsman\DateTimePrecision\Doctrine\DateType;
 use DigitalCraftsman\DateTimePrecision\Doctrine\MomentType;
 use DigitalCraftsman\DateTimePrecision\Doctrine\MonthType;
 use DigitalCraftsman\DateTimePrecision\Doctrine\TimeType;
+use DigitalCraftsman\DateTimePrecision\Doctrine\WeekdayType;
 use DigitalCraftsman\DateTimePrecision\Doctrine\YearType;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -23,6 +24,7 @@ final readonly class DoctrineTypeRegisterCompilerPass implements CompilerPassInt
 
         $typeDefinitions['dtp_moment'] = ['class' => MomentType::class];
         $typeDefinitions['dtp_time'] = ['class' => TimeType::class];
+        $typeDefinitions['dtp_weekday'] = ['class' => WeekdayType::class];
         $typeDefinitions['dtp_date'] = ['class' => DateType::class];
         $typeDefinitions['dtp_month'] = ['class' => MonthType::class];
         $typeDefinitions['dtp_year'] = ['class' => YearType::class];
