@@ -68,6 +68,18 @@ final readonly class Moment implements \Stringable
             ->time();
     }
 
+    public function weekday(): Weekday
+    {
+        return Weekday::fromDateTime($this->dateTime);
+    }
+
+    public function weekdayInTimeZone(\DateTimeZone $timeZone): Weekday
+    {
+        return $this
+            ->toTimeZone($timeZone)
+            ->weekday();
+    }
+
     public function month(): Month
     {
         return Month::fromDateTime($this->dateTime);
@@ -98,11 +110,12 @@ final readonly class Moment implements \Stringable
     }
 
     public function isEqualToInTimeZone(
-        Time | Date | Month | Year $comparator,
+        Time | Weekday | Date | Month | Year $comparator,
         \DateTimeZone $timeZone,
     ): bool {
         return match (true) {
             $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isEqualTo($comparator),
+            $comparator instanceof Weekday => $this->weekdayInTimeZone($timeZone)->isEqualTo($comparator),
             $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isEqualTo($comparator),
             $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isEqualTo($comparator),
             $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isEqualTo($comparator),
@@ -115,11 +128,12 @@ final readonly class Moment implements \Stringable
     }
 
     public function isNotEqualToInTimeZone(
-        Time | Date | Month | Year $comparator,
+        Time | Weekday | Date | Month | Year $comparator,
         \DateTimeZone $timeZone,
     ): bool {
         return match (true) {
             $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isNotEqualTo($comparator),
+            $comparator instanceof Weekday => $this->weekdayInTimeZone($timeZone)->isNotEqualTo($comparator),
             $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isNotEqualTo($comparator),
             $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isNotEqualTo($comparator),
             $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isNotEqualTo($comparator),
@@ -132,11 +146,12 @@ final readonly class Moment implements \Stringable
     }
 
     public function isAfterInTimeZone(
-        Time | Date | Month | Year $comparator,
+        Time | Weekday | Date | Month | Year $comparator,
         \DateTimeZone $timeZone,
     ): bool {
         return match (true) {
             $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isAfter($comparator),
+            $comparator instanceof Weekday => $this->weekdayInTimeZone($timeZone)->isAfter($comparator),
             $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isAfter($comparator),
             $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isAfter($comparator),
             $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isAfter($comparator),
@@ -149,11 +164,12 @@ final readonly class Moment implements \Stringable
     }
 
     public function isNotAfterInTimeZone(
-        Time | Date | Month | Year $comparator,
+        Time | Weekday | Date | Month | Year $comparator,
         \DateTimeZone $timeZone,
     ): bool {
         return match (true) {
             $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isNotAfter($comparator),
+            $comparator instanceof Weekday => $this->weekdayInTimeZone($timeZone)->isNotAfter($comparator),
             $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isNotAfter($comparator),
             $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isNotAfter($comparator),
             $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isNotAfter($comparator),
@@ -166,11 +182,12 @@ final readonly class Moment implements \Stringable
     }
 
     public function isAfterOrEqualToInTimeZone(
-        Time | Date | Month | Year $comparator,
+        Time | Weekday | Date | Month | Year $comparator,
         \DateTimeZone $timeZone,
     ): bool {
         return match (true) {
             $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isAfterOrEqualTo($comparator),
+            $comparator instanceof Weekday => $this->weekdayInTimeZone($timeZone)->isAfterOrEqualTo($comparator),
             $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isAfterOrEqualTo($comparator),
             $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isAfterOrEqualTo($comparator),
             $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isAfterOrEqualTo($comparator),
@@ -183,11 +200,12 @@ final readonly class Moment implements \Stringable
     }
 
     public function isNotAfterOrEqualToInTimeZone(
-        Time | Date | Month | Year $comparator,
+        Time | Weekday | Date | Month | Year $comparator,
         \DateTimeZone $timeZone,
     ): bool {
         return match (true) {
             $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isNotAfterOrEqualTo($comparator),
+            $comparator instanceof Weekday => $this->weekdayInTimeZone($timeZone)->isNotAfterOrEqualTo($comparator),
             $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isNotAfterOrEqualTo($comparator),
             $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isNotAfterOrEqualTo($comparator),
             $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isNotAfterOrEqualTo($comparator),
@@ -200,11 +218,12 @@ final readonly class Moment implements \Stringable
     }
 
     public function isBeforeOrEqualToInTimeZone(
-        Time | Date | Month | Year $comparator,
+        Time | Weekday | Date | Month | Year $comparator,
         \DateTimeZone $timeZone,
     ): bool {
         return match (true) {
             $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isBeforeOrEqualTo($comparator),
+            $comparator instanceof Weekday => $this->weekdayInTimeZone($timeZone)->isBeforeOrEqualTo($comparator),
             $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isBeforeOrEqualTo($comparator),
             $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isBeforeOrEqualTo($comparator),
             $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isBeforeOrEqualTo($comparator),
@@ -217,11 +236,12 @@ final readonly class Moment implements \Stringable
     }
 
     public function isNotBeforeOrEqualToInTimeZone(
-        Time | Date | Month | Year $comparator,
+        Time | Weekday | Date | Month | Year $comparator,
         \DateTimeZone $timeZone,
     ): bool {
         return match (true) {
             $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isNotBeforeOrEqualTo($comparator),
+            $comparator instanceof Weekday => $this->weekdayInTimeZone($timeZone)->isNotBeforeOrEqualTo($comparator),
             $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isNotBeforeOrEqualTo($comparator),
             $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isNotBeforeOrEqualTo($comparator),
             $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isNotBeforeOrEqualTo($comparator),
@@ -235,11 +255,12 @@ final readonly class Moment implements \Stringable
     }
 
     public function isBeforeInTimeZone(
-        Time | Date | Month | Year $comparator,
+        Time | Weekday | Date | Month | Year $comparator,
         \DateTimeZone $timeZone,
     ): bool {
         return match (true) {
             $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isBefore($comparator),
+            $comparator instanceof Weekday => $this->weekdayInTimeZone($timeZone)->isBefore($comparator),
             $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isBefore($comparator),
             $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isBefore($comparator),
             $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isBefore($comparator),
@@ -252,11 +273,12 @@ final readonly class Moment implements \Stringable
     }
 
     public function isNotBeforeInTimeZone(
-        Time | Date | Month | Year $comparator,
+        Time | Weekday | Date | Month | Year $comparator,
         \DateTimeZone $timeZone,
     ): bool {
         return match (true) {
             $comparator instanceof Time => $this->timeInTimeZone($timeZone)->isNotBefore($comparator),
+            $comparator instanceof Weekday => $this->weekdayInTimeZone($timeZone)->isNotBefore($comparator),
             $comparator instanceof Date => $this->dateInTimeZone($timeZone)->isNotBefore($comparator),
             $comparator instanceof Month => $this->monthInTimeZone($timeZone)->isNotBefore($comparator),
             $comparator instanceof Year => $this->yearInTimeZone($timeZone)->isNotBefore($comparator),
