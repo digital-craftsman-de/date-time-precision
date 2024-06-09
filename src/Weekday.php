@@ -18,17 +18,9 @@ enum Weekday: string
 
     public static function fromDateTime(\DateTimeImmutable $dateTime): self
     {
-        return self::fromDayOfWeek((int) $dateTime->format('N'));
-    }
+        $dayOfWeek = (int) $dateTime->format('N');
 
-    public static function fromDate(Date $date): self
-    {
-        return self::fromDayOfWeek((int) $date->format('N'));
-    }
-
-    public static function fromDayOfWeek(int $dayOfIsoWeek): self
-    {
-        return match ($dayOfIsoWeek) {
+        return match ($dayOfWeek) {
             1 => self::MONDAY,
             2 => self::TUESDAY,
             3 => self::WEDNESDAY,

@@ -153,7 +153,7 @@ final readonly class Date implements \Stringable
 
     public function weekday(): Weekday
     {
-        return Weekday::fromDate($this);
+        return Weekday::fromDateTime($this->toDateTimeImmutable());
     }
 
     // Mutations
