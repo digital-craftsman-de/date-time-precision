@@ -9,6 +9,7 @@ use DigitalCraftsman\DateTimePrecision\Doctrine\DateType;
 use DigitalCraftsman\DateTimePrecision\Doctrine\MomentType;
 use DigitalCraftsman\DateTimePrecision\Doctrine\MonthType;
 use DigitalCraftsman\DateTimePrecision\Doctrine\TimeType;
+use DigitalCraftsman\DateTimePrecision\Doctrine\WeekdaysType;
 use DigitalCraftsman\DateTimePrecision\Doctrine\WeekdayType;
 use DigitalCraftsman\DateTimePrecision\Doctrine\YearType;
 use PHPUnit\Framework\TestCase;
@@ -45,6 +46,9 @@ final class DoctrineTypeRegisterCompilerPassTest extends TestCase
 
         self::assertArrayHasKey('dtp_weekday', $updatedParameters);
         self::assertSame(['class' => WeekdayType::class], $updatedParameters['dtp_weekday']);
+
+        self::assertArrayHasKey('dtp_weekdays', $updatedParameters);
+        self::assertSame(['class' => WeekdaysType::class], $updatedParameters['dtp_weekdays']);
 
         self::assertArrayHasKey('dtp_date', $updatedParameters);
         self::assertSame(['class' => DateType::class], $updatedParameters['dtp_date']);
