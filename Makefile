@@ -103,6 +103,10 @@ php-8.2-tests:
 php-8.3-tests:
 	docker-compose run --rm php-8.3 ./vendor/bin/phpunit
 
+## php-tests-coverage			Run the tests for default PHP version and create coverage report.
+.PHONY: php-tests-coverage
+php-tests-coverage: php-8.3-tests-html-coverage
+
 ## php-8.2-tests-html-coverage	Run the tests with PHP 8.2 including coverage report as HTML.
 .PHONY: php-8.2-tests-html-coverage
 php-8.2-tests-html-coverage:

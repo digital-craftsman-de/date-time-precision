@@ -8,6 +8,7 @@ use DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Month;
 use DigitalCraftsman\DateTimePrecision\Time;
+use DigitalCraftsman\DateTimePrecision\Weekday;
 use DigitalCraftsman\DateTimePrecision\Year;
 use PHPUnit\Framework\TestCase;
 
@@ -24,7 +25,7 @@ final class IsBeforeInTimeZoneTest extends TestCase
     public function is_before_in_time_zone_works(
         bool $expectedResult,
         Moment $moment,
-        Time | Date | Month | Year $comparator,
+        Time | Weekday | Date | Month | Year $comparator,
         \DateTimeZone $timeZone,
     ): void {
         // -- Act & Assert
@@ -35,7 +36,7 @@ final class IsBeforeInTimeZoneTest extends TestCase
      * @return array<string, array{
      *   0: boolean,
      *   1: Moment,
-     *   2: Time | Date | Month | Year,
+     *   2: Time | Weekday | Date | Month | Year,
      *   3: \DateTimeZone,
      * }>
      */
@@ -58,6 +59,24 @@ final class IsBeforeInTimeZoneTest extends TestCase
                 false,
                 Moment::fromStringInTimeZone('2022-10-08 15:05:00', new \DateTimeZone('Europe/Berlin')),
                 Time::fromString('15:00:00'),
+                new \DateTimeZone('Europe/Berlin'),
+            ],
+            'moment before weekday' => [
+                true,
+                Moment::fromStringInTimeZone('2022-10-07 15:00:00', new \DateTimeZone('Europe/Berlin')),
+                Weekday::SATURDAY,
+                new \DateTimeZone('Europe/Berlin'),
+            ],
+            'moment same weekday' => [
+                false,
+                Moment::fromStringInTimeZone('2022-10-08 15:00:00', new \DateTimeZone('Europe/Berlin')),
+                Weekday::SATURDAY,
+                new \DateTimeZone('Europe/Berlin'),
+            ],
+            'moment after weekday' => [
+                false,
+                Moment::fromStringInTimeZone('2022-10-09 15:00:00', new \DateTimeZone('Europe/Berlin')),
+                Weekday::SATURDAY,
                 new \DateTimeZone('Europe/Berlin'),
             ],
             'moment before date' => [

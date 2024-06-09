@@ -13,6 +13,12 @@ services:
   DigitalCraftsman\DateTimePrecision\Serializer\TimeNormalizer:
     tags: [ { name: 'serializer.normalizer' } ]
 
+  DigitalCraftsman\DateTimePrecision\Serializer\WeekdayNormalizer:
+    tags: [ { name: 'serializer.normalizer' } ]
+
+  DigitalCraftsman\DateTimePrecision\Serializer\WeekdaysNormalizer:
+    tags: [ { name: 'serializer.normalizer' } ]
+
   DigitalCraftsman\DateTimePrecision\Serializer\DateNormalizer:
     tags: [ { name: 'serializer.normalizer' } ]
 
