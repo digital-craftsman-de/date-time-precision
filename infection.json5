@@ -12,6 +12,16 @@
         "DigitalCraftsman\\DateTimePrecision\\Moment",
       ]
     },
+    "IncrementInteger": {
+      "ignore": [
+        "DigitalCraftsman\\DateTimePrecision\\Doctrine\\WeekdaysType::convertToPHPValue"
+      ]
+    },
+    "DecrementInteger": {
+      "ignore": [
+        "DigitalCraftsman\\DateTimePrecision\\Doctrine\\WeekdaysType::convertToPHPValue"
+      ]
+    }
   },
   "minMsi": 100,
   "minCoveredMsi": 100
