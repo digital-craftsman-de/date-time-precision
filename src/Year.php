@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision;
 
-/** @psalm-immutable */
 final readonly class Year
 {
     // -- Construction
