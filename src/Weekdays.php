@@ -13,7 +13,13 @@ final readonly class Weekdays
         /** @var array<int, Weekday> $weekdays */
         public array $weekdays,
     ) {
-        // TODO: Validate for unique
+        $enumValues = [];
+        foreach ($this->weekdays as $weekday) {
+            $enumValues[] = $weekday->value;
+        }
+        if (count($enumValues) !== count(array_unique($enumValues))) {
+            throw new \InvalidArgumentException('Weekdays must be unique.');
+        }
     }
 
     // -- Array normalizable
