@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision;
 
-final readonly class Month implements \Stringable
+final readonly class Week implements \Stringable
 {
-    private const MONTH_FORMAT = 'Y-m';
+    private const WEEK_FORMAT = 'Y-W';
 
     // -- Construction
 
     public function __construct(
         public Year $year,
-        public int $month,
+        public int $week,
     ) {
     }
 
@@ -52,7 +52,7 @@ final readonly class Month implements \Stringable
 
     public function __toString()
     {
-        return $this->format(self::MONTH_FORMAT);
+        return $this->format(self::WEEK_FORMAT);
     }
 
     // -- Accessors
@@ -157,7 +157,7 @@ final readonly class Month implements \Stringable
         $firstDayOfMonth = new \DateTimeImmutable(sprintf(
             'first day of %d-%d',
             $this->year->year,
-            $this->month,
+            $this->week,
         ));
 
         return Date::fromDateTime($firstDayOfMonth);
@@ -168,7 +168,7 @@ final readonly class Month implements \Stringable
         $lastDayOfMonth = new \DateTimeImmutable(sprintf(
             'last day of %d-%d',
             $this->year->year,
-            $this->month,
+            $this->week,
         ));
 
         return Date::fromDateTime($lastDayOfMonth);
@@ -196,7 +196,7 @@ final readonly class Month implements \Stringable
             sprintf(
                 '%d-%d-01 00:00:00',
                 $this->year->year,
-                $this->month,
+                $this->week,
             ),
             $timeZone,
         );
@@ -208,7 +208,7 @@ final readonly class Month implements \Stringable
             sprintf(
                 '%d-%d-01 00:00:00',
                 $this->year->year,
-                $this->month,
+                $this->week,
             ),
             $timeZone,
         );
@@ -223,7 +223,7 @@ final readonly class Month implements \Stringable
             sprintf(
                 '%d-%d-01 00:00:00',
                 $this->year->year,
-                $this->month,
+                $this->week,
             ),
         );
     }

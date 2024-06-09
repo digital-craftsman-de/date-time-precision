@@ -4,55 +4,26 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision;
 
-final readonly class Month implements \Stringable
+final readonly class CalendarWeek
 {
-    private const MONTH_FORMAT = 'Y-m';
-
     // -- Construction
 
     public function __construct(
-        public Year $year,
-        public int $month,
+        public int $week,
     ) {
+        if ($week < 1
+            || $week > 53
+        ) {
+            // TODO: Better exception
+            throw new \InvalidArgumentException(sprintf('Value "%d" is not a valid week.', $week));
+        }
     }
 
     public static function fromDateTime(\DateTimeImmutable $dateTime): self
     {
-        /**
-         * @psalm-suppress PossiblyNullArrayAccess
-         * @psalm-suppress PossiblyUndefinedArrayOffset
-         */
-        [$year, $month] = sscanf(
-            $dateTime->format('Y-n'),
-            '%d-%d',
-        );
-
-        /**
-         * @psalm-suppress PossiblyNullArgument
-         * @psalm-suppress PossiblyInvalidArgument
-         */
         return new self(
-            new Year(
-                $year,
-            ),
-            $month,
+            (int) $dateTime->format('W'),
         );
-    }
-
-    public static function fromString(string $month): self
-    {
-        try {
-            return self::fromDateTime(new \DateTimeImmutable($month));
-        } catch (\Exception) {
-            throw new \InvalidArgumentException(sprintf('Value "%s" is not valid month format.', $month));
-        }
-    }
-
-    // -- Stringable
-
-    public function __toString()
-    {
-        return $this->format(self::MONTH_FORMAT);
     }
 
     // -- Accessors
@@ -157,7 +128,7 @@ final readonly class Month implements \Stringable
         $firstDayOfMonth = new \DateTimeImmutable(sprintf(
             'first day of %d-%d',
             $this->year->year,
-            $this->month,
+            $this->week,
         ));
 
         return Date::fromDateTime($firstDayOfMonth);
@@ -168,7 +139,7 @@ final readonly class Month implements \Stringable
         $lastDayOfMonth = new \DateTimeImmutable(sprintf(
             'last day of %d-%d',
             $this->year->year,
-            $this->month,
+            $this->week,
         ));
 
         return Date::fromDateTime($lastDayOfMonth);
@@ -196,7 +167,7 @@ final readonly class Month implements \Stringable
             sprintf(
                 '%d-%d-01 00:00:00',
                 $this->year->year,
-                $this->month,
+                $this->week,
             ),
             $timeZone,
         );
@@ -208,7 +179,7 @@ final readonly class Month implements \Stringable
             sprintf(
                 '%d-%d-01 00:00:00',
                 $this->year->year,
-                $this->month,
+                $this->week,
             ),
             $timeZone,
         );
@@ -219,12 +190,10 @@ final readonly class Month implements \Stringable
 
     private function toDateTimeImmutable(): \DateTimeImmutable
     {
-        return new \DateTimeImmutable(
-            sprintf(
-                '%d-%d-01 00:00:00',
-                $this->year->year,
-                $this->month,
-            ),
+        /** @psalm-suppress FalsableReturnStatement */
+        return \DateTimeImmutable::createFromFormat(
+            'W',
+            (string) $this->week,
         );
     }
 }
