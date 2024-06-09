@@ -151,6 +151,11 @@ final readonly class Date implements \Stringable
         return $dates;
     }
 
+    public function weekday(): Weekday
+    {
+        return Weekday::fromDate($this);
+    }
+
     // Mutations
 
     public function format(string $format): string
