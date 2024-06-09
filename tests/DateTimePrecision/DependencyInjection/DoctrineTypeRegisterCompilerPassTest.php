@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimePrecision\DependencyInjection;
+namespace DigitalCraftsman\DateTimePrecision\DateTimePrecision\DependencyInjection;
 
+use DigitalCraftsman\DateTimePrecision\DependencyInjection\DoctrineTypeRegisterCompilerPass;
 use DigitalCraftsman\DateTimePrecision\Doctrine\DateType;
 use DigitalCraftsman\DateTimePrecision\Doctrine\MomentType;
 use DigitalCraftsman\DateTimePrecision\Doctrine\MonthType;
 use DigitalCraftsman\DateTimePrecision\Doctrine\TimeType;
+use DigitalCraftsman\DateTimePrecision\Doctrine\WeekdayType;
 use DigitalCraftsman\DateTimePrecision\Doctrine\YearType;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -40,6 +42,9 @@ final class DoctrineTypeRegisterCompilerPassTest extends TestCase
 
         self::assertArrayHasKey('dtp_time', $updatedParameters);
         self::assertSame(['class' => TimeType::class], $updatedParameters['dtp_time']);
+
+        self::assertArrayHasKey('dtp_weekday', $updatedParameters);
+        self::assertSame(['class' => WeekdayType::class], $updatedParameters['dtp_weekday']);
 
         self::assertArrayHasKey('dtp_date', $updatedParameters);
         self::assertSame(['class' => DateType::class], $updatedParameters['dtp_date']);
