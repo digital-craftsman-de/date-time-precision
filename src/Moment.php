@@ -501,4 +501,41 @@ final readonly class Moment implements \Stringable
             ->midnight()
             ->toTimeZone($originalTimeZone);
     }
+
+    // -- Guards
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsNotEqual
+     */
+    public function mustBeEqualTo(
+        self $moment,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotEqualTo($moment)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsNotEqual();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsNotEqual
+     */
+    public function mustBeEqualToInTimeZone(
+        Time | Weekday | Date | Month | Year $moment,
+        \DateTimeZone $timeZone,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotEqualToInTimeZone($moment, $timeZone)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsNotEqual();
+        }
+    }
 }
