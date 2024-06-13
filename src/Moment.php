@@ -573,4 +573,39 @@ final readonly class Moment implements \Stringable
                 : new Exception\MomentIsEqual();
         }
     }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsNotAfter
+     */
+    public function mustBeAfter(
+        self $moment,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotAfter($moment)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsNotAfter();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsNotAfter
+     */
+    public function mustBeAfterInTimeZone(
+        Time | Weekday | Date | Month | Year $moment,
+        \DateTimeZone $timeZone,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotAfterInTimeZone($moment, $timeZone)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsNotAfter();
+        }
+    }
 }
