@@ -9,10 +9,10 @@ namespace DigitalCraftsman\DateTimePrecision\Exception;
  *
  * @codeCoverageIgnore
  */
-final class MomentIsNotEqual extends \InvalidArgumentException
+final class MomentIsEqual extends \InvalidArgumentException
 {
     public function __construct()
     {
-        parent::__construct('The moment is not equal but must be.');
+        parent::__construct('The moment is equal but must not be.');
     }
 }
