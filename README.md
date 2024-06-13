@@ -20,7 +20,7 @@ Additionally, the package provides a streamlined way to have the system running 
 
 This Symfony bundle includes Symfony normalizers for automatic normalization and denormalization and Doctrine types to store the objects directly in the database. 
 
-As it's a central part of an application, it's tested thoroughly (including mutation testing).
+As it's a central part of an application, it's tested thoroughly (including mutation testing). Currently, more than 80% of the lines of code in this repository are tests.
 
 [![Latest Stable Version](http://poser.pugx.org/digital-craftsman/date-time-precision/v)](https://packagist.org/packages/digital-craftsman/date-time-precision)
 [![PHP Version Require](http://poser.pugx.org/digital-craftsman/date-time-precision/require/php)](https://packagist.org/packages/digital-craftsman/date-time-precision)
