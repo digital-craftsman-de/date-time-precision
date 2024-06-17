@@ -748,4 +748,39 @@ final readonly class Moment implements \Stringable
                 : new Exception\MomentIsNotBefore();
         }
     }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsBefore
+     */
+    public function mustNotBeBefore(
+        self $moment,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isBefore($moment)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsBefore();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsBefore
+     */
+    public function mustNotBeBeforeInTimeZone(
+        Time | Weekday | Date | Month | Year $moment,
+        \DateTimeZone $timeZone,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isBeforeInTimeZone($moment, $timeZone)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsBefore();
+        }
+    }
 }
