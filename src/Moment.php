@@ -501,4 +501,356 @@ final readonly class Moment implements \Stringable
             ->midnight()
             ->toTimeZone($originalTimeZone);
     }
+
+    // -- Guards
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsNotEqual
+     */
+    public function mustBeEqualTo(
+        self $moment,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotEqualTo($moment)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsNotEqual();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsNotEqual
+     */
+    public function mustBeEqualToInTimeZone(
+        Time | Weekday | Date | Month | Year $moment,
+        \DateTimeZone $timeZone,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotEqualToInTimeZone($moment, $timeZone)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsNotEqual();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsEqual
+     */
+    public function mustNotBeEqualTo(
+        self $moment,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isEqualTo($moment)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsEqual();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsEqual
+     */
+    public function mustNotBeEqualToInTimeZone(
+        Time | Weekday | Date | Month | Year $moment,
+        \DateTimeZone $timeZone,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isEqualToInTimeZone($moment, $timeZone)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsEqual();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsNotAfter
+     */
+    public function mustBeAfter(
+        self $moment,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotAfter($moment)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsNotAfter();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsNotAfter
+     */
+    public function mustBeAfterInTimeZone(
+        Time | Weekday | Date | Month | Year $moment,
+        \DateTimeZone $timeZone,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotAfterInTimeZone($moment, $timeZone)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsNotAfter();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsAfter
+     */
+    public function mustNotBeAfter(
+        self $moment,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isAfter($moment)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsAfter();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsAfter
+     */
+    public function mustNotBeAfterInTimeZone(
+        Time | Weekday | Date | Month | Year $moment,
+        \DateTimeZone $timeZone,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isAfterInTimeZone($moment, $timeZone)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsAfter();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsNotAfterOrEqualTo
+     */
+    public function mustBeAfterOrEqualTo(
+        self $moment,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotAfterOrEqualTo($moment)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsNotAfterOrEqualTo();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsNotAfterOrEqualTo
+     */
+    public function mustBeAfterOrEqualToInTimeZone(
+        Time | Weekday | Date | Month | Year $moment,
+        \DateTimeZone $timeZone,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotAfterOrEqualToInTimeZone($moment, $timeZone)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsNotAfterOrEqualTo();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsAfterOrEqualTo
+     */
+    public function mustNotBeAfterOrEqualTo(
+        self $moment,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isAfterOrEqualTo($moment)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsAfterOrEqualTo();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsAfterOrEqualTo
+     */
+    public function mustNotBeAfterOrEqualToInTimeZone(
+        Time | Weekday | Date | Month | Year $moment,
+        \DateTimeZone $timeZone,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isAfterOrEqualToInTimeZone($moment, $timeZone)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsAfterOrEqualTo();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsNotBefore
+     */
+    public function mustBeBefore(
+        self $moment,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotBefore($moment)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsNotBefore();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsNotBefore
+     */
+    public function mustBeBeforeInTimeZone(
+        Time | Weekday | Date | Month | Year $moment,
+        \DateTimeZone $timeZone,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotBeforeInTimeZone($moment, $timeZone)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsNotBefore();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsBefore
+     */
+    public function mustNotBeBefore(
+        self $moment,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isBefore($moment)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsBefore();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsBefore
+     */
+    public function mustNotBeBeforeInTimeZone(
+        Time | Weekday | Date | Month | Year $moment,
+        \DateTimeZone $timeZone,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isBeforeInTimeZone($moment, $timeZone)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsBefore();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsNotBeforeOrEqualTo
+     */
+    public function mustBeBeforeOrEqualTo(
+        self $moment,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotBeforeOrEqualTo($moment)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsNotBeforeOrEqualTo();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsNotBeforeOrEqualTo
+     */
+    public function mustBeBeforeOrEqualToInTimeZone(
+        Time | Weekday | Date | Month | Year $moment,
+        \DateTimeZone $timeZone,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotBeforeOrEqualToInTimeZone($moment, $timeZone)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsNotBeforeOrEqualTo();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsBeforeOrEqualTo
+     */
+    public function mustNotBeBeforeOrEqualTo(
+        self $moment,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isBeforeOrEqualTo($moment)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsBeforeOrEqualTo();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\MomentIsBeforeOrEqualTo
+     */
+    public function mustNotBeBeforeOrEqualToInTimeZone(
+        Time | Weekday | Date | Month | Year $moment,
+        \DateTimeZone $timeZone,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isBeforeOrEqualToInTimeZone($moment, $timeZone)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\MomentIsBeforeOrEqualTo();
+        }
+    }
 }

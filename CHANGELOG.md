@@ -3,6 +3,7 @@
 ## 0.11.0
 
 - Added `Clock` implementation with `SystemClock` and `FrozenClock`.
+- Added guard methods for comparison methods to `Moment` like `mustBeEqualTo` with option to throw custom exception.
 
 ## 0.10.0
 
