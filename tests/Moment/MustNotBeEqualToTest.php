@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision\Moment;
 
-use DigitalCraftsman\DateTimePrecision\Exception\MomentIsEqual;
+use DigitalCraftsman\DateTimePrecision\Exception\MomentIsEqualTo;
 use DigitalCraftsman\DateTimePrecision\Moment;
-use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomMomentIsEqual;
+use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomMomentIsEqualTo;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment */
@@ -58,16 +58,16 @@ final class MustNotBeEqualToTest extends TestCase
                 null,
             ],
             'default exception' => [
-                MomentIsEqual::class,
+                MomentIsEqualTo::class,
                 Moment::fromString('2022-10-08 15:00:00'),
                 Moment::fromString('2022-10-08 15:00:00'),
                 null,
             ],
             'custom exception' => [
-                CustomMomentIsEqual::class,
+                CustomMomentIsEqualTo::class,
                 Moment::fromString('2022-10-08 15:00:00'),
                 Moment::fromString('2022-10-08 15:00:00'),
-                static fn () => new CustomMomentIsEqual(),
+                static fn () => new CustomMomentIsEqualTo(),
             ],
         ];
     }

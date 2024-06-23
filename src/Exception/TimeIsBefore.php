@@ -9,10 +9,10 @@ namespace DigitalCraftsman\DateTimePrecision\Exception;
  *
  * @codeCoverageIgnore
  */
-final class DateIsEqual extends \InvalidArgumentException
+final class TimeIsBefore extends \InvalidArgumentException
 {
     public function __construct()
     {
-        parent::__construct('The date is equal but must not be.');
+        parent::__construct('The time is before but must not be.');
     }
 }

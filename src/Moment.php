@@ -408,7 +408,7 @@ final readonly class Moment implements \Stringable
      * @param ?callable(): \Throwable $otherwiseThrow
      *
      * @throws \Throwable
-     * @throws Exception\MomentIsNotEqual
+     * @throws Exception\MomentIsNotEqualTo
      */
     public function mustBeEqualTo(
         self $moment,
@@ -417,7 +417,7 @@ final readonly class Moment implements \Stringable
         if ($this->isNotEqualTo($moment)) {
             throw $otherwiseThrow !== null
                 ? $otherwiseThrow()
-                : new Exception\MomentIsNotEqual();
+                : new Exception\MomentIsNotEqualTo();
         }
     }
 
@@ -425,7 +425,7 @@ final readonly class Moment implements \Stringable
      * @param ?callable(): \Throwable $otherwiseThrow
      *
      * @throws \Throwable
-     * @throws Exception\MomentIsNotEqual
+     * @throws Exception\MomentIsNotEqualTo
      */
     public function mustBeEqualToInTimeZone(
         Time | Weekday | Date | Month | Year $moment,
@@ -435,7 +435,7 @@ final readonly class Moment implements \Stringable
         if ($this->isNotEqualToInTimeZone($moment, $timeZone)) {
             throw $otherwiseThrow !== null
                 ? $otherwiseThrow()
-                : new Exception\MomentIsNotEqual();
+                : new Exception\MomentIsNotEqualTo();
         }
     }
 
@@ -443,7 +443,7 @@ final readonly class Moment implements \Stringable
      * @param ?callable(): \Throwable $otherwiseThrow
      *
      * @throws \Throwable
-     * @throws Exception\MomentIsEqual
+     * @throws Exception\MomentIsEqualTo
      */
     public function mustNotBeEqualTo(
         self $moment,
@@ -452,7 +452,7 @@ final readonly class Moment implements \Stringable
         if ($this->isEqualTo($moment)) {
             throw $otherwiseThrow !== null
                 ? $otherwiseThrow()
-                : new Exception\MomentIsEqual();
+                : new Exception\MomentIsEqualTo();
         }
     }
 
@@ -460,7 +460,7 @@ final readonly class Moment implements \Stringable
      * @param ?callable(): \Throwable $otherwiseThrow
      *
      * @throws \Throwable
-     * @throws Exception\MomentIsEqual
+     * @throws Exception\MomentIsEqualTo
      */
     public function mustNotBeEqualToInTimeZone(
         Time | Weekday | Date | Month | Year $moment,
@@ -470,7 +470,7 @@ final readonly class Moment implements \Stringable
         if ($this->isEqualToInTimeZone($moment, $timeZone)) {
             throw $otherwiseThrow !== null
                 ? $otherwiseThrow()
-                : new Exception\MomentIsEqual();
+                : new Exception\MomentIsEqualTo();
         }
     }
 

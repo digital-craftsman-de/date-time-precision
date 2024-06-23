@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Date;
 
 use DigitalCraftsman\DateTimePrecision\Date;
-use DigitalCraftsman\DateTimePrecision\Exception\DateIsEqual;
-use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomDateIsEqual;
+use DigitalCraftsman\DateTimePrecision\Exception\DateIsEqualTo;
+use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomDateIsEqualTo;
 use PHPUnit\Framework\TestCase;
 
 /** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Date */
@@ -58,16 +58,16 @@ final class MustNotBeEqualToTest extends TestCase
                 null,
             ],
             'default exception' => [
-                DateIsEqual::class,
+                DateIsEqualTo::class,
                 Date::fromString('2022-10-08'),
                 Date::fromString('2022-10-08'),
                 null,
             ],
             'custom exception' => [
-                CustomDateIsEqual::class,
+                CustomDateIsEqualTo::class,
                 Date::fromString('2022-10-08'),
                 Date::fromString('2022-10-08'),
-                static fn () => new CustomDateIsEqual(),
+                static fn () => new CustomDateIsEqualTo(),
             ],
         ];
     }
