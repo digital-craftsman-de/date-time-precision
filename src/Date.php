@@ -49,14 +49,14 @@ final readonly class Date implements \Stringable
         }
     }
 
-    // Stringable
+    // -- Stringable
 
     public function __toString(): string
     {
         return $this->format(self::DATE_FORMAT);
     }
 
-    // Accessors
+    // -- Accessors
 
     public function isEqualTo(self $date): bool
     {
@@ -156,7 +156,179 @@ final readonly class Date implements \Stringable
         return Weekday::fromDateTime($this->toDateTimeImmutable());
     }
 
-    // Mutations
+    // -- Guards
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\DateIsNotEqual
+     */
+    public function mustBeEqualTo(
+        self $date,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotEqualTo($date)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\DateIsNotEqual();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\DateIsEqual
+     */
+    public function mustNotBeEqualTo(
+        self $date,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isEqualTo($date)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\DateIsEqual();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\DateIsNotAfter
+     */
+    public function mustBeAfter(
+        self $date,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotAfter($date)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\DateIsNotAfter();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\DateIsAfter
+     */
+    public function mustNotBeAfter(
+        self $date,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isAfter($date)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\DateIsAfter();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\DateIsNotAfterOrEqualTo
+     */
+    public function mustBeAfterOrEqualTo(
+        self $date,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotAfterOrEqualTo($date)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\DateIsNotAfterOrEqualTo();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\DateIsAfterOrEqualTo
+     */
+    public function mustNotBeAfterOrEqualTo(
+        self $date,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isAfterOrEqualTo($date)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\DateIsAfterOrEqualTo();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\DateIsNotBefore
+     */
+    public function mustBeBefore(
+        self $date,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotBefore($date)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\DateIsNotBefore();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\DateIsBefore
+     */
+    public function mustNotBeBefore(
+        self $date,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isBefore($date)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\DateIsBefore();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\DateIsNotBeforeOrEqualTo
+     */
+    public function mustBeBeforeOrEqualTo(
+        self $date,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isNotBeforeOrEqualTo($date)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\DateIsNotBeforeOrEqualTo();
+        }
+    }
+
+    /**
+     * @param ?callable(): \Throwable $otherwiseThrow
+     *
+     * @throws \Throwable
+     * @throws Exception\DateIsBeforeOrEqualTo
+     */
+    public function mustNotBeBeforeOrEqualTo(
+        self $date,
+        ?callable $otherwiseThrow = null,
+    ): void {
+        if ($this->isBeforeOrEqualTo($date)) {
+            throw $otherwiseThrow !== null
+                ? $otherwiseThrow()
+                : new Exception\DateIsBeforeOrEqualTo();
+        }
+    }
+
+    // -- Mutations
 
     public function format(string $format): string
     {
