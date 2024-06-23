@@ -8,7 +8,7 @@ use DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\Exception\MomentIsNotAfterOrEqualTo;
 use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Month;
-use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomMomentIsNotAfterOrEqualToInTimeZone;
+use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomMomentIsNotAfterOrEqualTo;
 use DigitalCraftsman\DateTimePrecision\Time;
 use DigitalCraftsman\DateTimePrecision\Weekday;
 use DigitalCraftsman\DateTimePrecision\Year;
@@ -74,11 +74,11 @@ final class MustBeAfterOrEqualToInTimeZoneTest extends TestCase
                 null,
             ],
             'custom exception' => [
-                CustomMomentIsNotAfterOrEqualToInTimeZone::class,
+                CustomMomentIsNotAfterOrEqualTo::class,
                 Moment::fromStringInTimeZone('2022-10-08 14:00:00', new \DateTimeZone('Europe/Berlin')),
                 Time::fromString('15:00:00'),
                 new \DateTimeZone('Europe/Berlin'),
-                static fn () => new CustomMomentIsNotAfterOrEqualToInTimeZone(),
+                static fn () => new CustomMomentIsNotAfterOrEqualTo(),
             ],
         ];
     }
