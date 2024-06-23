@@ -4,7 +4,7 @@
 
 - **[Breaking change](./UPGRADE.md#removed-deprecated-isdate-methods-from-moment)**: Removed deprecated `isDate*` methods from `Moment`.
 - Added `Clock` implementation with `SystemClock` and `FrozenClock`.
-- Added guard methods for comparison methods to `Moment` and `Date` like `mustBeEqualTo` with option to throw custom exception.
+- Added guard methods for comparison methods to `Moment`, `Date` and `Time` like `mustBeEqualTo` with option to throw custom exception.
 
 ## 0.10.0
 

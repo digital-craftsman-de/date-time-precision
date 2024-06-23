@@ -162,7 +162,7 @@ final readonly class Date implements \Stringable
      * @param ?callable(): \Throwable $otherwiseThrow
      *
      * @throws \Throwable
-     * @throws Exception\DateIsNotEqual
+     * @throws Exception\DateIsNotEqualTo
      */
     public function mustBeEqualTo(
         self $date,
@@ -171,7 +171,7 @@ final readonly class Date implements \Stringable
         if ($this->isNotEqualTo($date)) {
             throw $otherwiseThrow !== null
                 ? $otherwiseThrow()
-                : new Exception\DateIsNotEqual();
+                : new Exception\DateIsNotEqualTo();
         }
     }
 
@@ -179,7 +179,7 @@ final readonly class Date implements \Stringable
      * @param ?callable(): \Throwable $otherwiseThrow
      *
      * @throws \Throwable
-     * @throws Exception\DateIsEqual
+     * @throws Exception\DateIsEqualTo
      */
     public function mustNotBeEqualTo(
         self $date,
@@ -188,7 +188,7 @@ final readonly class Date implements \Stringable
         if ($this->isEqualTo($date)) {
             throw $otherwiseThrow !== null
                 ? $otherwiseThrow()
-                : new Exception\DateIsEqual();
+                : new Exception\DateIsEqualTo();
         }
     }
 

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimePrecision\Date;
+namespace DigitalCraftsman\DateTimePrecision\Time;
 
-use DigitalCraftsman\DateTimePrecision\Date;
-use DigitalCraftsman\DateTimePrecision\Exception\DateIsNotEqualTo;
-use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomDateIsNotEqualTo;
+use DigitalCraftsman\DateTimePrecision\Exception\TimeIsBefore;
+use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomTimeIsBefore;
+use DigitalCraftsman\DateTimePrecision\Time;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Date */
-final class MustBeEqualToTest extends TestCase
+/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Time */
+final class MustNotBeBeforeTest extends TestCase
 {
     /**
      * @test
@@ -19,12 +19,12 @@ final class MustBeEqualToTest extends TestCase
      *
      * @dataProvider dataProvider
      *
-     * @covers ::mustBeEqualTo
+     * @covers ::mustNotBeBefore
      */
-    public function must_be_equal_to_works(
+    public function must_not_be_before_works(
         ?string $expectedResult,
-        Date $date,
-        Date $comparator,
+        Time $date,
+        Time $comparator,
         ?callable $otherwiseThrow,
     ): void {
         // -- Act & Assert
@@ -34,7 +34,7 @@ final class MustBeEqualToTest extends TestCase
             $this->expectNotToPerformAssertions();
         }
 
-        $date->mustBeEqualTo(
+        $date->mustNotBeBefore(
             $comparator,
             $otherwiseThrow,
         );
@@ -43,8 +43,8 @@ final class MustBeEqualToTest extends TestCase
     /**
      * @return array<string, array{
      *   0: ?string,
-     *   1: Date,
-     *   2: Date,
+     *   1: Time,
+     *   2: Time,
      *   3: ?callable(): \Throwable
      * }>
      */
@@ -53,21 +53,21 @@ final class MustBeEqualToTest extends TestCase
         return [
             'without exception' => [
                 null,
-                Date::fromString('2022-10-08'),
-                Date::fromString('2022-10-08'),
+                Time::fromString('15:00:00'),
+                Time::fromString('14:00:00'),
                 null,
             ],
             'default exception' => [
-                DateIsNotEqualTo::class,
-                Date::fromString('2022-10-07'),
-                Date::fromString('2022-10-08'),
+                TimeIsBefore::class,
+                Time::fromString('15:00:00'),
+                Time::fromString('16:00:00'),
                 null,
             ],
             'custom exception' => [
-                CustomDateIsNotEqualTo::class,
-                Date::fromString('2022-10-07'),
-                Date::fromString('2022-10-08'),
-                static fn () => new CustomDateIsNotEqualTo(),
+                CustomTimeIsBefore::class,
+                Time::fromString('15:00:00'),
+                Time::fromString('16:00:00'),
+                static fn () => new CustomTimeIsBefore(),
             ],
         ];
     }

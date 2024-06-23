@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision\Test\Exception;
 
-final class CustomMomentIsNotAfterOrEqualToInTimeZone extends \InvalidArgumentException
+final class CustomTimeIsBefore extends \InvalidArgumentException
 {
 }

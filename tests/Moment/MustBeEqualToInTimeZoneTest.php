@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Moment;
 
 use DigitalCraftsman\DateTimePrecision\Date;
-use DigitalCraftsman\DateTimePrecision\Exception\MomentIsNotEqual;
+use DigitalCraftsman\DateTimePrecision\Exception\MomentIsNotEqualTo;
 use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Month;
-use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomMomentIsNotEqualInTimeZone;
+use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomMomentIsNotEqualTo;
 use DigitalCraftsman\DateTimePrecision\Time;
 use DigitalCraftsman\DateTimePrecision\Weekday;
 use DigitalCraftsman\DateTimePrecision\Year;
@@ -67,18 +67,18 @@ final class MustBeEqualToInTimeZoneTest extends TestCase
                 null,
             ],
             'default exception' => [
-                MomentIsNotEqual::class,
+                MomentIsNotEqualTo::class,
                 Moment::fromStringInTimeZone('2022-10-08 15:00:00', new \DateTimeZone('Europe/Berlin')),
                 Time::fromString('16:00:00'),
                 new \DateTimeZone('Europe/Berlin'),
                 null,
             ],
             'custom exception' => [
-                CustomMomentIsNotEqualInTimeZone::class,
+                CustomMomentIsNotEqualTo::class,
                 Moment::fromStringInTimeZone('2022-10-08 15:00:00', new \DateTimeZone('Europe/Berlin')),
                 Time::fromString('16:00:00'),
                 new \DateTimeZone('Europe/Berlin'),
-                static fn () => new CustomMomentIsNotEqualInTimeZone(),
+                static fn () => new CustomMomentIsNotEqualTo(),
             ],
         ];
     }

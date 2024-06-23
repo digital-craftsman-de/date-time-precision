@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace DigitalCraftsman\DateTimePrecision\Moment;
+namespace DigitalCraftsman\DateTimePrecision\Time;
 
-use DigitalCraftsman\DateTimePrecision\Exception\MomentIsNotEqualTo;
-use DigitalCraftsman\DateTimePrecision\Moment;
-use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomMomentIsNotEqualTo;
+use DigitalCraftsman\DateTimePrecision\Exception\TimeIsNotEqualTo;
+use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomTimeIsNotEqualTo;
+use DigitalCraftsman\DateTimePrecision\Time;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment */
+/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Time */
 final class MustBeEqualToTest extends TestCase
 {
     /**
@@ -23,8 +23,8 @@ final class MustBeEqualToTest extends TestCase
      */
     public function must_be_equal_to_works(
         ?string $expectedResult,
-        Moment $moment,
-        Moment $comparator,
+        Time $date,
+        Time $comparator,
         ?callable $otherwiseThrow,
     ): void {
         // -- Act & Assert
@@ -34,7 +34,7 @@ final class MustBeEqualToTest extends TestCase
             $this->expectNotToPerformAssertions();
         }
 
-        $moment->mustBeEqualTo(
+        $date->mustBeEqualTo(
             $comparator,
             $otherwiseThrow,
         );
@@ -43,8 +43,8 @@ final class MustBeEqualToTest extends TestCase
     /**
      * @return array<string, array{
      *   0: ?string,
-     *   1: Moment,
-     *   2: Moment,
+     *   1: Time,
+     *   2: Time,
      *   3: ?callable(): \Throwable
      * }>
      */
@@ -53,21 +53,21 @@ final class MustBeEqualToTest extends TestCase
         return [
             'without exception' => [
                 null,
-                Moment::fromString('2022-10-08 15:00:00'),
-                Moment::fromString('2022-10-08 15:00:00'),
+                Time::fromString('15:00:00'),
+                Time::fromString('15:00:00'),
                 null,
             ],
             'default exception' => [
-                MomentIsNotEqualTo::class,
-                Moment::fromString('2022-10-08 15:00:00'),
-                Moment::fromString('2023-10-08 16:00:00'),
+                TimeIsNotEqualTo::class,
+                Time::fromString('16:00:00'),
+                Time::fromString('15:00:00'),
                 null,
             ],
             'custom exception' => [
-                CustomMomentIsNotEqualTo::class,
-                Moment::fromString('2022-10-08 15:00:00'),
-                Moment::fromString('2022-11-08 15:00:00'),
-                static fn () => new CustomMomentIsNotEqualTo(),
+                CustomTimeIsNotEqualTo::class,
+                Time::fromString('16:00:00'),
+                Time::fromString('15:00:00'),
+                static fn () => new CustomTimeIsNotEqualTo(),
             ],
         ];
     }
