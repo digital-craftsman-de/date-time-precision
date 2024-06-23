@@ -2,7 +2,9 @@
 
 ## From 0.10.* to 0.11.0
 
-No breaking changes.
+### Removed deprecated `isDate*` methods from `Moment`
+
+The `isDate*` methods have all been removed and should be replaced with `is*InTimeZone` methods.
 
 ## From 0.9.* to 0.10.0
 
