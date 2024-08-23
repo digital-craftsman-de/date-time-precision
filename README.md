@@ -22,11 +22,11 @@ This Symfony bundle includes Symfony normalizers for automatic normalization and
 
 As it's a central part of an application, it's tested thoroughly (including mutation testing). Currently, more than 80% of the lines of code in this repository are tests.
 
-[![Latest Stable Version](http://poser.pugx.org/digital-craftsman/date-time-precision/v)](https://packagist.org/packages/digital-craftsman/date-time-precision)
-[![PHP Version Require](http://poser.pugx.org/digital-craftsman/date-time-precision/require/php)](https://packagist.org/packages/digital-craftsman/date-time-precision)
+[![Latest Stable Version](https://img.shields.io/badge/stable-0.10.0-blue)](https://packagist.org/packages/digital-craftsman/date-time-precision)
+[![PHP Version Require](https://img.shields.io/badge/php-8.2|8.3-5b5d95)](https://packagist.org/packages/digital-craftsman/date-time-precision)
 [![codecov](https://codecov.io/gh/digital-craftsman-de/date-time-precision/branch/main/graph/badge.svg?token=vZ0IvKPj2f)](https://codecov.io/gh/digital-craftsman-de/date-time-precision)
-[![Total Downloads](http://poser.pugx.org/digital-craftsman/date-time-precision/downloads)](https://packagist.org/packages/digital-craftsman/date-time-precision)
-[![License](http://poser.pugx.org/digital-craftsman/date-time-precision/license)](https://packagist.org/packages/digital-craftsman/date-time-precision)
+![Packagist Downloads](https://img.shields.io/packagist/dt/digital-craftsman/date-time-precision)
+![Packagist License](https://img.shields.io/packagist/l/digital-craftsman/date-time-precision)
 
 ## Installation and configuration
 
