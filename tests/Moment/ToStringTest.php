@@ -7,7 +7,9 @@ namespace DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Moment;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment */
+/**
+ * @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment
+ */
 final class ToStringTest extends TestCase
 {
     /**
@@ -18,9 +20,9 @@ final class ToStringTest extends TestCase
     public function to_string_works(): void
     {
         // -- Arrange & Act
-        $dateTime = Moment::fromStringInTimeZone('2022-10-08 15:00:00', new \DateTimeZone('Europe/Berlin'));
+        $dateTime = Moment::fromStringInTimeZone('2022-10-08 15:00:00.000000', new \DateTimeZone('Europe/Berlin'));
 
         // -- Assert
-        self::assertEquals('2022-10-08T13:00:00+00:00', (string) $dateTime);
+        self::assertEquals('2022-10-08 13:00:00.000000', (string) $dateTime);
     }
 }
