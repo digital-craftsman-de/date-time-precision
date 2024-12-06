@@ -5,44 +5,26 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Doctrine;
 
 use DigitalCraftsman\DateTimePrecision\Time;
+use DigitalCraftsman\SelfAwareNormalizers\Doctrine\StringNormalizableType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\Type;
 
-final class TimeType extends Type
+/**
+ * @codeCoverageIgnore
+ */
+final class TimeType extends StringNormalizableType
 {
-    /** @codeCoverageIgnore */
-    public function getName(): string
+    public static function getTypeName(): string
     {
         return 'dtp_time';
     }
 
-    /** @codeCoverageIgnore */
+    public static function getClass(): string
+    {
+        return Time::class;
+    }
+
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return $platform->getTimeTypeDeclarationSQL($column);
-    }
-
-    /** @param Time|null $value */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
-    {
-        if ($value === null) {
-            return null;
-        }
-
-        return $value->format($platform->getTimeFormatString());
-    }
-
-    /** @param string|null $value */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?Time
-    {
-        return $value === null
-            ? null
-            : Time::fromString($value);
-    }
-
-    /** @codeCoverageIgnore */
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
-    {
-        return true;
     }
 }
