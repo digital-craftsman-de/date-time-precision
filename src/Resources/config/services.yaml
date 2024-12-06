@@ -7,9 +7,6 @@ services:
     class: DigitalCraftsman\DateTimePrecision\Clock\SystemClock
 
   # Normalizers
-  DigitalCraftsman\DateTimePrecision\Serializer\MomentNormalizer:
-    tags: [ { name: 'serializer.normalizer' } ]
-
   DigitalCraftsman\DateTimePrecision\Serializer\TimeNormalizer:
     tags: [ { name: 'serializer.normalizer' } ]
 
