@@ -117,4 +117,4 @@ php-8.4-tests-ci:
 
 .PHONY: php-mutation-testing-ci
 php-mutation-testing-ci:
-	docker compose run --rm php-8.4 ./vendor/bin/infection --only-covered --threads=max
+	docker compose run --rm php-8.3 ./vendor/bin/infection --only-covered --threads=max
