@@ -16,8 +16,5 @@ services:
   DigitalCraftsman\DateTimePrecision\Serializer\WeekdaysNormalizer:
     tags: [ { name: 'serializer.normalizer' } ]
 
-  DigitalCraftsman\DateTimePrecision\Serializer\MonthNormalizer:
-    tags: [ { name: 'serializer.normalizer' } ]
-
   DigitalCraftsman\DateTimePrecision\Serializer\YearNormalizer:
     tags: [ { name: 'serializer.normalizer' } ]
