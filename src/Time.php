@@ -8,7 +8,7 @@ use DigitalCraftsman\SelfAwareNormalizers\Serializer\StringNormalizable;
 
 final readonly class Time implements \Stringable, StringNormalizable
 {
-    private const string TIME_FORMAT = 'H:i:s.u';
+    private const string TIME_FORMAT = 'H:i:s';
     private const int MINUTES_IN_AN_HOUR = 60;
 
     // -- Construction
