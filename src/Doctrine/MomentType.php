@@ -5,20 +5,26 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Doctrine;
 
 use DigitalCraftsman\DateTimePrecision\Moment;
+use DigitalCraftsman\SelfAwareNormalizers\Doctrine\StringNormalizableType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
-use Doctrine\DBAL\Types\Type;
 
-final class MomentType extends Type
+/**
+ * @codeCoverageIgnore
+ */
+final class MomentType extends StringNormalizableType
 {
-    /** @codeCoverageIgnore */
-    public function getName(): string
+    public static function getTypeName(): string
     {
         return 'dtp_moment';
     }
 
-    /** @codeCoverageIgnore */
+    public static function getClass(): string
+    {
+        return Moment::class;
+    }
+
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         if ($platform instanceof PostgreSQLPlatform) {
@@ -30,29 +36,5 @@ final class MomentType extends Type
         }
 
         throw new \RuntimeException('Unsupported platform');
-    }
-
-    /** @param Moment|null $value */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
-    {
-        if ($value === null) {
-            return null;
-        }
-
-        return $value->format('Y-m-d H:i:s.u');
-    }
-
-    /** @param string|null $value */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?Moment
-    {
-        return $value === null
-            ? null
-            : Moment::fromString($value);
-    }
-
-    /** @codeCoverageIgnore */
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
-    {
-        return true;
     }
 }

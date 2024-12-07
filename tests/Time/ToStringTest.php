@@ -21,6 +21,6 @@ final class ToStringTest extends TestCase
         $time = Time::fromString('15:00:00');
 
         // -- Assert
-        self::assertEquals('15:00:00.000000', (string) $time);
+        self::assertEquals('15:00:00', (string) $time);
     }
 }

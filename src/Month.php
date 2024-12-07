@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision;
 
-final readonly class Month implements \Stringable
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\StringNormalizable;
+
+final readonly class Month implements \Stringable, StringNormalizable
 {
-    private const MONTH_FORMAT = 'Y-m';
+    private const string MONTH_FORMAT = 'Y-m';
 
     // -- Construction
 
@@ -51,6 +53,18 @@ final readonly class Month implements \Stringable
     // -- Stringable
 
     public function __toString()
+    {
+        return $this->format(self::MONTH_FORMAT);
+    }
+
+    // -- String normalizable
+
+    public static function denormalize(string $data): self
+    {
+        return self::fromString($data);
+    }
+
+    public function normalize(): string
     {
         return $this->format(self::MONTH_FORMAT);
     }

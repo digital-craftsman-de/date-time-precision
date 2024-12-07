@@ -5,25 +5,3 @@ services:
 
   DigitalCraftsman\DateTimePrecision\Clock\SystemClock:
     class: DigitalCraftsman\DateTimePrecision\Clock\SystemClock
-
-  # Normalizers
-  DigitalCraftsman\DateTimePrecision\Serializer\MomentNormalizer:
-    tags: [ { name: 'serializer.normalizer' } ]
-
-  DigitalCraftsman\DateTimePrecision\Serializer\TimeNormalizer:
-    tags: [ { name: 'serializer.normalizer' } ]
-
-  DigitalCraftsman\DateTimePrecision\Serializer\WeekdayNormalizer:
-    tags: [ { name: 'serializer.normalizer' } ]
-
-  DigitalCraftsman\DateTimePrecision\Serializer\WeekdaysNormalizer:
-    tags: [ { name: 'serializer.normalizer' } ]
-
-  DigitalCraftsman\DateTimePrecision\Serializer\DateNormalizer:
-    tags: [ { name: 'serializer.normalizer' } ]
-
-  DigitalCraftsman\DateTimePrecision\Serializer\MonthNormalizer:
-    tags: [ { name: 'serializer.normalizer' } ]
-
-  DigitalCraftsman\DateTimePrecision\Serializer\YearNormalizer:
-    tags: [ { name: 'serializer.normalizer' } ]

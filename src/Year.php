@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision;
 
-final readonly class Year
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\IntNormalizable;
+
+final readonly class Year implements IntNormalizable
 {
     // -- Construction
 
@@ -29,6 +31,18 @@ final readonly class Year
         }
 
         return self::fromDateTime($dateTime);
+    }
+
+    // Int normalizable
+
+    public static function denormalize(int $data): self
+    {
+        return new self($data);
+    }
+
+    public function normalize(): int
+    {
+        return $this->year;
     }
 
     // -- Accessors

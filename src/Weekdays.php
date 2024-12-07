@@ -4,13 +4,19 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision;
 
-final readonly class Weekdays
-{
-    // Construction
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\ArrayNormalizable;
 
-    /** @param array<int, Weekday> $weekdays */
+final readonly class Weekdays implements ArrayNormalizable
+{
+    // -- Construction
+
+    /**
+     * @param array<int, Weekday> $weekdays
+     */
     public function __construct(
-        /** @var array<int, Weekday> $weekdays */
+        /**
+         * @var array<int, Weekday> $weekdays
+         */
         public array $weekdays,
     ) {
         $enumValues = [];
@@ -24,18 +30,22 @@ final readonly class Weekdays
 
     // -- Array normalizable
 
-    /** @param array<int, string> $array */
-    public static function denormalize(array $array): self
+    /**
+     * @param array<int, string> $data
+     */
+    public static function denormalize(array $data): self
     {
         $weekdays = [];
-        foreach ($array as $value) {
+        foreach ($data as $value) {
             $weekdays[] = Weekday::from($value);
         }
 
         return new self($weekdays);
     }
 
-    /** @return array<int, string> */
+    /**
+     * @return array<int, string>
+     */
     public function normalize(): array
     {
         $weekdayStrings = [];
@@ -46,7 +56,7 @@ final readonly class Weekdays
         return $weekdayStrings;
     }
 
-    // Accessors
+    // -- Accessors
 
     public function contains(Weekday $weekday): bool
     {

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision;
 
-final readonly class Moment implements \Stringable
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\StringNormalizable;
+
+final readonly class Moment implements \Stringable, StringNormalizable
 {
-    private const DATE_TIME_FORMAT = \DateTimeInterface::ATOM;
+    private const string DATE_TIME_FORMAT_INCLUDING_MILLISECONDS = 'Y-m-d H:i:s.u';
 
     // -- Construction
 
@@ -39,7 +41,19 @@ final readonly class Moment implements \Stringable
 
     public function __toString(): string
     {
-        return $this->format(self::DATE_TIME_FORMAT);
+        return $this->format(self::DATE_TIME_FORMAT_INCLUDING_MILLISECONDS);
+    }
+
+    // -- String normalizable
+
+    public static function denormalize(string $data): self
+    {
+        return new self(new \DateTimeImmutable($data, new \DateTimeZone('UTC')));
+    }
+
+    public function normalize(): string
+    {
+        return $this->format(self::DATE_TIME_FORMAT_INCLUDING_MILLISECONDS);
     }
 
     // -- Accessors

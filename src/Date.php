@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision;
 
-final readonly class Date implements \Stringable
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\StringNormalizable;
+
+final readonly class Date implements \Stringable, StringNormalizable
 {
-    private const DATE_FORMAT = 'Y-m-d';
+    private const string DATE_FORMAT = 'Y-m-d';
 
     // -- Construction
 
@@ -52,6 +54,18 @@ final readonly class Date implements \Stringable
     // -- Stringable
 
     public function __toString(): string
+    {
+        return $this->format(self::DATE_FORMAT);
+    }
+
+    // -- String normalizable
+
+    public static function denormalize(string $data): self
+    {
+        return self::fromString($data);
+    }
+
+    public function normalize(): string
     {
         return $this->format(self::DATE_FORMAT);
     }

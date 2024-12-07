@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision;
 
-final readonly class Time implements \Stringable
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\StringNormalizable;
+
+final readonly class Time implements \Stringable, StringNormalizable
 {
-    private const TIME_FORMAT = 'H:i:s.u';
-    private const MINUTES_IN_AN_HOUR = 60;
+    private const string TIME_FORMAT = 'H:i:s';
+    private const int MINUTES_IN_AN_HOUR = 60;
 
     // -- Construction
 
@@ -74,9 +76,21 @@ final readonly class Time implements \Stringable
         }
     }
 
-    // Stringable
+    // -- Stringable
 
     public function __toString(): string
+    {
+        return $this->format(self::TIME_FORMAT);
+    }
+
+    // -- String normalizable
+
+    public static function denormalize(string $data): self
+    {
+        return self::fromString($data);
+    }
+
+    public function normalize(): string
     {
         return $this->format(self::TIME_FORMAT);
     }
