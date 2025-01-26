@@ -22,7 +22,7 @@ final class NormalizeDenormalizeTest extends TestCase
     {
         // -- Arrange
         $moment = Moment::fromString('2022-10-08 15:30:00.123456');
-        $data = '2022-10-08 15:30:00.123456';
+        $data = '2022-10-08T15:30:00.123456+00:00';
 
         // -- Act
         $normalized = $moment->normalize();

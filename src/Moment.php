@@ -8,7 +8,7 @@ use DigitalCraftsman\SelfAwareNormalizers\Serializer\StringNormalizable;
 
 final readonly class Moment implements \Stringable, StringNormalizable
 {
-    private const string DATE_TIME_FORMAT_INCLUDING_MILLISECONDS = 'Y-m-d H:i:s.u';
+    private const string ATOM_INCLUDING_MILLISECONDS = 'Y-m-d\TH:i:s.uP';
 
     // -- Construction
 
@@ -41,7 +41,7 @@ final readonly class Moment implements \Stringable, StringNormalizable
 
     public function __toString(): string
     {
-        return $this->format(self::DATE_TIME_FORMAT_INCLUDING_MILLISECONDS);
+        return $this->format(self::ATOM_INCLUDING_MILLISECONDS);
     }
 
     // -- String normalizable
@@ -53,7 +53,7 @@ final readonly class Moment implements \Stringable, StringNormalizable
 
     public function normalize(): string
     {
-        return $this->format(self::DATE_TIME_FORMAT_INCLUDING_MILLISECONDS);
+        return $this->format(self::ATOM_INCLUDING_MILLISECONDS);
     }
 
     // -- Accessors

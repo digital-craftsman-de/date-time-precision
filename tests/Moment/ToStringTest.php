@@ -23,6 +23,6 @@ final class ToStringTest extends TestCase
         $dateTime = Moment::fromStringInTimeZone('2022-10-08 15:00:00.000000', new \DateTimeZone('Europe/Berlin'));
 
         // -- Assert
-        self::assertEquals('2022-10-08 13:00:00.000000', (string) $dateTime);
+        self::assertEquals('2022-10-08T13:00:00.000000+00:00', (string) $dateTime);
     }
 }
