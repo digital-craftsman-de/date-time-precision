@@ -6,6 +6,12 @@
 
 The `isDate*` methods have all been removed and should be replaced with `is*InTimeZone` methods.
 
+### Dropped custom normalizers
+
+The custom normalizers have been dropped in favor of `digital-craftsman/self-aware-normalizers`. If you constructed or injected them somewhere manually, you need to replace them with the `StringNormalizableNormalizer` or `IntNormalizableNormalizer`. Otherwise, there is nothing to do, as they are registered automatically like the previous ones did.
+
+```yaml
+
 ## From 0.9.* to 0.10.0
 
 No breaking changes (just deprecations).
