@@ -4,13 +4,13 @@
   "type": "symfony-bundle",
   "require": {
     "php": "8.3.*|8.4.*",
-    "digital-craftsman/self-aware-normalizers": "^0.2.0",
+    "digital-craftsman/self-aware-normalizers": "^0.3.0",
     "doctrine/dbal": "^3.4.0",
     "symfony/framework-bundle": "^7.0",
     "symfony/serializer": "^7.0"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^3.40",
+    "friendsofphp/php-cs-fixer": "^3.68.5",
     "infection/infection": "0.29.*",
     "phpunit/phpunit": "^10.5",
     "vimeo/psalm": "^6.0.0"

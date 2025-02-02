@@ -98,18 +98,18 @@ jobs:
       - name: Setup env
         run: cp .github/workflows/.env .env
 
-      - name: Restore cache for PHP 8.3 dependencies
-        id: cache-php-8-3-dependencies
+      - name: Restore cache for PHP 8.4 dependencies
+        id: cache-php-8-4-dependencies
         uses: actions/cache/restore@v3
         with:
           path: |
             ~/.cache
             vendor
-          key: ${{ runner.os }}-php-8-3-cache-${{ hashFiles('composer.lock') }}
+          key: ${{ runner.os }}-php-8-4-cache-${{ hashFiles('composer.lock') }}
 
       - name: Install
         if: steps.cache-php-8-4-dependencies.outputs.cache-hit != 'true'
-        run: make install-8.3
+        run: make install-8.4
 
       - name: Run mutation testing
         run: make php-mutation-testing-ci
@@ -130,18 +130,18 @@ jobs:
       - name: Setup env
         run: cp .github/workflows/.env .env
 
-      - name: Restore cache for PHP 8.3 dependencies
-        id: cache-php-8-3-dependencies
+      - name: Restore cache for PHP 8.4 dependencies
+        id: cache-php-8-4-dependencies
         uses: actions/cache/restore@v3
         with:
           path: |
             ~/.cache
             vendor
-          key: ${{ runner.os }}-php-8-3-cache-${{ hashFiles('composer.lock') }}
+          key: ${{ runner.os }}-php-8-4-cache-${{ hashFiles('composer.lock') }}
 
       - name: Install
-        if: steps.cache-php-8-3-dependencies.outputs.cache-hit != 'true'
-        run: make install-8.3
+        if: steps.cache-php-8-4-dependencies.outputs.cache-hit != 'true'
+        run: make install-8.4
 
       - name: Run code validation
         run: make php-code-validation

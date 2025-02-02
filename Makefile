@@ -42,7 +42,7 @@ reset: .reset
 .reset: .down .install .up
 
 .PHONY: .install
-install: install-8.3
+install: install-8.4
 
 .PHONY: install-8.3
 install-8.3:
@@ -53,7 +53,7 @@ install-8.4:
 	docker compose run --rm php-8.4 composer install
 
 .PHONY: .php-cli
-php-cli: php-8.3-cli
+php-cli: php-8.4-cli
 
 .PHONY: php-8.3-cli
 php-8.3-cli:
@@ -83,7 +83,7 @@ php-8.4-tests:
 	docker compose run --rm php-8.4 ./vendor/bin/phpunit
 
 .PHONY: php-tests-coverage
-php-tests-coverage: php-8.3-tests-html-coverage
+php-tests-coverage: php-8.4-tests-html-coverage
 
 .PHONY: php-8.3-tests-html-coverage
 php-8.3-tests-html-coverage:
@@ -95,12 +95,12 @@ php-8.4-tests-html-coverage:
 
 .PHONY: php-code-validation
 php-code-validation:
-	docker compose run --rm php-8.3 ./vendor/bin/php-cs-fixer fix
-	docker compose run --rm php-8.3 ./vendor/bin/psalm --show-info=false --no-diff
+	docker compose run --rm php-8.4 ./vendor/bin/php-cs-fixer fix
+	docker compose run --rm php-8.4 ./vendor/bin/psalm --show-info=false --no-diff
 
 .PHONY: php-mutation-testing
 php-mutation-testing:
-	docker compose run --rm php-8.3 ./vendor/bin/infection --show-mutations --only-covered --threads=8
+	docker compose run --rm php-8.4 ./vendor/bin/infection --show-mutations --only-covered --threads=8
 
 ##
 ## CI
@@ -109,12 +109,12 @@ php-mutation-testing:
 
 .PHONY: php-8.3-tests-ci
 php-8.3-tests-ci:
-	docker compose run --rm php-8.3 ./vendor/bin/phpunit --coverage-clover ./coverage.xml
+	docker compose run --rm php-8.3 ./vendor/bin/phpunit
 
 .PHONY: php-8.4-tests-ci
 php-8.4-tests-ci:
-	docker compose run --rm php-8.4 ./vendor/bin/phpunit
+	docker compose run --rm php-8.4 ./vendor/bin/phpunit --coverage-clover ./coverage.xml
 
 .PHONY: php-mutation-testing-ci
 php-mutation-testing-ci:
-	docker compose run --rm php-8.3 ./vendor/bin/infection --only-covered --threads=max
+	docker compose run --rm php-8.4 ./vendor/bin/infection --only-covered --threads=max
