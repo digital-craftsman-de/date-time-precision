@@ -4,6 +4,7 @@
 
 - **[Breaking change](./UPGRADE.md#removed-deprecated-isdate-methods-from-moment)**: Removed deprecated `isDate*` methods from `Moment`.
 - **[Breaking change](./UPGRADE.md#dropped-custom-normalizers)**: Dropped custom normalizers in favor of `digital-craftsman/self-aware-normalizers`.
+- **[Breaking change](./UPGRADE.md#dropped-support-for-php-82)** Dropped support for PHP 8.2.
 - Added `Clock` implementation with `SystemClock` and `FrozenClock`.
 - Added guard methods for comparison methods to `Moment`, `Date` and `Time` like `mustBeEqualTo` with option to throw custom exception.
 - Changed normalization of `Moment` to include microseconds.

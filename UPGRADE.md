@@ -10,7 +10,9 @@ The `isDate*` methods have all been removed and should be replaced with `is*InTi
 
 The custom normalizers have been dropped in favor of `digital-craftsman/self-aware-normalizers`. If you constructed or injected them somewhere manually, you need to replace them with the `StringNormalizableNormalizer` or `IntNormalizableNormalizer`. Otherwise, there is nothing to do, as they are registered automatically like the previous ones did.
 
-```yaml
+### Dropped support for PHP 8.2
+
+Support for PHP 8.2 was dropped, so you have to upgrade to at least PHP 8.3.
 
 ## From 0.9.* to 0.10.0
 
