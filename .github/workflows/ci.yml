@@ -38,14 +38,6 @@ jobs:
       - name: Run PHP tests
         run: make php-8.3-tests-ci
 
-      - name: Upload to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          fail_ci_if_error: true
-          files: ./coverage.xml
-          token: ${{ secrets.CODECOV_TOKEN }}
-          verbose: true
-
   test-8-4:
     name: "Tests on PHP 8.4"
     runs-on: ubuntu-latest
@@ -81,6 +73,14 @@ jobs:
 
       - name: Run PHP tests
         run: make php-8.4-tests-ci
+
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          fail_ci_if_error: true
+          files: ./coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true
 
   mutation-testing:
     name: "Mutation tests"
