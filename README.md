@@ -22,7 +22,7 @@ This Symfony bundle includes Symfony normalizers for automatic normalization and
 
 As it's a central part of an application, it's tested thoroughly (including mutation testing). Currently, more than 80% of the lines of code in this repository are tests.
 
-[![Latest Stable Version](https://img.shields.io/badge/stable-0.11.0-blue)](https://packagist.org/packages/digital-craftsman/date-time-precision)
+[![Latest Stable Version](https://img.shields.io/badge/stable-0.11.1-blue)](https://packagist.org/packages/digital-craftsman/date-time-precision)
 [![PHP Version Require](https://img.shields.io/badge/php-8.3|8.4-5b5d95)](https://packagist.org/packages/digital-craftsman/date-time-precision)
 [![codecov](https://codecov.io/gh/digital-craftsman-de/date-time-precision/branch/main/graph/badge.svg?token=vZ0IvKPj2f)](https://codecov.io/gh/digital-craftsman-de/date-time-precision)
 ![Packagist Downloads](https://img.shields.io/packagist/dt/digital-craftsman/date-time-precision)
