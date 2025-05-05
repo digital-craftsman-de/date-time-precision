@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.1
+
+- Updated `digital-craftsman/self-aware-normalizers` to use the first stable version.
+
 ## 0.11.0
 
 - **[Breaking change](./UPGRADE.md#removed-deprecated-isdate-methods-from-moment)**: Removed deprecated `isDate*` methods from `Moment`.
