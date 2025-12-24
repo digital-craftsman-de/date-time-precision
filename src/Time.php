@@ -78,6 +78,7 @@ final readonly class Time implements \Stringable, StringNormalizable
 
     // -- Stringable
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->format(self::TIME_FORMAT);
@@ -85,11 +86,13 @@ final readonly class Time implements \Stringable, StringNormalizable
 
     // -- String normalizable
 
+    #[\Override]
     public static function denormalize(string $data): self
     {
         return self::fromString($data);
     }
 
+    #[\Override]
     public function normalize(): string
     {
         return $this->format(self::TIME_FORMAT);

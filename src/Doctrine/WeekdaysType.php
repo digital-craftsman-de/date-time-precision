@@ -12,11 +12,13 @@ use DigitalCraftsman\SelfAwareNormalizers\Doctrine\ArrayNormalizableType;
  */
 final class WeekdaysType extends ArrayNormalizableType
 {
+    #[\Override]
     public static function getTypeName(): string
     {
         return 'dtp_weekdays';
     }
 
+    #[\Override]
     public static function getClass(): string
     {
         return Weekdays::class;

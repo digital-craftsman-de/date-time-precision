@@ -18,6 +18,7 @@ final readonly class DoctrineTypeRegisterCompilerPass implements CompilerPassInt
 {
     public const TYPE_DEFINITION_PARAMETER = 'doctrine.dbal.connection_factory.types';
 
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         /** @var array<string, array{class: class-string}> $typeDefinitions */

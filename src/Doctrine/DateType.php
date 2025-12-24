@@ -13,16 +13,19 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
  */
 final class DateType extends StringNormalizableType
 {
+    #[\Override]
     public static function getTypeName(): string
     {
         return 'dtp_date';
     }
 
+    #[\Override]
     public static function getClass(): string
     {
         return Date::class;
     }
 
+    #[\Override]
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return $platform->getDateTypeDeclarationSQL($column);

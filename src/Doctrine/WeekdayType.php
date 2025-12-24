@@ -13,16 +13,19 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
  */
 final class WeekdayType extends StringNormalizableType
 {
+    #[\Override]
     public static function getTypeName(): string
     {
         return 'dtp_weekday';
     }
 
+    #[\Override]
     public static function getClass(): string
     {
         return Weekday::class;
     }
 
+    #[\Override]
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         $column['length'] = 9;

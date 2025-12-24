@@ -1,11 +1,12 @@
 <?php
 
-$finder = (new PhpCsFixer\Finder())
+$finder = new PhpCsFixer\Finder()
     ->in(__DIR__)
     ->exclude('vendor')
 ;
 
-return (new PhpCsFixer\Config())
+return new PhpCsFixer\Config()
+    ->setUnsupportedPhpVersionAllowed(true)
     ->setRules([
         '@Symfony' => true,
 
@@ -45,4 +46,5 @@ return (new PhpCsFixer\Config())
         // Throw in a single line is worse to read when using ternary operator
         'single_line_throw' => false,
     ])
-    ->setFinder($finder);
+    ->setFinder($finder)
+;
