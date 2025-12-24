@@ -28,7 +28,7 @@ final class IsBeforeTest extends TestCase
 
     /**
      * @return array<string, array{
-     *   0: boolean,
+     *   0: bool,
      *   1: Date,
      *   2: Date,
      * }>
