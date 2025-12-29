@@ -42,6 +42,10 @@ final class IsMidnightTest extends TestCase
                 false,
                 Time::fromString('15:00:00'),
             ],
+            'not at midnight due to milliseconds' => [
+                false,
+                Time::fromString('00:00:00.123'),
+            ],
         ];
     }
 }
