@@ -31,7 +31,7 @@ final class MomentType extends StringNormalizableType
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         if ($platform instanceof PostgreSQLPlatform) {
-            return 'TIMESTAMP(6)';
+            return 'TIMESTAMP(6) WITHOUT TIME ZONE';
         }
 
         if ($platform instanceof MySQLPlatform) {
