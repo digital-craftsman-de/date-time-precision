@@ -33,6 +33,7 @@ final readonly class Weekdays implements ArrayNormalizable
     /**
      * @param array<int, string> $data
      */
+    #[\Override]
     public static function denormalize(array $data): self
     {
         $weekdays = [];
@@ -46,6 +47,7 @@ final readonly class Weekdays implements ArrayNormalizable
     /**
      * @return array<int, string>
      */
+    #[\Override]
     public function normalize(): array
     {
         $weekdayStrings = [];

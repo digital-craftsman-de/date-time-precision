@@ -27,7 +27,7 @@ final class IsMidnightTest extends TestCase
 
     /**
      * @return array<string, array{
-     *   0: boolean,
+     *   0: bool,
      *   1: Time,
      * }>
      */
@@ -41,6 +41,10 @@ final class IsMidnightTest extends TestCase
             'not at midnight' => [
                 false,
                 Time::fromString('15:00:00'),
+            ],
+            'not at midnight due to milliseconds' => [
+                false,
+                Time::fromString('00:00:00.123'),
             ],
         ];
     }

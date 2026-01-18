@@ -1,17 +1,18 @@
 {
   "name": "digital-craftsman/date-time-precision",
+  "version": "0.12.0",
   "description": "A Symfony bundle for more precise date and time handling through value objects",
   "type": "symfony-bundle",
   "require": {
-    "php": "8.3.*|8.4.*",
-    "digital-craftsman/self-aware-normalizers": "^1.0.0",
-    "doctrine/dbal": "^3.4.0",
-    "symfony/framework-bundle": "^7.0",
-    "symfony/serializer": "^7.0"
+    "php": "8.4.*|8.5.*",
+    "digital-craftsman/self-aware-normalizers": "^1.2.0",
+    "doctrine/dbal": "^4.4",
+    "symfony/framework-bundle": "^7.4|^8.0",
+    "symfony/serializer": "^7.4|^8.0"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.68.5",
-    "infection/infection": "0.29.*",
+    "infection/infection": "^0.32",
     "phpunit/phpunit": "^10.5",
     "vimeo/psalm": "^6.0.0"
   },

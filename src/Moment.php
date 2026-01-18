@@ -39,6 +39,7 @@ final readonly class Moment implements \Stringable, StringNormalizable
 
     // Stringable
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->format(self::ATOM_INCLUDING_MICROSECONDS);
@@ -46,11 +47,13 @@ final readonly class Moment implements \Stringable, StringNormalizable
 
     // -- String normalizable
 
+    #[\Override]
     public static function denormalize(string $data): self
     {
         return new self(new \DateTimeImmutable($data, new \DateTimeZone('UTC')));
     }
 
+    #[\Override]
     public function normalize(): string
     {
         return $this->format(self::ATOM_INCLUDING_MICROSECONDS);

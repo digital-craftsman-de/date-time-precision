@@ -53,6 +53,7 @@ final readonly class Date implements \Stringable, StringNormalizable
 
     // -- Stringable
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->format(self::DATE_FORMAT);
@@ -60,11 +61,13 @@ final readonly class Date implements \Stringable, StringNormalizable
 
     // -- String normalizable
 
+    #[\Override]
     public static function denormalize(string $data): self
     {
         return self::fromString($data);
     }
 
+    #[\Override]
     public function normalize(): string
     {
         return $this->format(self::DATE_FORMAT);

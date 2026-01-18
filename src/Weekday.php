@@ -35,11 +35,13 @@ enum Weekday: string implements StringNormalizable
 
     // -- String normalizable
 
+    #[\Override]
     public static function denormalize(string $data): self
     {
         return self::from($data);
     }
 
+    #[\Override]
     public function normalize(): string
     {
         return $this->value;
