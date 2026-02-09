@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/digital-craftsman-de/self-aware-normalizers.git",
-                "reference": "b4c106d78abb0d3be334f02cdc11e65db3d05d13"
+                "reference": "563dbe30aacd8393f180fca2aa6e93682d74b422"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digital-craftsman-de/self-aware-normalizers/zipball/b4c106d78abb0d3be334f02cdc11e65db3d05d13",
-                "reference": "b4c106d78abb0d3be334f02cdc11e65db3d05d13",
+                "url": "https://api.github.com/repos/digital-craftsman-de/self-aware-normalizers/zipball/563dbe30aacd8393f180fca2aa6e93682d74b422",
+                "reference": "563dbe30aacd8393f180fca2aa6e93682d74b422",
                 "shasum": ""
             },
             "require": {
@@ -57,7 +57,7 @@
                 "issues": "https://github.com/digital-craftsman-de/self-aware-normalizers/issues",
                 "source": "https://github.com/digital-craftsman-de/self-aware-normalizers/tree/interface-registration"
             },
-            "time": "2026-02-09T09:59:00+00:00"
+            "time": "2026-02-09T14:38:07+00:00"
         },
         {
             "name": "doctrine/dbal",

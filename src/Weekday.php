@@ -6,9 +6,12 @@ namespace DigitalCraftsman\DateTimePrecision;
 
 use DigitalCraftsman\SelfAwareNormalizers\Doctrine\StringNormalizableTypeWithMaxLength;
 use DigitalCraftsman\SelfAwareNormalizers\Serializer\StringNormalizable;
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\StringNormalizableEnumTrait;
 
 enum Weekday: string implements StringNormalizable, StringNormalizableTypeWithMaxLength
 {
+    use StringNormalizableEnumTrait;
+
     case MONDAY = 'MONDAY';
     case TUESDAY = 'TUESDAY';
     case WEDNESDAY = 'WEDNESDAY';
@@ -32,20 +35,6 @@ enum Weekday: string implements StringNormalizable, StringNormalizableTypeWithMa
             6 => self::SATURDAY,
             7 => self::SUNDAY,
         };
-    }
-
-    // -- String normalizable
-
-    #[\Override]
-    public static function denormalize(string $data): self
-    {
-        return self::from($data);
-    }
-
-    #[\Override]
-    public function normalize(): string
-    {
-        return $this->value;
     }
 
     // -- Accessors
