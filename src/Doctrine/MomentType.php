@@ -11,6 +11,8 @@ use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 
 /**
+ * @deprecated
+ *
  * @codeCoverageIgnore
  */
 final class MomentType extends StringNormalizableType

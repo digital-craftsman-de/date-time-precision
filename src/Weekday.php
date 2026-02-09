@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision;
 
+use DigitalCraftsman\SelfAwareNormalizers\Doctrine\StringNormalizableTypeWithMaxLength;
 use DigitalCraftsman\SelfAwareNormalizers\Serializer\StringNormalizable;
 
-enum Weekday: string implements StringNormalizable
+enum Weekday: string implements StringNormalizable, StringNormalizableTypeWithMaxLength
 {
     case MONDAY = 'MONDAY';
     case TUESDAY = 'TUESDAY';
@@ -115,5 +116,14 @@ enum Weekday: string implements StringNormalizable
     public function compareTo(self $date): int
     {
         return $this->dayOfWeek() <=> $date->dayOfWeek();
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    #[\Override]
+    public static function maxLength(): int
+    {
+        return 9;
     }
 }

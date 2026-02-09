@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision;
 
+use DigitalCraftsman\SelfAwareNormalizers\Doctrine\NormalizableTypeWithSQLDeclaration;
 use DigitalCraftsman\SelfAwareNormalizers\Serializer\StringNormalizable;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 
-final readonly class Moment implements \Stringable, StringNormalizable
+final readonly class Moment implements \Stringable, StringNormalizable, NormalizableTypeWithSQLDeclaration
 {
     private const string ATOM_INCLUDING_MICROSECONDS = 'Y-m-d\TH:i:s.uP';
 
@@ -769,5 +773,22 @@ final readonly class Moment implements \Stringable, StringNormalizable
                 ? $otherwiseThrow()
                 : new Exception\MomentIsBeforeOrEqualTo();
         }
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    #[\Override]
+    public static function getSQLDeclaration(array $column, AbstractPlatform $platform): string
+    {
+        if ($platform instanceof PostgreSQLPlatform) {
+            return 'TIMESTAMP(6) WITHOUT TIME ZONE';
+        }
+
+        if ($platform instanceof MySQLPlatform) {
+            return 'DATETIME(6)';
+        }
+
+        throw new \RuntimeException('Unsupported platform');
     }
 }

@@ -4,19 +4,24 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision\DateTimePrecision\DependencyInjection;
 
+use DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\DependencyInjection\DoctrineTypeRegisterCompilerPass;
-use DigitalCraftsman\DateTimePrecision\Doctrine\DateType;
-use DigitalCraftsman\DateTimePrecision\Doctrine\MomentType;
-use DigitalCraftsman\DateTimePrecision\Doctrine\MonthType;
-use DigitalCraftsman\DateTimePrecision\Doctrine\TimeType;
-use DigitalCraftsman\DateTimePrecision\Doctrine\WeekdaysType;
-use DigitalCraftsman\DateTimePrecision\Doctrine\WeekdayType;
-use DigitalCraftsman\DateTimePrecision\Doctrine\YearType;
+use DigitalCraftsman\DateTimePrecision\Moment;
+use DigitalCraftsman\DateTimePrecision\Month;
+use DigitalCraftsman\DateTimePrecision\Time;
+use DigitalCraftsman\DateTimePrecision\Weekday;
+use DigitalCraftsman\DateTimePrecision\Weekdays;
+use DigitalCraftsman\DateTimePrecision\Year;
+use DigitalCraftsman\SelfAwareNormalizers\Doctrine\ArrayNormalizableThroughLookupType;
+use DigitalCraftsman\SelfAwareNormalizers\Doctrine\IntNormalizableThroughLookupType;
+use DigitalCraftsman\SelfAwareNormalizers\Doctrine\StringNormalizableThroughLookupType;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\DependencyInjection\DoctrineTypeRegisterCompilerPass */
+/**
+ * @coversDefaultClass \DigitalCraftsman\DateTimePrecision\DependencyInjection\DoctrineTypeRegisterCompilerPass
+ */
 final class DoctrineTypeRegisterCompilerPassTest extends TestCase
 {
     /**
@@ -38,25 +43,25 @@ final class DoctrineTypeRegisterCompilerPassTest extends TestCase
         // -- Assert
         /** @var array $updatedParameters */
         $updatedParameters = $container->getParameter(DoctrineTypeRegisterCompilerPass::TYPE_DEFINITION_PARAMETER);
-        self::assertArrayHasKey('dtp_moment', $updatedParameters);
-        self::assertSame(['class' => MomentType::class], $updatedParameters['dtp_moment']);
+        self::assertArrayHasKey(Moment::class, $updatedParameters);
+        self::assertSame(['class' => StringNormalizableThroughLookupType::class], $updatedParameters[Moment::class]);
 
-        self::assertArrayHasKey('dtp_time', $updatedParameters);
-        self::assertSame(['class' => TimeType::class], $updatedParameters['dtp_time']);
+        self::assertArrayHasKey(Time::class, $updatedParameters);
+        self::assertSame(['class' => StringNormalizableThroughLookupType::class], $updatedParameters[Time::class]);
 
-        self::assertArrayHasKey('dtp_weekday', $updatedParameters);
-        self::assertSame(['class' => WeekdayType::class], $updatedParameters['dtp_weekday']);
+        self::assertArrayHasKey(Weekday::class, $updatedParameters);
+        self::assertSame(['class' => StringNormalizableThroughLookupType::class], $updatedParameters[Weekday::class]);
 
-        self::assertArrayHasKey('dtp_weekdays', $updatedParameters);
-        self::assertSame(['class' => WeekdaysType::class], $updatedParameters['dtp_weekdays']);
+        self::assertArrayHasKey(Weekdays::class, $updatedParameters);
+        self::assertSame(['class' => ArrayNormalizableThroughLookupType::class], $updatedParameters[Weekdays::class]);
 
-        self::assertArrayHasKey('dtp_date', $updatedParameters);
-        self::assertSame(['class' => DateType::class], $updatedParameters['dtp_date']);
+        self::assertArrayHasKey(Date::class, $updatedParameters);
+        self::assertSame(['class' => StringNormalizableThroughLookupType::class], $updatedParameters[Date::class]);
 
-        self::assertArrayHasKey('dtp_month', $updatedParameters);
-        self::assertSame(['class' => MonthType::class], $updatedParameters['dtp_month']);
+        self::assertArrayHasKey(Month::class, $updatedParameters);
+        self::assertSame(['class' => StringNormalizableThroughLookupType::class], $updatedParameters[Month::class]);
 
-        self::assertArrayHasKey('dtp_year', $updatedParameters);
-        self::assertSame(['class' => YearType::class], $updatedParameters['dtp_year']);
+        self::assertArrayHasKey(Year::class, $updatedParameters);
+        self::assertSame(['class' => IntNormalizableThroughLookupType::class], $updatedParameters[Year::class]);
     }
 }

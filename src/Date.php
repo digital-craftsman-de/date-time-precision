@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision;
 
+use DigitalCraftsman\SelfAwareNormalizers\Doctrine\NormalizableTypeWithSQLDeclaration;
 use DigitalCraftsman\SelfAwareNormalizers\Serializer\StringNormalizable;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 
-final readonly class Date implements \Stringable, StringNormalizable
+final readonly class Date implements \Stringable, StringNormalizable, NormalizableTypeWithSQLDeclaration
 {
     private const string DATE_FORMAT = 'Y-m-d';
 
@@ -402,5 +404,14 @@ final readonly class Date implements \Stringable, StringNormalizable
                 $this->day,
             ),
         );
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    #[\Override]
+    public static function getSQLDeclaration(array $column, AbstractPlatform $platform): string
+    {
+        return $platform->getDateTypeDeclarationSQL($column);
     }
 }
