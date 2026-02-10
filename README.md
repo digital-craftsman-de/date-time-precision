@@ -22,7 +22,7 @@ This Symfony bundle includes Symfony normalizers for automatic normalization and
 
 As it's a central part of an application, it's tested thoroughly (including mutation testing). Currently, more than 80% of the lines of code in this repository are tests.
 
-[![Latest Stable Version](https://img.shields.io/badge/stable-0.12.0-blue)](https://packagist.org/packages/digital-craftsman/date-time-precision)
+[![Latest Stable Version](https://img.shields.io/badge/stable-0.13.0-blue)](https://packagist.org/packages/digital-craftsman/date-time-precision)
 [![PHP Version Require](https://img.shields.io/badge/php-8.4|8.5-5b5d95)](https://packagist.org/packages/digital-craftsman/date-time-precision)
 [![codecov](https://codecov.io/gh/digital-craftsman-de/date-time-precision/branch/main/graph/badge.svg?token=vZ0IvKPj2f)](https://codecov.io/gh/digital-craftsman-de/date-time-precision)
 ![Packagist Downloads](https://img.shields.io/packagist/dt/digital-craftsman/date-time-precision)
@@ -36,7 +36,7 @@ Install package through composer:
 composer require digital-craftsman/date-time-precision
 ```
 
-> ⚠️ This bundle can be used (and is being used) in production, but hasn't reached version 1.0 yet. Therefore, there will be breaking changes between minor versions. I'd recommend that you require the bundle only with the current minor version like `composer require digital-craftsman/date-time-precision:0.12.*`. Breaking changes are described in the releases and [the changelog](./CHANGELOG.md). Updates are described in the [upgrade guide](./UPGRADE.md).
+> ⚠️ This bundle can be used (and is being used) in production, but hasn't reached version 1.0 yet. Therefore, there will be breaking changes between minor versions. I'd recommend that you require the bundle only with the current minor version like `composer require digital-craftsman/date-time-precision:0.13.*`. Breaking changes are described in the releases and [the changelog](./CHANGELOG.md). Updates are described in the [upgrade guide](./UPGRADE.md).
 
 ## When would I need that?
 
@@ -73,15 +73,33 @@ The resulting `$bookingsAllowedFrom` is still a date time with timezone `UTC` bu
 For the best code readability, it's best to use the `Moment` provided with the package as a full replacement for `\DateTime` or `\DateTimeImmutable` when you're speaking about a moment in time and the others value objects for the rest.
 The package integrates with the normalizers of `digital-craftsman/self-aware-normalizers` and provides Doctrine types (that use those interfaces) for `Moment` and all parts.
 
-The Doctrine types are automatically registered with the bundle with the following type names:
+The value objects implement the relevant interfaces for the doctrine types and therefore can be used directly in your doctrine entities like the following:
 
-- `dtp_moment`
-- `dtp_time`
-- `dtp_weekday`
-- `dtp_weekdays`
-- `dtp_date`
-- `dtp_month`
-- `dtp_year`
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Entity;
+
+use DigitalCraftsman\DateTimePrecision\Moment;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity()]
+#[ORM\Table(name: 'facility')]
+class Facility
+{
+    ...
+    
+    /** @psalm-readonly */
+    #[ORM\Column(name: 'created_at', type: Moment::class)]
+    public Moment $createdAt;
+
+    #[ORM\Column(name: 'updated_at', type: Moment::class)]
+    public Moment $updatedAt;
+
+    ...
+```
 
 The package also contains a clock component consisting of the interface `Clock` with the two implementations `SystemClock` (for general use) and `FrozenClock` (for testing). The `SystemClock` will be autowired for the `Clock` and automatically replaced with `FrozenClock` in the test environment.
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.13.0
+
+- Updated registration to auto registration for doctrine types.
+- Deprecated previous doctrine types.
+
 ## 0.12.0
 
 - Added support for PHP 8.5.
