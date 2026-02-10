@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision;
 
+use DigitalCraftsman\SelfAwareNormalizers\Doctrine\StringNormalizableTypeWithMaxLength;
 use DigitalCraftsman\SelfAwareNormalizers\Serializer\StringNormalizable;
 
-final readonly class Month implements \Stringable, StringNormalizable
+final readonly class Month implements \Stringable, StringNormalizable, StringNormalizableTypeWithMaxLength
 {
     private const string MONTH_FORMAT = 'Y-m';
 
@@ -243,5 +244,14 @@ final readonly class Month implements \Stringable, StringNormalizable
                 $this->month,
             ),
         );
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    #[\Override]
+    public static function maxLength(): int
+    {
+        return 7;
     }
 }

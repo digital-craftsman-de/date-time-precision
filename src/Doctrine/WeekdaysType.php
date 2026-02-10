@@ -8,6 +8,8 @@ use DigitalCraftsman\DateTimePrecision\Weekdays;
 use DigitalCraftsman\SelfAwareNormalizers\Doctrine\ArrayNormalizableType;
 
 /**
+ * @deprecated
+ *
  * @codeCoverageIgnore
  */
 final class WeekdaysType extends ArrayNormalizableType

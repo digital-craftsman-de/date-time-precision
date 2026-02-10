@@ -1,5 +1,65 @@
 # Upgrade guide
 
+## From 0.12.* to 0.13.0
+
+### Switch to automatic doctrine types
+
+Use the full class string in the doctrine column `type` instead of the custom names.
+
+Before:
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Entity;
+
+use DigitalCraftsman\DateTimePrecision\Moment;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity()]
+#[ORM\Table(name: 'facility')]
+class Facility
+{
+    ...
+    
+    /** @psalm-readonly */
+    #[ORM\Column(name: 'created_at', type: 'dtp_moment')]
+    public Moment $createdAt;
+
+    #[ORM\Column(name: 'updated_at', type: 'dtp_moment')]
+    public Moment $updatedAt;
+
+    ...
+```
+
+After:
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Entity;
+
+use DigitalCraftsman\DateTimePrecision\Moment;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity()]
+#[ORM\Table(name: 'facility')]
+class Facility
+{
+    ...
+    
+    /** @psalm-readonly */
+    #[ORM\Column(name: 'created_at', type: Moment::class)]
+    public Moment $createdAt;
+
+    #[ORM\Column(name: 'updated_at', type: Moment::class)]
+    public Moment $updatedAt;
+
+    ...
+```
+
 ## From 0.11.* to 0.12.0
 
 ### Dropped support for PHP 8.3

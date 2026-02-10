@@ -9,6 +9,8 @@ use DigitalCraftsman\SelfAwareNormalizers\Doctrine\StringNormalizableType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 /**
+ * @deprecated
+ *
  * @codeCoverageIgnore
  */
 final class DateType extends StringNormalizableType

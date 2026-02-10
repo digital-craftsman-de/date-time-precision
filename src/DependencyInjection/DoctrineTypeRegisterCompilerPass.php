@@ -4,33 +4,40 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision\DependencyInjection;
 
-use DigitalCraftsman\DateTimePrecision\Doctrine\DateType;
-use DigitalCraftsman\DateTimePrecision\Doctrine\MomentType;
-use DigitalCraftsman\DateTimePrecision\Doctrine\MonthType;
-use DigitalCraftsman\DateTimePrecision\Doctrine\TimeType;
-use DigitalCraftsman\DateTimePrecision\Doctrine\WeekdaysType;
-use DigitalCraftsman\DateTimePrecision\Doctrine\WeekdayType;
-use DigitalCraftsman\DateTimePrecision\Doctrine\YearType;
+use DigitalCraftsman\DateTimePrecision\Date;
+use DigitalCraftsman\DateTimePrecision\Moment;
+use DigitalCraftsman\DateTimePrecision\Month;
+use DigitalCraftsman\DateTimePrecision\Time;
+use DigitalCraftsman\DateTimePrecision\Weekday;
+use DigitalCraftsman\DateTimePrecision\Weekdays;
+use DigitalCraftsman\DateTimePrecision\Year;
+use DigitalCraftsman\SelfAwareNormalizers\Doctrine\ArrayNormalizableThroughLookupType;
+use DigitalCraftsman\SelfAwareNormalizers\Doctrine\IntNormalizableThroughLookupType;
+use DigitalCraftsman\SelfAwareNormalizers\Doctrine\StringNormalizableThroughLookupType;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final readonly class DoctrineTypeRegisterCompilerPass implements CompilerPassInterface
 {
-    public const TYPE_DEFINITION_PARAMETER = 'doctrine.dbal.connection_factory.types';
+    public const string TYPE_DEFINITION_PARAMETER = 'doctrine.dbal.connection_factory.types';
 
     #[\Override]
     public function process(ContainerBuilder $container): void
     {
-        /** @var array<string, array{class: class-string}> $typeDefinitions */
+        /**
+         * @var array<string, array{
+         *     class: class-string,
+         * }> $typeDefinitions
+         */
         $typeDefinitions = $container->getParameter(self::TYPE_DEFINITION_PARAMETER);
 
-        $typeDefinitions['dtp_moment'] = ['class' => MomentType::class];
-        $typeDefinitions['dtp_time'] = ['class' => TimeType::class];
-        $typeDefinitions['dtp_weekday'] = ['class' => WeekdayType::class];
-        $typeDefinitions['dtp_weekdays'] = ['class' => WeekdaysType::class];
-        $typeDefinitions['dtp_date'] = ['class' => DateType::class];
-        $typeDefinitions['dtp_month'] = ['class' => MonthType::class];
-        $typeDefinitions['dtp_year'] = ['class' => YearType::class];
+        $typeDefinitions[Moment::class] = ['class' => StringNormalizableThroughLookupType::class];
+        $typeDefinitions[Time::class] = ['class' => StringNormalizableThroughLookupType::class];
+        $typeDefinitions[Weekday::class] = ['class' => StringNormalizableThroughLookupType::class];
+        $typeDefinitions[Weekdays::class] = ['class' => ArrayNormalizableThroughLookupType::class];
+        $typeDefinitions[Date::class] = ['class' => StringNormalizableThroughLookupType::class];
+        $typeDefinitions[Month::class] = ['class' => StringNormalizableThroughLookupType::class];
+        $typeDefinitions[Year::class] = ['class' => IntNormalizableThroughLookupType::class];
 
         $container->setParameter(self::TYPE_DEFINITION_PARAMETER, $typeDefinitions);
     }

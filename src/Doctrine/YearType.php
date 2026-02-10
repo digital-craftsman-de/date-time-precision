@@ -8,6 +8,8 @@ use DigitalCraftsman\DateTimePrecision\Year;
 use DigitalCraftsman\SelfAwareNormalizers\Doctrine\IntNormalizableType;
 
 /**
+ * @deprecated
+ *
  * @codeCoverageIgnore
  */
 final class YearType extends IntNormalizableType
