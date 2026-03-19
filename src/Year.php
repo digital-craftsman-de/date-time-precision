@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision;
 
 use DigitalCraftsman\SelfAwareNormalizers\Serializer\IntNormalizable;
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableIntDenormalizable;
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableIntDenormalizableTrait;
 
-final readonly class Year implements IntNormalizable
+final readonly class Year implements IntNormalizable, NullableIntDenormalizable
 {
+    use NullableIntDenormalizableTrait;
+
     // -- Construction
 
     public function __construct(

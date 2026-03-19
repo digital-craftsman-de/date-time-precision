@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision;
 
 use DigitalCraftsman\SelfAwareNormalizers\Doctrine\NormalizableTypeWithSQLDeclaration;
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableStringDenormalizable;
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableStringDenormalizableTrait;
 use DigitalCraftsman\SelfAwareNormalizers\Serializer\StringNormalizable;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
-final readonly class Date implements \Stringable, StringNormalizable, NormalizableTypeWithSQLDeclaration
+final readonly class Date implements \Stringable, StringNormalizable, NullableStringDenormalizable, NormalizableTypeWithSQLDeclaration
 {
+    use NullableStringDenormalizableTrait;
+
     private const string DATE_FORMAT = 'Y-m-d';
 
     // -- Construction

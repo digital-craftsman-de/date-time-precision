@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision;
 
 use DigitalCraftsman\SelfAwareNormalizers\Doctrine\NormalizableTypeWithSQLDeclaration;
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableStringDenormalizable;
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableStringDenormalizableTrait;
 use DigitalCraftsman\SelfAwareNormalizers\Serializer\StringNormalizable;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 
-final readonly class Moment implements \Stringable, StringNormalizable, NormalizableTypeWithSQLDeclaration
+final readonly class Moment implements \Stringable, StringNormalizable, NullableStringDenormalizable, NormalizableTypeWithSQLDeclaration
 {
+    use NullableStringDenormalizableTrait;
+
     private const string ATOM_INCLUDING_MICROSECONDS = 'Y-m-d\TH:i:s.uP';
 
     // -- Construction
