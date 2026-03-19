@@ -20,7 +20,7 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
 
     public function __construct(
         public Month $month,
-        public int $day,
+        public Day $day,
     ) {
     }
 
@@ -44,7 +44,9 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
                 new Year($year),
                 $month,
             ),
-            $day,
+            new Day(
+                $day,
+            ),
         );
     }
 
@@ -376,7 +378,7 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
                 '%d-%d-%d 00:00:00',
                 $this->month->year->year,
                 $this->month->month,
-                $this->day,
+                $this->day->day,
             ),
             $timeZone,
         );
@@ -389,7 +391,7 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
                 '%d-%d-%d 00:00:00',
                 $this->month->year->year,
                 $this->month->month,
-                $this->day,
+                $this->day->day,
             ),
             $timeZone,
         );
@@ -405,7 +407,7 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
                 '%d-%d-%d 00:00:00',
                 $this->month->year->year,
                 $this->month->month,
-                $this->day,
+                $this->day->day,
             ),
         );
     }
