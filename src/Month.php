@@ -17,6 +17,11 @@ final readonly class Month implements \Stringable, StringNormalizable, StringNor
         public Year $year,
         public int $month,
     ) {
+        if ($month < 1
+            || $month > 12
+        ) {
+            throw new Exception\InvalidMonth($month);
+        }
     }
 
     public static function fromDateTime(\DateTimeImmutable $dateTime): self
