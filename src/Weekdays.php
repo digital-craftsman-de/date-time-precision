@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision;
 
 use DigitalCraftsman\SelfAwareNormalizers\Serializer\ArrayNormalizable;
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableArrayDenormalizable;
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableArrayDenormalizableTrait;
 
 /**
  * @psalm-type NormalizedWeekdays = list<string>
  */
-final readonly class Weekdays implements ArrayNormalizable
+final readonly class Weekdays implements ArrayNormalizable, NullableArrayDenormalizable
 {
+    use NullableArrayDenormalizableTrait;
+
     // -- Construction
 
     /**
