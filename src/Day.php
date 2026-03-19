@@ -24,6 +24,13 @@ final readonly class Day implements IntNormalizable, NullableIntDenormalizable
         }
     }
 
+    public static function fromDateTime(\DateTimeImmutable $dateTime): self
+    {
+        $day = (int) $dateTime->format('j');
+
+        return new self($day);
+    }
+
     // -- Int normalizable
 
     #[\Override]

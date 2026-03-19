@@ -410,6 +410,11 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
         );
     }
 
+    public function day(): Day
+    {
+        return Day::fromDateTime($this->toDateTimeImmutable());
+    }
+
     /**
      * @codeCoverageIgnore
      */

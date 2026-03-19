@@ -129,6 +129,18 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
             ->year();
     }
 
+    public function day(): Day
+    {
+        return Day::fromDateTime($this->dateTime);
+    }
+
+    public function dayInTimeZone(\DateTimeZone $timeZone): Day
+    {
+        return $this
+            ->toTimeZone($timeZone)
+            ->day();
+    }
+
     public function isEqualTo(self $moment): bool
     {
         return $this->dateTime == $moment->dateTime;
