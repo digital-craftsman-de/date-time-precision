@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Year;
 
 use DigitalCraftsman\DateTimePrecision\Year;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Year */
+#[CoversClass(Year::class)]
 final class IsNotAfterTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
-     *
-     * @covers ::isNotAfter
      */
     public function is_not_after_works(
         bool $expectedResult,

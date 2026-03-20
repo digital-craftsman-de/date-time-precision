@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Moment;
 
 use DigitalCraftsman\DateTimePrecision\Moment;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment */
+#[CoversClass(Moment::class)]
 final class IsNotAtMidnightTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
-     *
-     * @covers ::isNotAtMidnight
      */
     public function is_not_at_midnight_works(
         bool $expectedResult,

@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Month;
 
 use DigitalCraftsman\DateTimePrecision\Month;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Month */
+#[CoversClass(Month::class)]
 final class ModifyTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
-     *
-     * @covers ::modify
      */
     public function modify_works(
         Month $expectedResult,

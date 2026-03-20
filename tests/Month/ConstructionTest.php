@@ -7,15 +7,14 @@ namespace DigitalCraftsman\DateTimePrecision\Month;
 use DigitalCraftsman\DateTimePrecision\Exception\InvalidMonth;
 use DigitalCraftsman\DateTimePrecision\Month;
 use DigitalCraftsman\DateTimePrecision\Year;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Month */
+#[CoversClass(Month::class)]
 final class ConstructionTest extends TestCase
 {
     /**
      * @test
-     *
-     * @covers ::__construct
      */
     public function construct_works(): void
     {
@@ -32,8 +31,6 @@ final class ConstructionTest extends TestCase
     /**
      * @test
      *
-     * @covers ::__construct
-     *
      * @doesNotPerformAssertions
      */
     public function construct_works_with_boundary_months(): void
@@ -45,8 +42,6 @@ final class ConstructionTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers ::__construct
      */
     public function construct_fails_with_month_too_low(): void
     {
@@ -59,8 +54,6 @@ final class ConstructionTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers ::__construct
      */
     public function construct_fails_with_month_too_high(): void
     {
@@ -73,8 +66,6 @@ final class ConstructionTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers ::fromDateTime
      */
     public function from_date_time_works(): void
     {
@@ -91,8 +82,6 @@ final class ConstructionTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers ::fromString
      */
     public function from_string_works(): void
     {
@@ -108,8 +97,6 @@ final class ConstructionTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers ::fromString
      */
     public function from_string_fails(): void
     {

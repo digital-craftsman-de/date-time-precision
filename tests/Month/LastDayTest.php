@@ -6,17 +6,16 @@ namespace DigitalCraftsman\DateTimePrecision\Month;
 
 use DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\Month;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Month */
+#[CoversClass(Month::class)]
 final class LastDayTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
-     *
-     * @covers ::lastDay
      */
     public function last_day_works(
         Date $expectedResult,

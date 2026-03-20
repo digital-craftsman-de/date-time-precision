@@ -6,17 +6,16 @@ namespace DigitalCraftsman\DateTimePrecision\Moment;
 
 use DigitalCraftsman\DateTimePrecision\Day;
 use DigitalCraftsman\DateTimePrecision\Moment;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment */
+#[CoversClass(Moment::class)]
 final class DayTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProviderForDay
-     *
-     * @covers ::day
      */
     public function day_works(
         Day $expectedResult,
@@ -55,8 +54,6 @@ final class DayTest extends TestCase
      * @test
      *
      * @dataProvider dataProviderForDayInTimeZone
-     *
-     * @covers ::dayInTimeZone
      */
     public function day_in_time_zone_works(
         Day $expectedResult,

@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Moment;
 
 use DigitalCraftsman\DateTimePrecision\Moment;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment */
+#[CoversClass(Moment::class)]
 final class ConstructionTest extends TestCase
 {
     /**
      * @test
-     *
-     * @covers ::__construct
-     * @covers ::fromDateTime
      */
     public function construction_with_date_time_works(): void
     {
@@ -30,8 +28,6 @@ final class ConstructionTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers ::fromString
      */
     public function from_string_works(): void
     {
@@ -44,8 +40,6 @@ final class ConstructionTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers ::fromStringInTimeZone
      */
     public function from_string_in_time_zone_works(): void
     {

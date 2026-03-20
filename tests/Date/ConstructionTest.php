@@ -8,15 +8,14 @@ use DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\Day;
 use DigitalCraftsman\DateTimePrecision\Month;
 use DigitalCraftsman\DateTimePrecision\Year;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Date */
+#[CoversClass(Date::class)]
 final class ConstructionTest extends TestCase
 {
     /**
      * @test
-     *
-     * @covers ::__construct
      */
     public function construct_works(): void
     {
@@ -37,8 +36,6 @@ final class ConstructionTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers ::fromDateTime
      */
     public function from_date_time_works(): void
     {
@@ -55,8 +52,6 @@ final class ConstructionTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers ::fromString
      */
     public function from_string_works(): void
     {
@@ -72,8 +67,6 @@ final class ConstructionTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers ::fromString
      */
     public function from_string_fails(): void
     {

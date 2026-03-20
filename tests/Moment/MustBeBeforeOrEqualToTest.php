@@ -7,9 +7,10 @@ namespace DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Exception\MomentIsNotBeforeOrEqualTo;
 use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomMomentIsNotBeforeOrEqualTo;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment */
+#[CoversClass(Moment::class)]
 final class MustBeBeforeOrEqualToTest extends TestCase
 {
     /**
@@ -18,8 +19,6 @@ final class MustBeBeforeOrEqualToTest extends TestCase
      * @param ?class-string<\Throwable> $expectedResult
      *
      * @dataProvider dataProvider
-     *
-     * @covers ::mustBeBeforeOrEqualTo
      */
     public function must_be_before_or_equal_to_works(
         ?string $expectedResult,

@@ -6,16 +6,14 @@ namespace DigitalCraftsman\DateTimePrecision\Days;
 
 use DigitalCraftsman\DateTimePrecision\Day;
 use DigitalCraftsman\DateTimePrecision\Days;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Days */
+#[CoversClass(Days::class)]
 final class NormalizationTest extends TestCase
 {
     /**
      * @test
-     *
-     * @covers ::normalize
-     * @covers ::denormalize
      */
     public function normalize_works(): void
     {

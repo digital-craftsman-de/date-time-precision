@@ -6,17 +6,16 @@ namespace DigitalCraftsman\DateTimePrecision\Moment;
 
 use DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\Moment;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment */
+#[CoversClass(Moment::class)]
 final class DateInTimeZoneTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProviderForDateInTimeZone
-     *
-     * @covers ::dateInTimeZone
      */
     public function date_in_time_zone_works(
         Date $expectedResult,

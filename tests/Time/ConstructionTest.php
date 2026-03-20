@@ -6,9 +6,10 @@ namespace DigitalCraftsman\DateTimePrecision\Time;
 
 use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Time;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Time */
+#[CoversClass(Time::class)]
 final class ConstructionTest extends TestCase
 {
     /**
@@ -17,8 +18,6 @@ final class ConstructionTest extends TestCase
      * @dataProvider dataProviderConstructWorks
      *
      * @doesNotPerformAssertions
-     *
-     * @covers ::__construct
      */
     public function construct_works(
         int $hour,
@@ -96,8 +95,6 @@ final class ConstructionTest extends TestCase
      * @test
      *
      * @dataProvider dataProviderConstructDoesNotWork
-     *
-     * @covers ::__construct
      */
     public function construct_does_not_work(
         int $hour,
@@ -176,8 +173,6 @@ final class ConstructionTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers ::fromDateTime
      */
     public function from_date_time_works(): void
     {
@@ -194,8 +189,6 @@ final class ConstructionTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers ::fromString
      */
     public function from_string_works(): void
     {
@@ -211,8 +204,6 @@ final class ConstructionTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers ::fromString
      */
     public function from_string_fails(): void
     {

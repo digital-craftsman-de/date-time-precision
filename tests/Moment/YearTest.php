@@ -6,17 +6,16 @@ namespace DigitalCraftsman\DateTimePrecision\Moment;
 
 use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Year;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment */
+#[CoversClass(Moment::class)]
 final class YearTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProviderForYear
-     *
-     * @covers ::year
      */
     public function year_works(
         Year $expectedResult,
@@ -55,8 +54,6 @@ final class YearTest extends TestCase
      * @test
      *
      * @dataProvider dataProviderForYearInTimeZone
-     *
-     * @covers ::yearInTimeZone
      */
     public function year_in_time_zone_works(
         Year $expectedResult,

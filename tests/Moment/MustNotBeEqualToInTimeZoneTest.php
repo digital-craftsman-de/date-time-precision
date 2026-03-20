@@ -12,9 +12,10 @@ use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomMomentIsEqualTo;
 use DigitalCraftsman\DateTimePrecision\Time;
 use DigitalCraftsman\DateTimePrecision\Weekday;
 use DigitalCraftsman\DateTimePrecision\Year;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment */
+#[CoversClass(Moment::class)]
 final class MustNotBeEqualToInTimeZoneTest extends TestCase
 {
     /**
@@ -23,8 +24,6 @@ final class MustNotBeEqualToInTimeZoneTest extends TestCase
      * @param ?class-string<\Throwable> $expectedResult
      *
      * @dataProvider dataProvider
-     *
-     * @covers ::mustNotBeEqualToInTimeZone
      */
     public function must_not_be_equal_to_in_time_zone_works(
         ?string $expectedResult,

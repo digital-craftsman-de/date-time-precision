@@ -6,15 +6,14 @@ namespace DigitalCraftsman\DateTimePrecision\Days;
 
 use DigitalCraftsman\DateTimePrecision\Day;
 use DigitalCraftsman\DateTimePrecision\Days;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Days */
+#[CoversClass(Days::class)]
 final class ConstructionTest extends TestCase
 {
     /**
      * @test
-     *
-     * @covers ::__construct
      *
      * @doesNotPerformAssertions
      */
@@ -29,8 +28,6 @@ final class ConstructionTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers ::__construct
      */
     public function construction_fails(): void
     {

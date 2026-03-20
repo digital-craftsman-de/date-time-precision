@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Weekday;
 
 use DigitalCraftsman\DateTimePrecision\Weekday;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Weekday */
+#[CoversClass(Weekday::class)]
 final class IsNotBeforeTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
-     *
-     * @covers ::isNotBefore
      */
     public function is_before_works(
         bool $expectedResult,

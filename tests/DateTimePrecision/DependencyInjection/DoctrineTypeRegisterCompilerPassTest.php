@@ -15,19 +15,16 @@ use DigitalCraftsman\DateTimePrecision\Year;
 use DigitalCraftsman\SelfAwareNormalizers\Doctrine\ArrayNormalizableThroughLookupType;
 use DigitalCraftsman\SelfAwareNormalizers\Doctrine\IntNormalizableThroughLookupType;
 use DigitalCraftsman\SelfAwareNormalizers\Doctrine\StringNormalizableThroughLookupType;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
-/**
- * @coversDefaultClass \DigitalCraftsman\DateTimePrecision\DependencyInjection\DoctrineTypeRegisterCompilerPass
- */
+#[CoversClass(DoctrineTypeRegisterCompilerPass::class)]
 final class DoctrineTypeRegisterCompilerPassTest extends TestCase
 {
     /**
      * @test
-     *
-     * @covers ::process
      */
     public function process_works(): void
     {

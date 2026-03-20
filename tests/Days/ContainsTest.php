@@ -6,17 +6,16 @@ namespace DigitalCraftsman\DateTimePrecision\Days;
 
 use DigitalCraftsman\DateTimePrecision\Day;
 use DigitalCraftsman\DateTimePrecision\Days;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Days */
+#[CoversClass(Days::class)]
 final class ContainsTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProvider
-     *
-     * @covers ::contains
      */
     public function contain_works(
         bool $expectedResult,

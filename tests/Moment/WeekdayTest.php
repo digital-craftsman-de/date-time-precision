@@ -6,17 +6,16 @@ namespace DigitalCraftsman\DateTimePrecision\Moment;
 
 use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Weekday;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment */
+#[CoversClass(Moment::class)]
 final class WeekdayTest extends TestCase
 {
     /**
      * @test
      *
      * @dataProvider dataProviderForTime
-     *
-     * @covers ::weekday
      */
     public function weekday_works(
         Weekday $expectedResult,
@@ -51,8 +50,6 @@ final class WeekdayTest extends TestCase
      * @test
      *
      * @dataProvider dataProviderForTimeInTimeZone
-     *
-     * @covers ::weekdayInTimeZone
      */
     public function weekday_in_weekday_zone_works(
         Weekday $expectedResult,

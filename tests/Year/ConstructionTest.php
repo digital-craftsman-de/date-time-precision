@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Year;
 
 use DigitalCraftsman\DateTimePrecision\Year;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Year */
+#[CoversClass(Year::class)]
 final class ConstructionTest extends TestCase
 {
     /**
      * @test
-     *
-     * @covers ::__construct
      */
     public function construct_works(): void
     {
@@ -26,8 +25,6 @@ final class ConstructionTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers ::fromDateTime
      */
     public function from_date_time_works(): void
     {
@@ -44,8 +41,6 @@ final class ConstructionTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers ::fromString
      */
     public function from_string_works(): void
     {
@@ -61,8 +56,6 @@ final class ConstructionTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers ::fromString
      */
     public function from_string_fails(): void
     {
