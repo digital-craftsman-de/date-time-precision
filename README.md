@@ -18,7 +18,7 @@ It's only a thin wrapper over `DateTime` and uses it internally for all modifica
 
 Additionally, the package provides a streamlined way to have the system running in `UTC` but still do the modifications in the relevant timezone. The internal `DateTime` is always in `UTC` and only internally converted to the relevant timezone for modifications. This way you can be sure that you're not missing or receiving an hour due to a switch of summer-time to winter-time in the relevant timezone.
 
-Included as are classes for `Day` or `Weekday` and collections like `Days` or `Weekdays`.
+There are also classes like `Day` or `Weekday` and collections like `Days` or `Weekdays`.
 
 This Symfony bundle includes Symfony normalizers for automatic normalization and denormalization and Doctrine types to store the objects directly in the database. 
 
