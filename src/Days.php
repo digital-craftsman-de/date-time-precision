@@ -69,11 +69,13 @@ final readonly class Days implements ArrayNormalizable, NullableArrayDenormaliza
 
     public function contains(Day $day): bool
     {
-        return in_array($day, $this->days, true);
+        // TODO: Switch to false or loop
+        // TODO: Check performance
+        return in_array($day, $this->days, false);
     }
 
     public function notContains(Day $day): bool
     {
-        return !in_array($day, $this->days, true);
+        return !in_array($day, $this->days, false);
     }
 }
