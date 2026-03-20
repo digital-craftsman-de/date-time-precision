@@ -7,20 +7,20 @@ namespace DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Exception\MomentIsBefore;
 use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomMomentIsBefore;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment */
+#[CoversClass(Moment::class)]
+#[CoversClass(MomentIsBefore::class)]
 final class MustNotBeBeforeTest extends TestCase
 {
     /**
-     * @test
-     *
      * @param ?class-string<\Throwable> $expectedResult
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::mustNotBeBefore
      */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function must_not_be_before_works(
         ?string $expectedResult,
         Moment $moment,

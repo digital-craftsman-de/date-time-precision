@@ -6,18 +6,16 @@ namespace DigitalCraftsman\DateTimePrecision\Date;
 
 use DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\PeriodLimit;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Date */
+#[CoversClass(Date::class)]
 final class DatesUntilTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::datesUntil
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function dates_until_works(
         array $expectedResult,
         Date $startDate,

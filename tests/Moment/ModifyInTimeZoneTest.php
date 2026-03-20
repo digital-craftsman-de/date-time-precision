@@ -5,18 +5,16 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Moment;
 
 use DigitalCraftsman\DateTimePrecision\Moment;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment */
+#[CoversClass(Moment::class)]
 final class ModifyInTimeZoneTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::modifyInTimeZone
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function modify_in_time_zone_works(
         Moment $expectedResult,
         Moment $dateTime,

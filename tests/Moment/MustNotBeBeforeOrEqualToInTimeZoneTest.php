@@ -12,20 +12,20 @@ use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomMomentIsBeforeOrEqua
 use DigitalCraftsman\DateTimePrecision\Time;
 use DigitalCraftsman\DateTimePrecision\Weekday;
 use DigitalCraftsman\DateTimePrecision\Year;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment */
+#[CoversClass(Moment::class)]
+#[CoversClass(MomentIsBeforeOrEqualTo::class)]
 final class MustNotBeBeforeOrEqualToInTimeZoneTest extends TestCase
 {
     /**
-     * @test
-     *
      * @param ?class-string<\Throwable> $expectedResult
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::mustNotBeBeforeOrEqualToInTimeZone
      */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function must_not_be_before_or_equal_to_in_time_zone_works(
         ?string $expectedResult,
         Moment $moment,

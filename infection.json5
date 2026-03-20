@@ -6,7 +6,11 @@
     ]
   },
   "mutators": {
-    "@default": true,
+    "@default": {
+      "ignore": [
+        "DigitalCraftsman\\DateTimePrecision\\Exception\\*::__construct"
+      ]
+    },
     "InstanceOf_": {
       "ignore": [
         "DigitalCraftsman\\DateTimePrecision\\Moment",

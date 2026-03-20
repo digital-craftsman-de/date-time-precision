@@ -5,18 +5,16 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Time;
 
 use DigitalCraftsman\DateTimePrecision\Time;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Time */
+#[CoversClass(Time::class)]
 final class CompareToTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::compareTo
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function compare_to_works(
         int $expectedResult,
         Time $time,

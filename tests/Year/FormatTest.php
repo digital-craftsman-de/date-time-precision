@@ -5,19 +5,16 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Year;
 
 use DigitalCraftsman\DateTimePrecision\Year;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Year */
+#[CoversClass(Year::class)]
 final class FormatTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::format
-     * @covers ::toDateTimeImmutable
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function format_works(
         string $expectedResult,
         Year $date,

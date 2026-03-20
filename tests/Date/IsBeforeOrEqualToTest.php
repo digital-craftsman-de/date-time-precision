@@ -5,18 +5,16 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Date;
 
 use DigitalCraftsman\DateTimePrecision\Date;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Date */
+#[CoversClass(Date::class)]
 final class IsBeforeOrEqualToTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::isBeforeOrEqualTo
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function is_before_or_equal_to_works(
         bool $expectedResult,
         Date $date,

@@ -7,20 +7,20 @@ namespace DigitalCraftsman\DateTimePrecision\Time;
 use DigitalCraftsman\DateTimePrecision\Exception\TimeIsNotAfter;
 use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomTimeIsNotAfter;
 use DigitalCraftsman\DateTimePrecision\Time;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Time */
+#[CoversClass(Time::class)]
+#[CoversClass(TimeIsNotAfter::class)]
 final class MustBeAfterTest extends TestCase
 {
     /**
-     * @test
-     *
      * @param ?class-string<\Throwable> $expectedResult
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::mustBeAfter
      */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function must_be_after_works(
         ?string $expectedResult,
         Time $date,

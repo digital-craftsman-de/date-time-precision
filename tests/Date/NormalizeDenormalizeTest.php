@@ -5,19 +5,14 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Date;
 
 use DigitalCraftsman\DateTimePrecision\Date;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Date
- */
+#[CoversClass(Date::class)]
 final class NormalizeDenormalizeTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::normalize
-     * @covers ::denormalize
-     */
+    #[Test]
     public function normalize_and_denormalize_works(): void
     {
         // -- Arrange

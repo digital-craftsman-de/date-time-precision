@@ -6,18 +6,16 @@ namespace DigitalCraftsman\DateTimePrecision\Month;
 
 use DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\Month;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Month */
+#[CoversClass(Month::class)]
 final class FirstDayTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::firstDay
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function first_day_works(
         Date $expectedResult,
         Month $month,

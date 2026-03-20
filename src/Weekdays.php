@@ -5,17 +5,24 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision;
 
 use DigitalCraftsman\SelfAwareNormalizers\Serializer\ArrayNormalizable;
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableArrayDenormalizable;
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableArrayDenormalizableTrait;
 
-final readonly class Weekdays implements ArrayNormalizable
+/**
+ * @psalm-type NormalizedWeekdays = list<string>
+ */
+final readonly class Weekdays implements ArrayNormalizable, NullableArrayDenormalizable
 {
+    use NullableArrayDenormalizableTrait;
+
     // -- Construction
 
     /**
-     * @param array<int, Weekday> $weekdays
+     * @param list<Weekday> $weekdays
      */
     public function __construct(
         /**
-         * @var array<int, Weekday> $weekdays
+         * @var list<Weekday>
          */
         public array $weekdays,
     ) {
@@ -31,28 +38,28 @@ final readonly class Weekdays implements ArrayNormalizable
     // -- Array normalizable
 
     /**
-     * @param array<int, string> $data
+     * @param NormalizedWeekdays $data
      */
     #[\Override]
     public static function denormalize(array $data): self
     {
         $weekdays = [];
         foreach ($data as $value) {
-            $weekdays[] = Weekday::from($value);
+            $weekdays[] = Weekday::denormalize($value);
         }
 
         return new self($weekdays);
     }
 
     /**
-     * @return array<int, string>
+     * @return NormalizedWeekdays
      */
     #[\Override]
     public function normalize(): array
     {
         $weekdayStrings = [];
         foreach ($this->weekdays as $weekday) {
-            $weekdayStrings[] = $weekday->value;
+            $weekdayStrings[] = $weekday->normalize();
         }
 
         return $weekdayStrings;

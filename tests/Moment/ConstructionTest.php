@@ -5,17 +5,14 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Moment;
 
 use DigitalCraftsman\DateTimePrecision\Moment;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment */
+#[CoversClass(Moment::class)]
 final class ConstructionTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     * @covers ::fromDateTime
-     */
+    #[Test]
     public function construction_with_date_time_works(): void
     {
         // -- Arrange
@@ -28,11 +25,7 @@ final class ConstructionTest extends TestCase
         self::assertSame($dateTimeImmutable, $dateTime->dateTime);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::fromString
-     */
+    #[Test]
     public function from_string_works(): void
     {
         // -- Arrange & Act
@@ -42,11 +35,7 @@ final class ConstructionTest extends TestCase
         self::assertEquals(new \DateTimeImmutable('2022-10-08 15:00:00'), $dateTime->dateTime);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::fromStringInTimeZone
-     */
+    #[Test]
     public function from_string_in_time_zone_works(): void
     {
         // -- Arrange & Act

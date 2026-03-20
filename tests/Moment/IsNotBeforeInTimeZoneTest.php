@@ -10,18 +10,16 @@ use DigitalCraftsman\DateTimePrecision\Month;
 use DigitalCraftsman\DateTimePrecision\Time;
 use DigitalCraftsman\DateTimePrecision\Weekday;
 use DigitalCraftsman\DateTimePrecision\Year;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment */
+#[CoversClass(Moment::class)]
 final class IsNotBeforeInTimeZoneTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::isNotBeforeInTimeZone
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function is_not_before_in_time_zone_works(
         bool $expectedResult,
         Moment $moment,

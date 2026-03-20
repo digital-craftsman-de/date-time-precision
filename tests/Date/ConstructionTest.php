@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Date;
 
 use DigitalCraftsman\DateTimePrecision\Date;
+use DigitalCraftsman\DateTimePrecision\Day;
 use DigitalCraftsman\DateTimePrecision\Month;
 use DigitalCraftsman\DateTimePrecision\Year;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Date */
+#[CoversClass(Date::class)]
 final class ConstructionTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::__construct
-     */
+    #[Test]
     public function construct_works(): void
     {
         // -- Arrange & Act
@@ -25,18 +24,16 @@ final class ConstructionTest extends TestCase
                 new Year(2022),
                 10,
             ),
-            8,
+            new Day(
+                8,
+            ),
         );
 
         // -- Assert
-        self::assertSame(8, $date->day);
+        self::assertSame(8, $date->day->day);
     }
 
-    /**
-     * @test
-     *
-     * @covers ::fromDateTime
-     */
+    #[Test]
     public function from_date_time_works(): void
     {
         // -- Arrange
@@ -50,11 +47,7 @@ final class ConstructionTest extends TestCase
         self::assertTrue($expectedDate->isEqualTo($date));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::fromString
-     */
+    #[Test]
     public function from_string_works(): void
     {
         // -- Arrange
@@ -67,11 +60,7 @@ final class ConstructionTest extends TestCase
         self::assertTrue($expectedDate->isEqualTo($date));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::fromString
-     */
+    #[Test]
     public function from_string_fails(): void
     {
         // -- Assert

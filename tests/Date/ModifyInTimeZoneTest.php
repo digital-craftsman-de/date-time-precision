@@ -5,18 +5,16 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Date;
 
 use DigitalCraftsman\DateTimePrecision\Date;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Date */
+#[CoversClass(Date::class)]
 final class ModifyInTimeZoneTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::modifyInTimeZone
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function format_works(
         Date $expectedResult,
         Date $date,

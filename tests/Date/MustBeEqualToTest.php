@@ -7,20 +7,20 @@ namespace DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\Exception\DateIsNotEqualTo;
 use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomDateIsNotEqualTo;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Date */
+#[CoversClass(Date::class)]
+#[CoversClass(DateIsNotEqualTo::class)]
 final class MustBeEqualToTest extends TestCase
 {
     /**
-     * @test
-     *
      * @param ?class-string<\Throwable> $expectedResult
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::mustBeEqualTo
      */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function must_be_equal_to_works(
         ?string $expectedResult,
         Date $date,

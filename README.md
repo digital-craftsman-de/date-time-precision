@@ -18,11 +18,13 @@ It's only a thin wrapper over `DateTime` and uses it internally for all modifica
 
 Additionally, the package provides a streamlined way to have the system running in `UTC` but still do the modifications in the relevant timezone. The internal `DateTime` is always in `UTC` and only internally converted to the relevant timezone for modifications. This way you can be sure that you're not missing or receiving an hour due to a switch of summer-time to winter-time in the relevant timezone.
 
+There are also classes like `Day` or `Weekday` and collections like `Days` or `Weekdays`.
+
 This Symfony bundle includes Symfony normalizers for automatic normalization and denormalization and Doctrine types to store the objects directly in the database. 
 
 As it's a central part of an application, it's tested thoroughly (including mutation testing). Currently, more than 80% of the lines of code in this repository are tests.
 
-[![Latest Stable Version](https://img.shields.io/badge/stable-0.13.1-blue)](https://packagist.org/packages/digital-craftsman/date-time-precision)
+[![Latest Stable Version](https://img.shields.io/badge/stable-0.14.0-blue)](https://packagist.org/packages/digital-craftsman/date-time-precision)
 [![PHP Version Require](https://img.shields.io/badge/php-8.4|8.5-5b5d95)](https://packagist.org/packages/digital-craftsman/date-time-precision)
 [![codecov](https://codecov.io/gh/digital-craftsman-de/date-time-precision/branch/main/graph/badge.svg?token=vZ0IvKPj2f)](https://codecov.io/gh/digital-craftsman-de/date-time-precision)
 ![Packagist Downloads](https://img.shields.io/packagist/dt/digital-craftsman/date-time-precision)
@@ -36,7 +38,7 @@ Install package through composer:
 composer require digital-craftsman/date-time-precision
 ```
 
-> ⚠️ This bundle can be used (and is being used) in production, but hasn't reached version 1.0 yet. Therefore, there will be breaking changes between minor versions. I'd recommend that you require the bundle only with the current minor version like `composer require digital-craftsman/date-time-precision:0.13.*`. Breaking changes are described in the releases and [the changelog](./CHANGELOG.md). Updates are described in the [upgrade guide](./UPGRADE.md).
+> ⚠️ This bundle can be used (and is being used) in production, but hasn't reached version 1.0 yet. Therefore, there will be breaking changes between minor versions. I'd recommend that you require the bundle only with the current minor version like `composer require digital-craftsman/date-time-precision:0.14.*`. Breaking changes are described in the releases and [the changelog](./CHANGELOG.md). Updates are described in the [upgrade guide](./UPGRADE.md).
 
 ## When would I need that?
 

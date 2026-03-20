@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision\Exception;
 
-/**
- * @psalm-immutable
- *
- * @codeCoverageIgnore
- */
+/** @psalm-immutable */
 final class MomentIsNotAfter extends \InvalidArgumentException
 {
     public function __construct()

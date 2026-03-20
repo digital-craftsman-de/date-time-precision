@@ -5,18 +5,16 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Weekday;
 
 use DigitalCraftsman\DateTimePrecision\Weekday;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Weekday */
+#[CoversClass(Weekday::class)]
 final class DayOfWeekTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::dayOfWeek
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function day_of_week_works(
         int $expectedResult,
         Weekday $weekday,

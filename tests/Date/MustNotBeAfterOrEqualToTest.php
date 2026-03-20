@@ -7,20 +7,20 @@ namespace DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\Exception\DateIsAfterOrEqualTo;
 use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomDateIsAfterOrEqualTo;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Date */
+#[CoversClass(Date::class)]
+#[CoversClass(DateIsAfterOrEqualTo::class)]
 final class MustNotBeAfterOrEqualToTest extends TestCase
 {
     /**
-     * @test
-     *
      * @param ?class-string<\Throwable> $expectedResult
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::mustNotBeAfterOrEqualTo
      */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function must_not_be_after_or_equal_to_works(
         ?string $expectedResult,
         Date $date,

@@ -7,20 +7,20 @@ namespace DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\Exception\DateIsNotBefore;
 use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomDateIsNotBefore;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Date */
+#[CoversClass(Date::class)]
+#[CoversClass(DateIsNotBefore::class)]
 final class MustBeBeforeTest extends TestCase
 {
     /**
-     * @test
-     *
      * @param ?class-string<\Throwable> $expectedResult
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::mustBeBefore
      */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function must_be_before_works(
         ?string $expectedResult,
         Date $date,

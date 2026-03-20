@@ -5,18 +5,16 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Time;
 
 use DigitalCraftsman\DateTimePrecision\Time;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Time */
+#[CoversClass(Time::class)]
 final class DistanceInMinutesTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::distanceInMinutesTo
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function distance_in_minutes_to_works(
         int $expectedResult,
         Time $time,

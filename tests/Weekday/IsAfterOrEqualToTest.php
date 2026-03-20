@@ -5,18 +5,16 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Weekday;
 
 use DigitalCraftsman\DateTimePrecision\Weekday;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Weekday */
+#[CoversClass(Weekday::class)]
 final class IsAfterOrEqualToTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::isAfterOrEqualTo
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function is_after_or_equal_to_works(
         bool $expectedResult,
         Weekday $weekday,

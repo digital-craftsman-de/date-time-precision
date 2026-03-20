@@ -5,18 +5,16 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Month;
 
 use DigitalCraftsman\DateTimePrecision\Month;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Month */
+#[CoversClass(Month::class)]
 final class CompareToTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::compareTo
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function compare_to_works(
         int $expectedResult,
         Month $month,

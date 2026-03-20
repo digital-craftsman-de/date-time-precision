@@ -5,19 +5,16 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Time;
 
 use DigitalCraftsman\DateTimePrecision\Time;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Time */
+#[CoversClass(Time::class)]
 final class IsEqualToTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::isEqualTo
-     * @covers ::toDateTimeImmutable
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function is_equal_to_works(
         bool $expectedResult,
         Time $time,

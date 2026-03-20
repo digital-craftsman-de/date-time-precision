@@ -5,18 +5,22 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision;
 
 use DigitalCraftsman\SelfAwareNormalizers\Doctrine\NormalizableTypeWithSQLDeclaration;
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableStringDenormalizable;
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableStringDenormalizableTrait;
 use DigitalCraftsman\SelfAwareNormalizers\Serializer\StringNormalizable;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
-final readonly class Date implements \Stringable, StringNormalizable, NormalizableTypeWithSQLDeclaration
+final readonly class Date implements \Stringable, StringNormalizable, NullableStringDenormalizable, NormalizableTypeWithSQLDeclaration
 {
+    use NullableStringDenormalizableTrait;
+
     private const string DATE_FORMAT = 'Y-m-d';
 
     // -- Construction
 
     public function __construct(
         public Month $month,
-        public int $day,
+        public Day $day,
     ) {
     }
 
@@ -40,7 +44,9 @@ final readonly class Date implements \Stringable, StringNormalizable, Normalizab
                 new Year($year),
                 $month,
             ),
-            $day,
+            new Day(
+                $day,
+            ),
         );
     }
 
@@ -372,7 +378,7 @@ final readonly class Date implements \Stringable, StringNormalizable, Normalizab
                 '%d-%d-%d 00:00:00',
                 $this->month->year->year,
                 $this->month->month,
-                $this->day,
+                $this->day->day,
             ),
             $timeZone,
         );
@@ -385,7 +391,7 @@ final readonly class Date implements \Stringable, StringNormalizable, Normalizab
                 '%d-%d-%d 00:00:00',
                 $this->month->year->year,
                 $this->month->month,
-                $this->day,
+                $this->day->day,
             ),
             $timeZone,
         );
@@ -401,9 +407,14 @@ final readonly class Date implements \Stringable, StringNormalizable, Normalizab
                 '%d-%d-%d 00:00:00',
                 $this->month->year->year,
                 $this->month->month,
-                $this->day,
+                $this->day->day,
             ),
         );
+    }
+
+    public function day(): Day
+    {
+        return $this->day;
     }
 
     /**

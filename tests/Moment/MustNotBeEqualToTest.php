@@ -7,20 +7,20 @@ namespace DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Exception\MomentIsEqualTo;
 use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomMomentIsEqualTo;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Moment */
+#[CoversClass(Moment::class)]
+#[CoversClass(MomentIsEqualTo::class)]
 final class MustNotBeEqualToTest extends TestCase
 {
     /**
-     * @test
-     *
      * @param ?class-string<\Throwable> $expectedResult
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::mustNotBeEqualTo
      */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function must_not_be_equal_to_works(
         ?string $expectedResult,
         Moment $moment,

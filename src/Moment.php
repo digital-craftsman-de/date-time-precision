@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision;
 
 use DigitalCraftsman\SelfAwareNormalizers\Doctrine\NormalizableTypeWithSQLDeclaration;
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableStringDenormalizable;
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableStringDenormalizableTrait;
 use DigitalCraftsman\SelfAwareNormalizers\Serializer\StringNormalizable;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 
-final readonly class Moment implements \Stringable, StringNormalizable, NormalizableTypeWithSQLDeclaration
+final readonly class Moment implements \Stringable, StringNormalizable, NullableStringDenormalizable, NormalizableTypeWithSQLDeclaration
 {
+    use NullableStringDenormalizableTrait;
+
     private const string ATOM_INCLUDING_MICROSECONDS = 'Y-m-d\TH:i:s.uP';
 
     // -- Construction
@@ -123,6 +127,18 @@ final readonly class Moment implements \Stringable, StringNormalizable, Normaliz
         return $this
             ->toTimeZone($timeZone)
             ->year();
+    }
+
+    public function day(): Day
+    {
+        return Day::fromDateTime($this->dateTime);
+    }
+
+    public function dayInTimeZone(\DateTimeZone $timeZone): Day
+    {
+        return $this
+            ->toTimeZone($timeZone)
+            ->day();
     }
 
     public function isEqualTo(self $moment): bool

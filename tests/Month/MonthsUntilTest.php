@@ -6,18 +6,16 @@ namespace DigitalCraftsman\DateTimePrecision\Month;
 
 use DigitalCraftsman\DateTimePrecision\Month;
 use DigitalCraftsman\DateTimePrecision\PeriodLimit;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Month */
+#[CoversClass(Month::class)]
 final class MonthsUntilTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     *
-     * @covers ::monthsUntil
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function months_until_works(
         array $expectedResult,
         Month $startMonth,

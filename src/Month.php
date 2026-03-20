@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision;
 
 use DigitalCraftsman\SelfAwareNormalizers\Doctrine\StringNormalizableTypeWithMaxLength;
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableStringDenormalizable;
+use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableStringDenormalizableTrait;
 use DigitalCraftsman\SelfAwareNormalizers\Serializer\StringNormalizable;
 
-final readonly class Month implements \Stringable, StringNormalizable, StringNormalizableTypeWithMaxLength
+final readonly class Month implements \Stringable, StringNormalizable, NullableStringDenormalizable, StringNormalizableTypeWithMaxLength
 {
+    use NullableStringDenormalizableTrait;
+
     private const string MONTH_FORMAT = 'Y-m';
 
     // -- Construction
@@ -17,6 +21,11 @@ final readonly class Month implements \Stringable, StringNormalizable, StringNor
         public Year $year,
         public int $month,
     ) {
+        if ($month < 1
+            || $month > 12
+        ) {
+            throw new Exception\InvalidMonth($month);
+        }
     }
 
     public static function fromDateTime(\DateTimeImmutable $dateTime): self

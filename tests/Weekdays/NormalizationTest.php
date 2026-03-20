@@ -6,17 +6,14 @@ namespace DigitalCraftsman\DateTimePrecision\Weekdays;
 
 use DigitalCraftsman\DateTimePrecision\Weekday;
 use DigitalCraftsman\DateTimePrecision\Weekdays;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Weekdays */
+#[CoversClass(Weekdays::class)]
 final class NormalizationTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @covers ::normalize
-     * @covers ::denormalize
-     */
+    #[Test]
     public function normalize_works(): void
     {
         // -- Arrange

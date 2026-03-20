@@ -6,20 +6,18 @@ namespace DigitalCraftsman\DateTimePrecision\Time;
 
 use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Time;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/** @coversDefaultClass \DigitalCraftsman\DateTimePrecision\Time */
+#[CoversClass(Time::class)]
 final class ConstructionTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProviderConstructWorks
-     *
-     * @doesNotPerformAssertions
-     *
-     * @covers ::__construct
-     */
+    #[Test]
+    #[DataProvider('dataProviderConstructWorks')]
+    #[DoesNotPerformAssertions]
     public function construct_works(
         int $hour,
         int $minute,
@@ -92,13 +90,8 @@ final class ConstructionTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider dataProviderConstructDoesNotWork
-     *
-     * @covers ::__construct
-     */
+    #[Test]
+    #[DataProvider('dataProviderConstructDoesNotWork')]
     public function construct_does_not_work(
         int $hour,
         int $minute,
@@ -174,11 +167,7 @@ final class ConstructionTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @covers ::fromDateTime
-     */
+    #[Test]
     public function from_date_time_works(): void
     {
         // -- Arrange
@@ -192,11 +181,7 @@ final class ConstructionTest extends TestCase
         self::assertTrue($expectedTime->isEqualTo($time));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::fromString
-     */
+    #[Test]
     public function from_string_works(): void
     {
         // -- Arrange
@@ -209,11 +194,7 @@ final class ConstructionTest extends TestCase
         self::assertTrue($expectedTime->isEqualTo($time));
     }
 
-    /**
-     * @test
-     *
-     * @covers ::fromString
-     */
+    #[Test]
     public function from_string_fails(): void
     {
         // -- Assert
