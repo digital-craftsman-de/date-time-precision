@@ -6,14 +6,13 @@ namespace DigitalCraftsman\DateTimePrecision\Time;
 
 use DigitalCraftsman\DateTimePrecision\Time;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Time::class)]
 final class ToStringTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function to_string_works(): void
     {
         // -- Arrange & Act

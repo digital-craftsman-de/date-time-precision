@@ -9,14 +9,13 @@ use DigitalCraftsman\DateTimePrecision\Day;
 use DigitalCraftsman\DateTimePrecision\Month;
 use DigitalCraftsman\DateTimePrecision\Year;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Date::class)]
 final class ConstructionTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function construct_works(): void
     {
         // -- Arrange & Act
@@ -34,9 +33,7 @@ final class ConstructionTest extends TestCase
         self::assertSame(8, $date->day->day);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function from_date_time_works(): void
     {
         // -- Arrange
@@ -50,9 +47,7 @@ final class ConstructionTest extends TestCase
         self::assertTrue($expectedDate->isEqualTo($date));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function from_string_works(): void
     {
         // -- Arrange
@@ -65,9 +60,7 @@ final class ConstructionTest extends TestCase
         self::assertTrue($expectedDate->isEqualTo($date));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function from_string_fails(): void
     {
         // -- Assert

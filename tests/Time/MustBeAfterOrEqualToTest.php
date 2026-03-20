@@ -8,18 +8,18 @@ use DigitalCraftsman\DateTimePrecision\Exception\TimeIsNotAfterOrEqualTo;
 use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomTimeIsNotAfterOrEqualTo;
 use DigitalCraftsman\DateTimePrecision\Time;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Time::class)]
 final class MustBeAfterOrEqualToTest extends TestCase
 {
     /**
-     * @test
-     *
      * @param ?class-string<\Throwable> $expectedResult
-     *
-     * @dataProvider dataProvider
      */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function must_be_after_or_equal_to_works(
         ?string $expectedResult,
         Time $date,

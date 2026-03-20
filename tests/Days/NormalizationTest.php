@@ -7,14 +7,13 @@ namespace DigitalCraftsman\DateTimePrecision\Days;
 use DigitalCraftsman\DateTimePrecision\Day;
 use DigitalCraftsman\DateTimePrecision\Days;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Days::class)]
 final class NormalizationTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function normalize_works(): void
     {
         // -- Arrange

@@ -8,18 +8,18 @@ use DigitalCraftsman\DateTimePrecision\Exception\MomentIsBefore;
 use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomMomentIsBefore;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Moment::class)]
 final class MustNotBeBeforeTest extends TestCase
 {
     /**
-     * @test
-     *
      * @param ?class-string<\Throwable> $expectedResult
-     *
-     * @dataProvider dataProvider
      */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function must_not_be_before_works(
         ?string $expectedResult,
         Moment $moment,

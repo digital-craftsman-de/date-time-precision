@@ -7,16 +7,15 @@ namespace DigitalCraftsman\DateTimePrecision\Weekdays;
 use DigitalCraftsman\DateTimePrecision\Weekday;
 use DigitalCraftsman\DateTimePrecision\Weekdays;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Weekdays::class)]
 final class NotContainsTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function not_contain_works(
         bool $expectedResult,
         Weekdays $weekdays,

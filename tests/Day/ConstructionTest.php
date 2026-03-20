@@ -7,16 +7,16 @@ namespace DigitalCraftsman\DateTimePrecision\Day;
 use DigitalCraftsman\DateTimePrecision\Day;
 use DigitalCraftsman\DateTimePrecision\Exception\InvalidDay;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Day::class)]
 final class ConstructionTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function from_date_time_works(
         Day $expectedResult,
         \DateTimeImmutable $dateTime,
@@ -49,11 +49,8 @@ final class ConstructionTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @doesNotPerformAssertions
-     */
+    #[Test]
+    #[DoesNotPerformAssertions]
     public function construction_works(): void
     {
         // -- Act & Assert
@@ -62,9 +59,7 @@ final class ConstructionTest extends TestCase
         new Day(31);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function construction_fails_with_day_too_low(): void
     {
         // -- Assert
@@ -74,9 +69,7 @@ final class ConstructionTest extends TestCase
         new Day(0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function construction_fails_with_day_too_high(): void
     {
         // -- Assert
@@ -86,9 +79,7 @@ final class ConstructionTest extends TestCase
         new Day(32);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function construction_fails_with_negative_day(): void
     {
         // -- Assert

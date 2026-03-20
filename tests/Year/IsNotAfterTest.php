@@ -6,16 +6,15 @@ namespace DigitalCraftsman\DateTimePrecision\Year;
 
 use DigitalCraftsman\DateTimePrecision\Year;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Year::class)]
 final class IsNotAfterTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function is_not_after_works(
         bool $expectedResult,
         Year $year,

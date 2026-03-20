@@ -6,16 +6,15 @@ namespace DigitalCraftsman\DateTimePrecision\Weekday;
 
 use DigitalCraftsman\DateTimePrecision\Weekday;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Weekday::class)]
 final class CompareToTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function compare_to_works(
         int $expectedResult,
         Weekday $weekday,

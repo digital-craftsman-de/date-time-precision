@@ -8,18 +8,18 @@ use DigitalCraftsman\DateTimePrecision\Exception\MomentIsNotAfter;
 use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomMomentIsNotAfter;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Moment::class)]
 final class MustBeAfterTest extends TestCase
 {
     /**
-     * @test
-     *
      * @param ?class-string<\Throwable> $expectedResult
-     *
-     * @dataProvider dataProvider
      */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function must_be_after_works(
         ?string $expectedResult,
         Moment $moment,

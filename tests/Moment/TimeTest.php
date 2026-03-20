@@ -7,16 +7,15 @@ namespace DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Time;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Moment::class)]
 final class TimeTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProviderForTime
-     */
+    #[Test]
+    #[DataProvider('dataProviderForTime')]
     public function time_works(
         Time $expectedResult,
         Moment $dateTime,
@@ -46,11 +45,8 @@ final class TimeTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider dataProviderForTimeInTimeZone
-     */
+    #[Test]
+    #[DataProvider('dataProviderForTimeInTimeZone')]
     public function time_in_time_zone_works(
         Time $expectedResult,
         Moment $dateTime,

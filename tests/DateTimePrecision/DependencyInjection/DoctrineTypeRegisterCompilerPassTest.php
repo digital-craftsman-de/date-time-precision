@@ -16,6 +16,7 @@ use DigitalCraftsman\SelfAwareNormalizers\Doctrine\ArrayNormalizableThroughLooku
 use DigitalCraftsman\SelfAwareNormalizers\Doctrine\IntNormalizableThroughLookupType;
 use DigitalCraftsman\SelfAwareNormalizers\Doctrine\StringNormalizableThroughLookupType;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
@@ -23,9 +24,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 #[CoversClass(DoctrineTypeRegisterCompilerPass::class)]
 final class DoctrineTypeRegisterCompilerPassTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function process_works(): void
     {
         // -- Arrange

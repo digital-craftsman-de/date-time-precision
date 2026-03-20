@@ -7,16 +7,15 @@ namespace DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\Weekday;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Date::class)]
 final class WeekdayTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProviderForWeekday
-     */
+    #[Test]
+    #[DataProvider('dataProviderForWeekday')]
     public function date_works(
         Weekday $expectedResult,
         Date $date,

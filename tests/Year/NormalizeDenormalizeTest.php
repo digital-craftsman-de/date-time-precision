@@ -6,14 +6,13 @@ namespace DigitalCraftsman\DateTimePrecision\Year;
 
 use DigitalCraftsman\DateTimePrecision\Year;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Year::class)]
 final class NormalizeDenormalizeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function normalize_and_denormalize_works(): void
     {
         // -- Arrange

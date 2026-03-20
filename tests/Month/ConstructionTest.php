@@ -8,14 +8,14 @@ use DigitalCraftsman\DateTimePrecision\Exception\InvalidMonth;
 use DigitalCraftsman\DateTimePrecision\Month;
 use DigitalCraftsman\DateTimePrecision\Year;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Month::class)]
 final class ConstructionTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function construct_works(): void
     {
         // -- Arrange & Act
@@ -28,11 +28,8 @@ final class ConstructionTest extends TestCase
         self::assertSame(10, $month->month);
     }
 
-    /**
-     * @test
-     *
-     * @doesNotPerformAssertions
-     */
+    #[Test]
+    #[DoesNotPerformAssertions]
     public function construct_works_with_boundary_months(): void
     {
         // -- Act & Assert
@@ -40,9 +37,7 @@ final class ConstructionTest extends TestCase
         new Month(new Year(2022), 12);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function construct_fails_with_month_too_low(): void
     {
         // -- Assert
@@ -52,9 +47,7 @@ final class ConstructionTest extends TestCase
         new Month(new Year(2022), 0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function construct_fails_with_month_too_high(): void
     {
         // -- Assert
@@ -64,9 +57,7 @@ final class ConstructionTest extends TestCase
         new Month(new Year(2022), 13);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function from_date_time_works(): void
     {
         // -- Arrange
@@ -80,9 +71,7 @@ final class ConstructionTest extends TestCase
         self::assertTrue($expectedMonth->isEqualTo($month));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function from_string_works(): void
     {
         // -- Arrange
@@ -95,9 +84,7 @@ final class ConstructionTest extends TestCase
         self::assertTrue($expectedMonth->isEqualTo($month));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function from_string_fails(): void
     {
         // -- Assert

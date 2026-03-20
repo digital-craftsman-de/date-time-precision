@@ -7,16 +7,15 @@ namespace DigitalCraftsman\DateTimePrecision\Weekdays;
 use DigitalCraftsman\DateTimePrecision\Weekday;
 use DigitalCraftsman\DateTimePrecision\Weekdays;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Weekdays::class)]
 final class ConstructionTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @doesNotPerformAssertions
-     */
+    #[Test]
+    #[DoesNotPerformAssertions]
     public function construction_works(): void
     {
         // -- Act & Assert
@@ -26,9 +25,7 @@ final class ConstructionTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function construction_fails(): void
     {
         // -- Assert

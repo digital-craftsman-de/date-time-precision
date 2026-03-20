@@ -8,18 +8,18 @@ use DigitalCraftsman\DateTimePrecision\Exception\TimeIsAfter;
 use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomTimeIsAfter;
 use DigitalCraftsman\DateTimePrecision\Time;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Time::class)]
 final class MustNotBeAfterTest extends TestCase
 {
     /**
-     * @test
-     *
      * @param ?class-string<\Throwable> $expectedResult
-     *
-     * @dataProvider dataProvider
      */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function must_not_be_after_works(
         ?string $expectedResult,
         Time $date,

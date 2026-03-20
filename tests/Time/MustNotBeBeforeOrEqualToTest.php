@@ -8,18 +8,18 @@ use DigitalCraftsman\DateTimePrecision\Exception\TimeIsBeforeOrEqualTo;
 use DigitalCraftsman\DateTimePrecision\Test\Exception\CustomTimeIsBeforeOrEqualTo;
 use DigitalCraftsman\DateTimePrecision\Time;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Time::class)]
 final class MustNotBeBeforeOrEqualToTest extends TestCase
 {
     /**
-     * @test
-     *
      * @param ?class-string<\Throwable> $expectedResult
-     *
-     * @dataProvider dataProvider
      */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function must_not_be_before_or_equal_to_works(
         ?string $expectedResult,
         Time $date,

@@ -7,16 +7,15 @@ namespace DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\Moment;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Moment::class)]
 final class DateTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProviderForDate
-     */
+    #[Test]
+    #[DataProvider('dataProviderForDate')]
     public function date_works(
         Date $expectedResult,
         Moment $dateTime,

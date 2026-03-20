@@ -6,14 +6,13 @@ namespace DigitalCraftsman\DateTimePrecision\Moment;
 
 use DigitalCraftsman\DateTimePrecision\Moment;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Moment::class)]
 final class NormalizeDenormalizeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function normalize_and_denormalize_works(): void
     {
         // -- Arrange

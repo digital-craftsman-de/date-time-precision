@@ -7,14 +7,13 @@ namespace DigitalCraftsman\DateTimePrecision\Weekdays;
 use DigitalCraftsman\DateTimePrecision\Weekday;
 use DigitalCraftsman\DateTimePrecision\Weekdays;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Weekdays::class)]
 final class NormalizeDenormalizeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function normalize_and_denormalize_works(): void
     {
         // -- Arrange

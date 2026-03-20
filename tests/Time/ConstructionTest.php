@@ -7,18 +7,17 @@ namespace DigitalCraftsman\DateTimePrecision\Time;
 use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Time;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Time::class)]
 final class ConstructionTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProviderConstructWorks
-     *
-     * @doesNotPerformAssertions
-     */
+    #[Test]
+    #[DataProvider('dataProviderConstructWorks')]
+    #[DoesNotPerformAssertions]
     public function construct_works(
         int $hour,
         int $minute,
@@ -91,11 +90,8 @@ final class ConstructionTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider dataProviderConstructDoesNotWork
-     */
+    #[Test]
+    #[DataProvider('dataProviderConstructDoesNotWork')]
     public function construct_does_not_work(
         int $hour,
         int $minute,
@@ -171,9 +167,7 @@ final class ConstructionTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function from_date_time_works(): void
     {
         // -- Arrange
@@ -187,9 +181,7 @@ final class ConstructionTest extends TestCase
         self::assertTrue($expectedTime->isEqualTo($time));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function from_string_works(): void
     {
         // -- Arrange
@@ -202,9 +194,7 @@ final class ConstructionTest extends TestCase
         self::assertTrue($expectedTime->isEqualTo($time));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function from_string_fails(): void
     {
         // -- Assert

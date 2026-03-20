@@ -6,14 +6,13 @@ namespace DigitalCraftsman\DateTimePrecision\Year;
 
 use DigitalCraftsman\DateTimePrecision\Year;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Year::class)]
 final class ConstructionTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function construct_works(): void
     {
         // -- Arrange & Act
@@ -23,9 +22,7 @@ final class ConstructionTest extends TestCase
         self::assertSame(2022, $year->year);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function from_date_time_works(): void
     {
         // -- Arrange
@@ -39,9 +36,7 @@ final class ConstructionTest extends TestCase
         self::assertTrue($expectedYear->isEqualTo($year));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function from_string_works(): void
     {
         // -- Arrange
@@ -54,9 +49,7 @@ final class ConstructionTest extends TestCase
         self::assertTrue($expectedYear->isEqualTo($year));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function from_string_fails(): void
     {
         // -- Assert

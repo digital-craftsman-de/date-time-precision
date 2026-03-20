@@ -7,16 +7,15 @@ namespace DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\Day;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Date::class)]
 final class DayTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProviderForDay
-     */
+    #[Test]
+    #[DataProvider('dataProviderForDay')]
     public function day_works(
         Day $expectedResult,
         Date $date,

@@ -7,16 +7,15 @@ namespace DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Month;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Moment::class)]
 final class MonthTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProviderForMonth
-     */
+    #[Test]
+    #[DataProvider('dataProviderForMonth')]
     public function month_works(
         Month $expectedResult,
         Moment $dateTime,
@@ -50,11 +49,8 @@ final class MonthTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider dataProviderForMonthInTimeZone
-     */
+    #[Test]
+    #[DataProvider('dataProviderForMonthInTimeZone')]
     public function month_in_time_zone_works(
         Month $expectedResult,
         Moment $dateTime,

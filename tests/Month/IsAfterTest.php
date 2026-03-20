@@ -6,16 +6,15 @@ namespace DigitalCraftsman\DateTimePrecision\Month;
 
 use DigitalCraftsman\DateTimePrecision\Month;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Month::class)]
 final class IsAfterTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProvider
-     */
+    #[Test]
+    #[DataProvider('dataProvider')]
     public function is_after_works(
         bool $expectedResult,
         Month $month,
