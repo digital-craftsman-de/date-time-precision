@@ -1,5 +1,11 @@
 # Upgrade guide
 
+## From 0.13.* to 0.14.0
+
+### Day as part of month
+
+A construction of `new Month` used `int $day` as parameter and now has `Day $day`. Replace all instances where you used the default constructor.
+
 ## From 0.12.* to 0.13.0
 
 ### Switch to automatic doctrine types

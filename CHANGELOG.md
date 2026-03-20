@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.14.0
+
+- Added class for `Day`.
+- Added class for `Days`.
+- **[Breaking change](./UPGRADE.md#day-as-part-of-month)**: Updated `$day` value of `Month` to be a `Day` instead of an `int`.
+
+## 0.13.1
+
+- Fixed version constraint of `digital-craftsman/self-aware-normalizers`.
+
 ## 0.13.0
 
 - Updated registration to auto registration for doctrine types.
