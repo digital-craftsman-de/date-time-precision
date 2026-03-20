@@ -13,6 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Date::class)]
+#[CoversClass(DateIsNotBeforeOrEqualTo::class)]
 final class MustBeBeforeOrEqualToTest extends TestCase
 {
     /**

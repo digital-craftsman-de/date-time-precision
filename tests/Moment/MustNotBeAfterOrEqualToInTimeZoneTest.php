@@ -18,6 +18,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Moment::class)]
+#[CoversClass(MomentIsAfterOrEqualTo::class)]
 final class MustNotBeAfterOrEqualToInTimeZoneTest extends TestCase
 {
     /**

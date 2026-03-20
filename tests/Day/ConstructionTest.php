@@ -13,6 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Day::class)]
+#[CoversClass(InvalidDay::class)]
 final class ConstructionTest extends TestCase
 {
     #[Test]

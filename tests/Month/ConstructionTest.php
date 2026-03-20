@@ -13,6 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Month::class)]
+#[CoversClass(InvalidMonth::class)]
 final class ConstructionTest extends TestCase
 {
     #[Test]

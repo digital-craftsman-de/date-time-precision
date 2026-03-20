@@ -13,6 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Moment::class)]
+#[CoversClass(MomentIsNotEqualTo::class)]
 final class MustBeEqualToTest extends TestCase
 {
     /**
