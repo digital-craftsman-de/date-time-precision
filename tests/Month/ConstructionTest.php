@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision\Month;
 
+use DigitalCraftsman\DateTimePrecision\Exception\InvalidMonth;
 use DigitalCraftsman\DateTimePrecision\Month;
 use DigitalCraftsman\DateTimePrecision\Year;
 use PHPUnit\Framework\TestCase;
@@ -26,6 +27,48 @@ final class ConstructionTest extends TestCase
 
         // -- Assert
         self::assertSame(10, $month->month);
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::__construct
+     *
+     * @doesNotPerformAssertions
+     */
+    public function construct_works_with_boundary_months(): void
+    {
+        // -- Act & Assert
+        new Month(new Year(2022), 1);
+        new Month(new Year(2022), 12);
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::__construct
+     */
+    public function construct_fails_with_month_too_low(): void
+    {
+        // -- Assert
+        $this->expectException(InvalidMonth::class);
+
+        // -- Act
+        new Month(new Year(2022), 0);
+    }
+
+    /**
+     * @test
+     *
+     * @covers ::__construct
+     */
+    public function construct_fails_with_month_too_high(): void
+    {
+        // -- Assert
+        $this->expectException(InvalidMonth::class);
+
+        // -- Act
+        new Month(new Year(2022), 13);
     }
 
     /**
