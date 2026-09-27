@@ -36,7 +36,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
     ): self {
         $defaultTimeZone = new \DateTimeZone('UTC');
 
-        return (new self(new \DateTimeImmutable($string, $timeZone)))
+        return new self(new \DateTimeImmutable($string, $timeZone))
             ->toTimeZone($defaultTimeZone);
     }
 
