@@ -16,51 +16,60 @@ use PHPUnit\Framework\TestCase;
 final class ConstructionTest extends TestCase
 {
     #[Test]
-    #[DataProvider('dataProvider')]
-    public function construction_works(
-        int $expectedMicroseconds,
-        Duration $duration,
-    ): void {
+    public function construction_works(): void
+    {
         // -- Act & Assert
+        self::assertSame(0, Duration::zero()->microseconds);
+        self::assertSame(0, new Duration(0)->microseconds);
+        self::assertSame(5, new Duration(5)->microseconds);
+    }
+
+    /**
+     * The factory methods are called in the test instead of the data provider, as data providers aren't part of the code coverage.
+     *
+     * @param \Closure(int): Duration $factory
+     */
+    #[Test]
+    #[DataProvider('dataProvider')]
+    public function construction_through_factory_works(
+        int $expectedMicroseconds,
+        \Closure $factory,
+    ): void {
+        // -- Act
+        $duration = $factory(5);
+
+        // -- Assert
         self::assertSame($expectedMicroseconds, $duration->microseconds);
     }
 
     /**
      * @return array<string, array{
      *   0: int,
-     *   1: Duration,
+     *   1: \Closure(int): Duration,
      * }>
      */
     public static function dataProvider(): array
     {
         return [
-            'zero' => [
-                0,
-                Duration::zero(),
-            ],
-            'zero through constructor' => [
-                0,
-                new Duration(0),
-            ],
             'from microseconds' => [
                 5,
-                Duration::fromMicroseconds(5),
+                Duration::fromMicroseconds(...),
             ],
             'from milliseconds' => [
                 5_000,
-                Duration::fromMilliseconds(5),
+                Duration::fromMilliseconds(...),
             ],
             'from seconds' => [
                 5_000_000,
-                Duration::fromSeconds(5),
+                Duration::fromSeconds(...),
             ],
             'from minutes' => [
                 300_000_000,
-                Duration::fromMinutes(5),
+                Duration::fromMinutes(...),
             ],
             'from hours' => [
                 18_000_000_000,
-                Duration::fromHours(5),
+                Duration::fromHours(...),
             ],
         ];
     }

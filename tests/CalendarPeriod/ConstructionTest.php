@@ -17,56 +17,63 @@ use PHPUnit\Framework\TestCase;
 final class ConstructionTest extends TestCase
 {
     #[Test]
+    public function construction_works(): void
+    {
+        // -- Act
+        $calendarPeriod = new CalendarPeriod(0, CalendarUnit::DAY);
+
+        // -- Assert
+        self::assertSame(0, $calendarPeriod->amount);
+        self::assertSame(CalendarUnit::DAY, $calendarPeriod->unit);
+    }
+
+    /**
+     * The factory methods are called in the test instead of the data provider, as data providers aren't part of the code coverage.
+     *
+     * @param \Closure(int): CalendarPeriod $factory
+     */
+    #[Test]
     #[DataProvider('dataProvider')]
-    public function construction_works(
-        int $expectedAmount,
+    public function construction_through_factory_works(
         CalendarUnit $expectedUnit,
-        CalendarPeriod $calendarPeriod,
+        \Closure $factory,
     ): void {
-        // -- Act & Assert
-        self::assertSame($expectedAmount, $calendarPeriod->amount);
+        // -- Act
+        $calendarPeriod = $factory(3);
+
+        // -- Assert
+        self::assertSame(3, $calendarPeriod->amount);
         self::assertSame($expectedUnit, $calendarPeriod->unit);
     }
 
     /**
      * @return array<string, array{
-     *   0: int,
-     *   1: CalendarUnit,
-     *   2: CalendarPeriod,
+     *   0: CalendarUnit,
+     *   1: \Closure(int): CalendarPeriod,
      * }>
      */
     public static function dataProvider(): array
     {
         return [
-            'zero through constructor' => [
-                0,
-                CalendarUnit::DAY,
-                new CalendarPeriod(0, CalendarUnit::DAY),
-            ],
             'days' => [
-                3,
                 CalendarUnit::DAY,
-                CalendarPeriod::days(3),
+                CalendarPeriod::days(...),
             ],
             'weeks' => [
-                3,
                 CalendarUnit::WEEK,
-                CalendarPeriod::weeks(3),
+                CalendarPeriod::weeks(...),
             ],
             'months' => [
-                3,
                 CalendarUnit::MONTH,
-                CalendarPeriod::months(3),
+                CalendarPeriod::months(...),
             ],
             'quarters' => [
-                3,
                 CalendarUnit::QUARTER,
-                CalendarPeriod::quarters(3),
+                CalendarPeriod::quarters(...),
             ],
             'years' => [
-                3,
                 CalendarUnit::YEAR,
-                CalendarPeriod::years(3),
+                CalendarPeriod::years(...),
             ],
         ];
     }
