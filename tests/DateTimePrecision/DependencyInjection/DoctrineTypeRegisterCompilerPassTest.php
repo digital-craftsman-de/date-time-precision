@@ -8,6 +8,8 @@ use DigitalCraftsman\DateTimePrecision\CalendarPeriod;
 use DigitalCraftsman\DateTimePrecision\CalendarUnit;
 use DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\DateRange;
+use DigitalCraftsman\DateTimePrecision\Day;
+use DigitalCraftsman\DateTimePrecision\Days;
 use DigitalCraftsman\DateTimePrecision\DependencyInjection\DoctrineTypeRegisterCompilerPass;
 use DigitalCraftsman\DateTimePrecision\Duration;
 use DigitalCraftsman\DateTimePrecision\Moment;
@@ -65,6 +67,12 @@ final class DoctrineTypeRegisterCompilerPassTest extends TestCase
 
         self::assertArrayHasKey(Year::class, $updatedParameters);
         self::assertSame(['class' => IntNormalizableThroughLookupType::class], $updatedParameters[Year::class]);
+
+        self::assertArrayHasKey(Day::class, $updatedParameters);
+        self::assertSame(['class' => IntNormalizableThroughLookupType::class], $updatedParameters[Day::class]);
+
+        self::assertArrayHasKey(Days::class, $updatedParameters);
+        self::assertSame(['class' => ArrayNormalizableThroughLookupType::class], $updatedParameters[Days::class]);
 
         self::assertArrayHasKey(Duration::class, $updatedParameters);
         self::assertSame(['class' => IntNormalizableThroughLookupType::class], $updatedParameters[Duration::class]);

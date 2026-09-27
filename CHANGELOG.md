@@ -7,6 +7,7 @@
 - Added `TimeRange` as half-open range of times which may wrap around midnight, with guards `mustNotStartBefore` and `mustNotWrapAroundMidnight`.
 - Added optional `PeriodLimit` to `contains` and `notContains` of all ranges to define whether start and end are included.
 - Added `includesStart` and `includesEnd` to `PeriodLimit`.
+- Fixed missing registration of Doctrine types for `Day` and `Days`.
 - Added `isBetween` and `isNotBetween` to `Date`, `Month` and `Moment`.
 - Added static `min`, `max` and `compare` to `Date`, `Month`, `Year` and `Moment`.
 - Added `toMomentRangeInTimeZone` to `Date`, `Month` and `Year`.

@@ -8,6 +8,8 @@ use DigitalCraftsman\DateTimePrecision\CalendarPeriod;
 use DigitalCraftsman\DateTimePrecision\CalendarUnit;
 use DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\DateRange;
+use DigitalCraftsman\DateTimePrecision\Day;
+use DigitalCraftsman\DateTimePrecision\Days;
 use DigitalCraftsman\DateTimePrecision\Duration;
 use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\MomentRange;
@@ -44,6 +46,8 @@ final readonly class DoctrineTypeRegisterCompilerPass implements CompilerPassInt
         $typeDefinitions[Date::class] = ['class' => StringNormalizableThroughLookupType::class];
         $typeDefinitions[Month::class] = ['class' => StringNormalizableThroughLookupType::class];
         $typeDefinitions[Year::class] = ['class' => IntNormalizableThroughLookupType::class];
+        $typeDefinitions[Day::class] = ['class' => IntNormalizableThroughLookupType::class];
+        $typeDefinitions[Days::class] = ['class' => ArrayNormalizableThroughLookupType::class];
         $typeDefinitions[Duration::class] = ['class' => IntNormalizableThroughLookupType::class];
         $typeDefinitions[CalendarUnit::class] = ['class' => StringNormalizableThroughLookupType::class];
         $typeDefinitions[CalendarPeriod::class] = ['class' => ArrayNormalizableThroughLookupType::class];
