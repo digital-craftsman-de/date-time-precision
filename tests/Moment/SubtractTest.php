@@ -26,7 +26,7 @@ final class SubtractTest extends TestCase
 
         // -- Assert
         self::assertTrue($expectedResult->isEqualTo($result));
-        self::assertSame($moment->dateTime->getTimezone()->getName(), $result->dateTime->getTimezone()->getName());
+        self::assertSame('UTC', $result->dateTime->getTimezone()->getName());
     }
 
     /**

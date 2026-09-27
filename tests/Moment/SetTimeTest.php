@@ -40,9 +40,9 @@ final class SetTimeTest extends TestCase
                 Moment::fromString('2022-10-08 15:00:00'),
                 Time::fromString('14:15:30'),
             ],
-            'set time in Europe/Berlin' => [
-                Moment::fromDateTime(new \DateTimeImmutable('2022-10-08 14:15:30', new \DateTimeZone('Europe/Berlin'))),
-                Moment::fromDateTime(new \DateTimeImmutable('2022-10-08 15:00:00', new \DateTimeZone('Europe/Berlin'))),
+            'set time in UTC for date time in other time zone' => [
+                Moment::fromString('2022-10-07 14:15:30'),
+                Moment::fromDateTime(new \DateTimeImmutable('2022-10-08 01:00:00', new \DateTimeZone('Europe/Berlin'))),
                 Time::fromString('14:15:30'),
             ],
         ];

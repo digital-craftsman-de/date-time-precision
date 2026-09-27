@@ -37,10 +37,9 @@ final class MonthTest extends TestCase
                 Month::fromString('2022-10'),
                 Moment::fromString('2022-10-01 00:00:00'),
             ],
-            'month the same with same time zone' => [
-                Month::fromString('2022-10'),
-                Moment::fromStringInTimeZone('2022-10-08 00:00:00', new \DateTimeZone('Europe/Berlin'))
-                    ->toTimeZone(new \DateTimeZone('Europe/Berlin')),
+            'month in UTC for normalized date time with offset' => [
+                Month::fromString('2022-09'),
+                Moment::denormalize('2022-10-01T00:00:00.000000+02:00'),
             ],
             'month the different when in different time zone' => [
                 Month::fromString('2022-09'),

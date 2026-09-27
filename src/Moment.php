@@ -20,9 +20,16 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     // -- Construction
 
+    /**
+     * Always in UTC. The moment in time of the given date time is kept, but it's converted to UTC when it's in another timezone or only
+     * has an offset or abbreviation (like "+02:00" or "Z").
+     */
+    public \DateTimeImmutable $dateTime;
+
     public function __construct(
-        public \DateTimeImmutable $dateTime,
+        \DateTimeImmutable $dateTime,
     ) {
+        $this->dateTime = $dateTime->setTimezone(new \DateTimeZone('UTC'));
     }
 
     public static function fromString(string $string): self
@@ -34,10 +41,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
         string $string,
         \DateTimeZone $timeZone,
     ): self {
-        $defaultTimeZone = new \DateTimeZone('UTC');
-
-        return new self(new \DateTimeImmutable($string, $timeZone))
-            ->toTimeZone($defaultTimeZone);
+        return new self(new \DateTimeImmutable($string, $timeZone));
     }
 
     public static function fromDateTime(\DateTimeImmutable $dateTime): self
@@ -76,9 +80,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function dateInTimeZone(\DateTimeZone $timeZone): Date
     {
-        return $this
-            ->toTimeZone($timeZone)
-            ->date();
+        return Date::fromDateTime($this->dateTime->setTimezone($timeZone));
     }
 
     public function time(): Time
@@ -88,9 +90,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function timeInTimeZone(\DateTimeZone $timeZone): Time
     {
-        return $this
-            ->toTimeZone($timeZone)
-            ->time();
+        return Time::fromDateTime($this->dateTime->setTimezone($timeZone));
     }
 
     public function weekday(): Weekday
@@ -100,9 +100,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function weekdayInTimeZone(\DateTimeZone $timeZone): Weekday
     {
-        return $this
-            ->toTimeZone($timeZone)
-            ->weekday();
+        return Weekday::fromDateTime($this->dateTime->setTimezone($timeZone));
     }
 
     public function month(): Month
@@ -112,9 +110,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function monthInTimeZone(\DateTimeZone $timeZone): Month
     {
-        return $this
-            ->toTimeZone($timeZone)
-            ->month();
+        return Month::fromDateTime($this->dateTime->setTimezone($timeZone));
     }
 
     public function year(): Year
@@ -124,9 +120,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function yearInTimeZone(\DateTimeZone $timeZone): Year
     {
-        return $this
-            ->toTimeZone($timeZone)
-            ->year();
+        return Year::fromDateTime($this->dateTime->setTimezone($timeZone));
     }
 
     public function day(): Day
@@ -136,9 +130,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function dayInTimeZone(\DateTimeZone $timeZone): Day
     {
-        return $this
-            ->toTimeZone($timeZone)
-            ->day();
+        return Day::fromDateTime($this->dateTime->setTimezone($timeZone));
     }
 
     public function isEqualTo(self $moment): bool
@@ -389,6 +381,9 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     // -- Modifications
 
+    /**
+     * The modification is applied in UTC. Use modifyInTimeZone for modifications in the calendar of a specific timezone.
+     */
     public function modify(string $modifier): self
     {
         /** @psalm-suppress PossiblyFalseArgument */
@@ -404,12 +399,14 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function formatInTimeZone(string $format, \DateTimeZone $timeZone): string
     {
-        return $this
-            ->toTimeZone($timeZone)
-            ->dateTime
+        return $this->dateTime
+            ->setTimezone($timeZone)
             ->format($format);
     }
 
+    /**
+     * @deprecated A moment is always in UTC, therefore this method has no effect anymore. Use the *InTimeZone methods instead.
+     */
     public function toTimeZone(\DateTimeZone $timeZone): self
     {
         return new self(
@@ -424,14 +421,11 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
      */
     public function modifyInTimeZone(string $modifier, \DateTimeZone $timeZone): self
     {
-        $originalTimeZone = $this->dateTime->getTimezone();
-
-        /** @psalm-suppress PossiblyFalseReference */
+        /** @psalm-suppress PossiblyFalseArgument */
         return new self(
             $this->dateTime
                 ->setTimezone($timeZone)
-                ->modify($modifier)
-                ->setTimezone($originalTimeZone),
+                ->modify($modifier),
         );
     }
 
@@ -440,7 +434,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
      */
     public function add(Duration $duration): self
     {
-        return $this->modifyOnTimeline(sprintf('+%d microseconds', $duration->microseconds));
+        return $this->modify(sprintf('+%d microseconds', $duration->microseconds));
     }
 
     /**
@@ -448,7 +442,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
      */
     public function subtract(Duration $duration): self
     {
-        return $this->modifyOnTimeline(sprintf('-%d microseconds', $duration->microseconds));
+        return $this->modify(sprintf('-%d microseconds', $duration->microseconds));
     }
 
     /**
@@ -483,12 +477,16 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function setTimeInTimeZone(Time $time, \DateTimeZone $timeZone): self
     {
-        $originalTimeZone = $this->dateTime->getTimezone();
-
-        return $this
-            ->toTimeZone($timeZone)
-            ->setTime($time)
-            ->toTimeZone($originalTimeZone);
+        return new self(
+            $this->dateTime
+                ->setTimezone($timeZone)
+                ->setTime(
+                    $time->hour,
+                    $time->minute,
+                    $time->second,
+                    $time->microsecond,
+                ),
+        );
     }
 
     public function midnight(): self
@@ -502,24 +500,13 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function midnightInTimeZone(\DateTimeZone $timeZone): self
     {
-        $originalTimeZone = $this->dateTime->getTimezone();
-
-        return $this
-            ->toTimeZone($timeZone)
-            ->midnight()
-            ->toTimeZone($originalTimeZone);
-    }
-
-    private function modifyOnTimeline(string $modifier): self
-    {
-        $originalTimeZone = $this->dateTime->getTimezone();
-
-        /** @psalm-suppress PossiblyFalseReference */
-        return new self(
-            $this->dateTime
-                ->setTimezone(new \DateTimeZone('UTC'))
-                ->modify($modifier)
-                ->setTimezone($originalTimeZone),
+        return $this->setTimeInTimeZone(
+            new Time(
+                0,
+                0,
+                0,
+            ),
+            $timeZone,
         );
     }
 

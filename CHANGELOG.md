@@ -2,6 +2,7 @@
 
 ## 0.15.0
 
+- **[Breaking change](./UPGRADE.md#moment-is-always-in-utc)**: `Moment` is now always in UTC. A `\DateTimeImmutable` in another timezone or with an offset is converted to UTC on construction (the moment in time is kept).
 - **[Breaking change](./UPGRADE.md#validation-of-date)**: `Date` now throws `InvalidDate` when the day doesn't exist in the month (e.g. 31.04.).
 - Added `Duration` for elapsed time with microsecond precision (normalized as integer of microseconds).
 - Added `CalendarPeriod` and `CalendarUnit` for movements in the calendar (days, weeks, months, quarters and years).
@@ -14,6 +15,7 @@
 - Fixed microseconds below 100000 in `Time` being interpreted as fractions of a second (e.g. 5 microseconds as 0.5 seconds) in comparisons, formatting and modifications.
 - [Deprecated](./UPGRADE.md#deprecated-modifications-in-time-zone-for-calendar-values) `modifyInTimeZone` of `Date`, `Month` and `Year`.
 - [Deprecated](./UPGRADE.md#deprecated-distance-in-minutes-of-time) `distanceInMinutesTo` of `Time`.
+- [Deprecated](./UPGRADE.md#moment-is-always-in-utc) `toTimeZone` of `Moment` as it has no effect anymore.
 
 ## 0.14.0
 

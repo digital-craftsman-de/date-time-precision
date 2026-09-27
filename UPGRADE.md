@@ -2,6 +2,34 @@
 
 ## From 0.14.* to 0.15.0
 
+### Moment is always in UTC
+
+Previously `Moment` kept the timezone of the given `\DateTimeImmutable`. This was the case for `Moment::fromDateTime`, `new Moment`, `denormalize` with an offset (like `+02:00`) and `toTimeZone`. Now the date time is converted to UTC on construction. The moment in time is kept, but all methods without an explicit timezone now work in UTC for those moments:
+
+- `date`, `time`, `weekday`, `day`, `month`, `year`, `isAtMidnight` and `isNotAtMidnight` return the values in UTC.
+- `format`, `normalize` and `__toString` return the values in UTC (with offset `+00:00`).
+- `midnight`, `setTime` and `modify` are applied in UTC.
+
+Comparisons and all `*InTimeZone` methods aren't affected.
+
+If you create moments from a date time in another timezone (e.g. `$context->triggeredAt` of the Symfony scheduler) and rely on one of the methods above, switch to the matching `*InTimeZone` method:
+
+Before:
+```php
+$now = Moment::fromDateTime($context->triggeredAt); // In Europe/Berlin
+$today = $now->date();
+```
+
+After:
+```php
+$now = Moment::fromDateTime($context->triggeredAt); // Converted to UTC
+$today = $now->dateInTimeZone(new \DateTimeZone('Europe/Berlin'));
+```
+
+As a side effect, a moment in another timezone can't be persisted with a shifted time anymore. With `TIMESTAMP WITHOUT TIME ZONE`, the offset of the normalized value was ignored by the database.
+
+`toTimeZone` is deprecated as it has no effect anymore and will be removed in 1.0. Use the `*InTimeZone` methods instead.
+
 ### Validation of date
 
 `Date` now validates that the day exists in the month and throws `InvalidDate` otherwise. Previously `new Date(new Month(new Year(2022), 2), new Day(31))` was accepted. Construction through `Date::fromString` or `Date::fromDateTime` isn't affected as `\DateTimeImmutable` already moves those days into the following month.

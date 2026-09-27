@@ -20,8 +20,12 @@ final class ToTimeZoneTest extends TestCase
         Moment $dateTime,
         \DateTimeZone $timeZone,
     ): void {
-        // -- Act & Assert
-        self::assertTrue($expectedResult->isEqualTo($dateTime->toTimeZone($timeZone)));
+        // -- Act
+        $result = $dateTime->toTimeZone($timeZone);
+
+        // -- Assert
+        self::assertTrue($expectedResult->isEqualTo($result));
+        self::assertSame('UTC', $result->dateTime->getTimezone()->getName());
     }
 
     /**

@@ -37,10 +37,9 @@ final class DayTest extends TestCase
                 new Day(1),
                 Moment::fromString('2022-01-01 00:00:00'),
             ],
-            'day the same with same time zone' => [
-                new Day(8),
-                Moment::fromStringInTimeZone('2022-10-08 00:00:00', new \DateTimeZone('Europe/Berlin'))
-                    ->toTimeZone(new \DateTimeZone('Europe/Berlin')),
+            'day in UTC for date time with offset' => [
+                new Day(7),
+                Moment::fromDateTime(new \DateTimeImmutable('2022-10-08T00:00:00+02:00')),
             ],
             'day is different when in different time zone' => [
                 new Day(31),
