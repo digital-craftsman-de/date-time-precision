@@ -355,6 +355,38 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
             ->isNotMidnight();
     }
 
+    /**
+     * Exact elapsed time on the timeline, independent of any timezone.
+     *
+     * @throws Exception\MomentIsBefore when the given moment is before this moment
+     */
+    public function durationUntil(self $moment): Duration
+    {
+        $moment->mustNotBeBefore($this);
+
+        return Duration::between($this->dateTime, $moment->dateTime);
+    }
+
+    /**
+     * Only full units are counted in the calendar of the given timezone (e.g. 31.01. until 01.03. is 0 months and 29 days).
+     *
+     * @throws Exception\MomentIsBefore when the given moment is before this moment
+     */
+    public function periodUntilInTimeZone(
+        self $moment,
+        CalendarUnit $calendarUnit,
+        \DateTimeZone $timeZone,
+    ): CalendarPeriod {
+        $moment->mustNotBeBefore($this);
+
+        return CalendarPeriod::fromDateInterval(
+            $this->dateTime
+                ->setTimezone($timeZone)
+                ->diff($moment->dateTime->setTimezone($timeZone)),
+            $calendarUnit,
+        );
+    }
+
     // -- Modifications
 
     public function modify(string $modifier): self
@@ -385,6 +417,11 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
         );
     }
 
+    /**
+     * Modifications with hours, minutes or seconds are applied to the wall clock of the timezone. Across a change of daylight saving
+     * time, the elapsed time therefore differs from the modifier (e.g. "+2 hours" might only be 1 or up to 3 hours). Use add with a
+     * Duration for elapsed time.
+     */
     public function modifyInTimeZone(string $modifier, \DateTimeZone $timeZone): self
     {
         $originalTimeZone = $this->dateTime->getTimezone();
@@ -396,6 +433,40 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
                 ->modify($modifier)
                 ->setTimezone($originalTimeZone),
         );
+    }
+
+    /**
+     * Adds exact elapsed time on the timeline, independent of any timezone.
+     */
+    public function add(Duration $duration): self
+    {
+        return $this->modifyOnTimeline(sprintf('+%d microseconds', $duration->microseconds));
+    }
+
+    /**
+     * Subtracts exact elapsed time on the timeline, independent of any timezone.
+     */
+    public function subtract(Duration $duration): self
+    {
+        return $this->modifyOnTimeline(sprintf('-%d microseconds', $duration->microseconds));
+    }
+
+    /**
+     * Moves in the calendar of the given timezone and follows the native overflow behaviour of \DateTimeImmutable (e.g. 31.01. + 1 month =
+     * 03.03.). When the resulting local time doesn't exist (because of daylight saving time), it's moved forward like natively.
+     */
+    public function addInTimeZone(CalendarPeriod $calendarPeriod, \DateTimeZone $timeZone): self
+    {
+        return $this->modifyInTimeZone(sprintf('+%s', $calendarPeriod->modifier()), $timeZone);
+    }
+
+    /**
+     * Moves in the calendar of the given timezone and follows the native overflow behaviour of \DateTimeImmutable (e.g. 31.03. - 1 month =
+     * 03.03.). When the resulting local time doesn't exist (because of daylight saving time), it's moved forward like natively.
+     */
+    public function subtractInTimeZone(CalendarPeriod $calendarPeriod, \DateTimeZone $timeZone): self
+    {
+        return $this->modifyInTimeZone(sprintf('-%s', $calendarPeriod->modifier()), $timeZone);
     }
 
     public function setTime(Time $time): self
@@ -437,6 +508,19 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
             ->toTimeZone($timeZone)
             ->midnight()
             ->toTimeZone($originalTimeZone);
+    }
+
+    private function modifyOnTimeline(string $modifier): self
+    {
+        $originalTimeZone = $this->dateTime->getTimezone();
+
+        /** @psalm-suppress PossiblyFalseReference */
+        return new self(
+            $this->dateTime
+                ->setTimezone(new \DateTimeZone('UTC'))
+                ->modify($modifier)
+                ->setTimezone($originalTimeZone),
+        );
     }
 
     // -- Guards

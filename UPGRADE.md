@@ -1,5 +1,41 @@
 # Upgrade guide
 
+## From 0.14.* to 0.15.0
+
+### Validation of date
+
+`Date` now validates that the day exists in the month and throws `InvalidDate` otherwise. Previously `new Date(new Month(new Year(2022), 2), new Day(31))` was accepted. Construction through `Date::fromString` or `Date::fromDateTime` isn't affected as `\DateTimeImmutable` already moves those days into the following month.
+
+### Deprecated modifications in time zone for calendar values
+
+`modifyInTimeZone` of `Date`, `Month` and `Year` is deprecated and will be removed in 1.0. Those values don't have a time and therefore the timezone has no effect. Use `add` and `subtract` with a `CalendarPeriod` or `modify` instead.
+
+Before:
+```php
+$tomorrow = $date->modifyInTimeZone('+ 1 day', $timeZone);
+$nextMonth = $month->modifyInTimeZone('+ 1 month', $timeZone);
+```
+
+After:
+```php
+$tomorrow = $date->add(CalendarPeriod::days(1));
+$nextMonth = $month->next();
+```
+
+### Deprecated distance in minutes of time
+
+`distanceInMinutesTo` of `Time` is deprecated and will be removed in 1.0. Use `durationUntil` instead. Be aware that `durationUntil` wraps around midnight when the given time is before the time, whereas `distanceInMinutesTo` returned the absolute distance.
+
+Before:
+```php
+$minutes = $timeFrom->distanceInMinutesTo($timeTo);
+```
+
+After:
+```php
+$minutes = $timeFrom->durationUntil($timeTo)->inMinutes();
+```
+
 ## From 0.13.* to 0.14.0
 
 ### Day as part of month

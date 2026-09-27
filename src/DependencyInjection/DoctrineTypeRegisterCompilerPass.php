@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace DigitalCraftsman\DateTimePrecision\DependencyInjection;
 
+use DigitalCraftsman\DateTimePrecision\CalendarPeriod;
+use DigitalCraftsman\DateTimePrecision\CalendarUnit;
 use DigitalCraftsman\DateTimePrecision\Date;
+use DigitalCraftsman\DateTimePrecision\Duration;
 use DigitalCraftsman\DateTimePrecision\Moment;
 use DigitalCraftsman\DateTimePrecision\Month;
 use DigitalCraftsman\DateTimePrecision\Time;
@@ -38,6 +41,9 @@ final readonly class DoctrineTypeRegisterCompilerPass implements CompilerPassInt
         $typeDefinitions[Date::class] = ['class' => StringNormalizableThroughLookupType::class];
         $typeDefinitions[Month::class] = ['class' => StringNormalizableThroughLookupType::class];
         $typeDefinitions[Year::class] = ['class' => IntNormalizableThroughLookupType::class];
+        $typeDefinitions[Duration::class] = ['class' => IntNormalizableThroughLookupType::class];
+        $typeDefinitions[CalendarUnit::class] = ['class' => StringNormalizableThroughLookupType::class];
+        $typeDefinitions[CalendarPeriod::class] = ['class' => ArrayNormalizableThroughLookupType::class];
 
         $container->setParameter(self::TYPE_DEFINITION_PARAMETER, $typeDefinitions);
     }

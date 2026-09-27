@@ -146,7 +146,52 @@ final readonly class Year implements IntNormalizable, NullableIntDenormalizable
         return $years;
     }
 
+    /**
+     * @throws Exception\YearIsBefore when the given year is before this year
+     */
+    public function periodUntil(self $year): CalendarPeriod
+    {
+        if ($year->isBefore($this)) {
+            throw new Exception\YearIsBefore();
+        }
+
+        return CalendarPeriod::fromDateInterval(
+            $this->toDateTimeImmutable()->diff($year->toDateTimeImmutable()),
+            CalendarUnit::YEAR,
+        );
+    }
+
     // -- Mutations
+
+    /**
+     * @throws Exception\CalendarUnitIsNotSupported when the unit is not a year
+     */
+    public function add(CalendarPeriod $calendarPeriod): self
+    {
+        self::mustSupportCalendarUnit($calendarPeriod->unit);
+
+        return $this->modify(sprintf('+%s', $calendarPeriod->modifier()));
+    }
+
+    /**
+     * @throws Exception\CalendarUnitIsNotSupported when the unit is not a year
+     */
+    public function subtract(CalendarPeriod $calendarPeriod): self
+    {
+        self::mustSupportCalendarUnit($calendarPeriod->unit);
+
+        return $this->modify(sprintf('-%s', $calendarPeriod->modifier()));
+    }
+
+    public function next(): self
+    {
+        return $this->add(CalendarPeriod::years(1));
+    }
+
+    public function previous(): self
+    {
+        return $this->subtract(CalendarPeriod::years(1));
+    }
 
     public function format(string $format): string
     {
@@ -175,6 +220,9 @@ final readonly class Year implements IntNormalizable, NullableIntDenormalizable
         );
     }
 
+    /**
+     * @deprecated A year has no time and therefore the timezone has no effect. Use add, subtract or modify instead.
+     */
     public function modifyInTimeZone(string $modify, \DateTimeZone $timeZone): self
     {
         $dateTimeImmutable = new \DateTimeImmutable(
@@ -187,6 +235,16 @@ final readonly class Year implements IntNormalizable, NullableIntDenormalizable
 
         /** @psalm-suppress PossiblyFalseArgument */
         return self::fromDateTime($dateTimeImmutable->modify($modify));
+    }
+
+    /**
+     * @throws Exception\CalendarUnitIsNotSupported
+     */
+    private static function mustSupportCalendarUnit(CalendarUnit $calendarUnit): void
+    {
+        if ($calendarUnit !== CalendarUnit::YEAR) {
+            throw new Exception\CalendarUnitIsNotSupported($calendarUnit, self::class);
+        }
     }
 
     private function toDateTimeImmutable(): \DateTimeImmutable

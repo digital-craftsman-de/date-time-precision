@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.15.0
+
+- **[Breaking change](./UPGRADE.md#validation-of-date)**: `Date` now throws `InvalidDate` when the day doesn't exist in the month (e.g. 31.04.).
+- Added `Duration` for elapsed time with microsecond precision (normalized as integer of microseconds).
+- Added `CalendarPeriod` and `CalendarUnit` for movements in the calendar (days, weeks, months, quarters and years).
+- Added `add` and `subtract` with `Duration` to `Moment` and `Time` (wrapping around midnight).
+- Added `addInTimeZone` and `subtractInTimeZone` with `CalendarPeriod` to `Moment`.
+- Added `add`, `subtract`, `next` and `previous` with `CalendarPeriod` to `Date`, `Month` and `Year`.
+- Added `next` and `previous` to `Weekday`.
+- Added `durationUntil` to `Moment` and `Time` as well as `periodUntilInTimeZone` to `Moment` and `periodUntil` to `Date`, `Month` and `Year`.
+- Added `atTimeInTimeZone` to `Date` and `numberOfDays` to `Month`.
+- Fixed microseconds below 100000 in `Time` being interpreted as fractions of a second (e.g. 5 microseconds as 0.5 seconds) in comparisons, formatting and modifications.
+- [Deprecated](./UPGRADE.md#deprecated-modifications-in-time-zone-for-calendar-values) `modifyInTimeZone` of `Date`, `Month` and `Year`.
+- [Deprecated](./UPGRADE.md#deprecated-distance-in-minutes-of-time) `distanceInMinutesTo` of `Time`.
+
 ## 0.14.0
 
 - Added class for `Day`.

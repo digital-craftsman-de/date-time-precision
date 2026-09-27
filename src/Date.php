@@ -22,6 +22,9 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
         public Month $month,
         public Day $day,
     ) {
+        if ($day->day > $month->numberOfDays()) {
+            throw new Exception\InvalidDate($month->year->year, $month->month, $day->day);
+        }
     }
 
     public static function fromDateTime(\DateTimeImmutable $dateTime): self
@@ -179,6 +182,23 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
     public function weekday(): Weekday
     {
         return Weekday::fromDateTime($this->toDateTimeImmutable());
+    }
+
+    /**
+     * Only full units are counted (e.g. 31.01. until 01.03. is 0 months and 29 days).
+     *
+     * @throws Exception\DateIsBefore when the given date is before this date
+     */
+    public function periodUntil(
+        self $date,
+        CalendarUnit $calendarUnit,
+    ): CalendarPeriod {
+        $date->mustNotBeBefore($this);
+
+        return CalendarPeriod::fromDateInterval(
+            $this->toDateTimeImmutable()->diff($date->toDateTimeImmutable()),
+            $calendarUnit,
+        );
     }
 
     // -- Guards
@@ -371,6 +391,39 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
         return self::fromDateTime($modifiedDateTime);
     }
 
+    /**
+     * Follows the native overflow behaviour of \DateTimeImmutable (e.g. 31.01. + 1 month = 03.03.).
+     */
+    public function add(CalendarPeriod $calendarPeriod): self
+    {
+        return $this->modify(sprintf('+%s', $calendarPeriod->modifier()));
+    }
+
+    /**
+     * Follows the native overflow behaviour of \DateTimeImmutable (e.g. 31.03. - 1 month = 03.03.).
+     */
+    public function subtract(CalendarPeriod $calendarPeriod): self
+    {
+        return $this->modify(sprintf('-%s', $calendarPeriod->modifier()));
+    }
+
+    public function next(): self
+    {
+        return $this->add(CalendarPeriod::days(1));
+    }
+
+    public function previous(): self
+    {
+        return $this->subtract(CalendarPeriod::days(1));
+    }
+
+    public function atTimeInTimeZone(Time $time, \DateTimeZone $timeZone): Moment
+    {
+        return $this
+            ->toMomentInTimeZone($timeZone)
+            ->setTimeInTimeZone($time, $timeZone);
+    }
+
     public function toMomentInTimeZone(\DateTimeZone $timeZone): Moment
     {
         return Moment::fromStringInTimeZone(
@@ -384,6 +437,9 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
         );
     }
 
+    /**
+     * @deprecated A date has no time and therefore the timezone has no effect. Use add, subtract or modify instead.
+     */
     public function modifyInTimeZone(string $modify, \DateTimeZone $timeZone): self
     {
         $dateTimeImmutable = new \DateTimeImmutable(

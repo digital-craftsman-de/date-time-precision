@@ -177,7 +177,62 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
         return $months;
     }
 
+    public function numberOfDays(): int
+    {
+        return (int) $this->format('t');
+    }
+
+    /**
+     * @throws Exception\MonthIsBefore              when the given month is before this month
+     * @throws Exception\CalendarUnitIsNotSupported when the unit is more precise than a month
+     */
+    public function periodUntil(
+        self $month,
+        CalendarUnit $calendarUnit = CalendarUnit::MONTH,
+    ): CalendarPeriod {
+        self::mustSupportCalendarUnit($calendarUnit);
+
+        if ($month->isBefore($this)) {
+            throw new Exception\MonthIsBefore();
+        }
+
+        return CalendarPeriod::fromDateInterval(
+            $this->toDateTimeImmutable()->diff($month->toDateTimeImmutable()),
+            $calendarUnit,
+        );
+    }
+
     // -- Mutations
+
+    /**
+     * @throws Exception\CalendarUnitIsNotSupported when the unit is more precise than a month
+     */
+    public function add(CalendarPeriod $calendarPeriod): self
+    {
+        self::mustSupportCalendarUnit($calendarPeriod->unit);
+
+        return $this->modify(sprintf('+%s', $calendarPeriod->modifier()));
+    }
+
+    /**
+     * @throws Exception\CalendarUnitIsNotSupported when the unit is more precise than a month
+     */
+    public function subtract(CalendarPeriod $calendarPeriod): self
+    {
+        self::mustSupportCalendarUnit($calendarPeriod->unit);
+
+        return $this->modify(sprintf('-%s', $calendarPeriod->modifier()));
+    }
+
+    public function next(): self
+    {
+        return $this->add(CalendarPeriod::months(1));
+    }
+
+    public function previous(): self
+    {
+        return $this->subtract(CalendarPeriod::months(1));
+    }
 
     public function firstDay(): Date
     {
@@ -229,6 +284,9 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
         );
     }
 
+    /**
+     * @deprecated A month has no time and therefore the timezone has no effect. Use add, subtract or modify instead.
+     */
     public function modifyInTimeZone(string $modify, \DateTimeZone $timeZone): self
     {
         $dateTimeImmutable = new \DateTimeImmutable(
@@ -242,6 +300,18 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
 
         /** @psalm-suppress PossiblyFalseArgument */
         return self::fromDateTime($dateTimeImmutable->modify($modify));
+    }
+
+    /**
+     * @throws Exception\CalendarUnitIsNotSupported
+     */
+    private static function mustSupportCalendarUnit(CalendarUnit $calendarUnit): void
+    {
+        if ($calendarUnit === CalendarUnit::DAY
+            || $calendarUnit === CalendarUnit::WEEK
+        ) {
+            throw new Exception\CalendarUnitIsNotSupported($calendarUnit, self::class);
+        }
     }
 
     private function toDateTimeImmutable(): \DateTimeImmutable

@@ -70,6 +70,37 @@ $bookingsAllowedFrom = $now->modifyInTimeZone('+ 7 days', $facilityTimeZone);
 
 The resulting `$bookingsAllowedFrom` is still a date time with timezone `UTC` but the modification is done in the relevant timezone.
 
+## Elapsed time and calendar movements
+
+There are two different kinds of time spans and the package represents them with two different value objects:
+
+- `Duration` is elapsed time, like 90 minutes or 6 hours. It's independent of any timezone and always exact, even across a switch from summer-time to winter-time. It's stored with microsecond precision.
+- `CalendarPeriod` is a movement in the calendar, like 1 day, 2 weeks, 3 months, 1 quarter or 1 year. Days and months don't have a fixed length, therefore it's applied in the calendar of a timezone.
+
+```php
+$expiresAt = $now->add(Duration::fromHours(6));
+$sameTimeTomorrow = $now->addInTimeZone(CalendarPeriod::days(1), $facilityTimeZone);
+```
+
+Across the switch from summer-time to winter-time, `$expiresAt` is exactly 6 hours later while `$sameTimeTomorrow` is 25 hours later but at the same local time.
+
+Calendar values like `Date`, `Month` and `Year` don't have a time and therefore don't need a timezone. They only accept units which are at least as coarse as their own precision (e.g. a `Month` can't be moved by days). `Time` accepts a `Duration` and wraps around midnight.
+
+```php
+$dueDate = $invoiceDate->add(CalendarPeriod::days(14));
+$nextBillingMonth = $billingMonth->add(CalendarPeriod::quarters(1));
+$end = $start->add(Duration::fromMinutes(90));
+```
+
+All calculations are done with `\DateTimeImmutable` internally and therefore follow its behaviour even when it's not intuitive. For example 31.01. + 1 month results in 03.03. and 31.01. until 01.03. is 0 full months.
+
+The distance between two values is returned as the type used for the modification:
+
+```php
+$duration = $startedAt->durationUntil($endedAt);
+$days = $startDate->periodUntil($endDate, CalendarUnit::DAY)->amount;
+```
+
 ## Integration
 
 For the best code readability, it's best to use the `Moment` provided with the package as a full replacement for `\DateTime` or `\DateTimeImmutable` when you're speaking about a moment in time and the others value objects for the rest.

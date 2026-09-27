@@ -110,6 +110,34 @@ enum Weekday: string implements StringNormalizable, StringNormalizableTypeWithMa
         return $this->dayOfWeek() <=> $date->dayOfWeek();
     }
 
+    // -- Mutations
+
+    public function next(): self
+    {
+        return match ($this) {
+            self::MONDAY => self::TUESDAY,
+            self::TUESDAY => self::WEDNESDAY,
+            self::WEDNESDAY => self::THURSDAY,
+            self::THURSDAY => self::FRIDAY,
+            self::FRIDAY => self::SATURDAY,
+            self::SATURDAY => self::SUNDAY,
+            self::SUNDAY => self::MONDAY,
+        };
+    }
+
+    public function previous(): self
+    {
+        return match ($this) {
+            self::MONDAY => self::SUNDAY,
+            self::TUESDAY => self::MONDAY,
+            self::WEDNESDAY => self::TUESDAY,
+            self::THURSDAY => self::WEDNESDAY,
+            self::FRIDAY => self::THURSDAY,
+            self::SATURDAY => self::FRIDAY,
+            self::SUNDAY => self::SATURDAY,
+        };
+    }
+
     /**
      * @codeCoverageIgnore
      */

@@ -177,11 +177,30 @@ final readonly class Time implements \Stringable, StringNormalizable, NullableSt
         return $this->toDateTimeImmutable() <=> $time->toDateTimeImmutable();
     }
 
+    /**
+     * @deprecated use durationUntil instead
+     */
     public function distanceInMinutesTo(self $time): int
     {
         $diff = $this->diff($time);
 
         return $diff->h * self::MINUTES_IN_AN_HOUR + $diff->i;
+    }
+
+    /**
+     * The duration until the given time is reached next. When the given time is before this time, the duration wraps around midnight
+     * (e.g. 23:00 until 01:00 is 2 hours).
+     */
+    public function durationUntil(self $time): Duration
+    {
+        $start = $this->toDateTimeImmutable();
+        $end = $time->toDateTimeImmutable();
+
+        if ($end < $start) {
+            $end = $end->modify('+1 day');
+        }
+
+        return Duration::between($start, $end);
     }
 
     // -- Guards
@@ -381,16 +400,33 @@ final readonly class Time implements \Stringable, StringNormalizable, NullableSt
         return self::fromDateTime($modifiedDateTime);
     }
 
+    /**
+     * Wraps around midnight (e.g. 23:00 + 2 hours = 01:00).
+     */
+    public function add(Duration $duration): self
+    {
+        return $this->modify(sprintf('+%d microseconds', $duration->microseconds));
+    }
+
+    /**
+     * Wraps around midnight (e.g. 01:00 - 2 hours = 23:00).
+     */
+    public function subtract(Duration $duration): self
+    {
+        return $this->modify(sprintf('-%d microseconds', $duration->microseconds));
+    }
+
     private function toDateTimeImmutable(): \DateTimeImmutable
     {
         return new \DateTimeImmutable(
             sprintf(
-                '2000-01-01 %d:%d:%d.%d',
+                '2000-01-01 %d:%d:%d.%06d',
                 $this->hour,
                 $this->minute,
                 $this->second,
                 $this->microsecond,
             ),
+            new \DateTimeZone('UTC'),
         );
     }
 
