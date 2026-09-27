@@ -10,4 +10,16 @@ enum PeriodLimit: string
     case INCLUDING_START = 'INCLUDING_START';
     case INCLUDING_END = 'INCLUDING_END';
     case EXCLUDING_START_AND_END = 'EXCLUDING_START_AND_END';
+
+    public function includesStart(): bool
+    {
+        return $this === self::INCLUDING_START_AND_END
+            || $this === self::INCLUDING_START;
+    }
+
+    public function includesEnd(): bool
+    {
+        return $this === self::INCLUDING_START_AND_END
+            || $this === self::INCLUDING_END;
+    }
 }

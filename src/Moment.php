@@ -319,6 +319,71 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
         return $this->dateTime <=> $moment->dateTime;
     }
 
+    public function isBetween(
+        self $start,
+        self $end,
+        PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
+    ): bool {
+        $isAfterStart = $periodLimit->includesStart()
+            ? $this->isAfterOrEqualTo($start)
+            : $this->isAfter($start);
+
+        $isBeforeEnd = $periodLimit->includesEnd()
+            ? $this->isBeforeOrEqualTo($end)
+            : $this->isBefore($end);
+
+        return $isAfterStart
+            && $isBeforeEnd;
+    }
+
+    public function isNotBetween(
+        self $start,
+        self $end,
+        PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
+    ): bool {
+        return !$this->isBetween($start, $end, $periodLimit);
+    }
+
+    /**
+     * Returns the earliest of the given moments.
+     */
+    public static function min(
+        self $moment,
+        self ...$moments,
+    ): self {
+        foreach ($moments as $other) {
+            if ($other->isBefore($moment)) {
+                $moment = $other;
+            }
+        }
+
+        return $moment;
+    }
+
+    /**
+     * Returns the latest of the given moments.
+     */
+    public static function max(
+        self $moment,
+        self ...$moments,
+    ): self {
+        foreach ($moments as $other) {
+            if ($other->isAfter($moment)) {
+                $moment = $other;
+            }
+        }
+
+        return $moment;
+    }
+
+    /**
+     * Can be used as callable for sorting (e.g. usort($moments, Moment::compare(...))).
+     */
+    public static function compare(self $a, self $b): int
+    {
+        return $a->compareTo($b);
+    }
+
     public function isAtMidnight(): bool
     {
         return $this

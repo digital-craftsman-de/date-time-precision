@@ -109,6 +109,46 @@ final readonly class Year implements IntNormalizable, NullableIntDenormalizable
     }
 
     /**
+     * Returns the earliest of the given years.
+     */
+    public static function min(
+        self $year,
+        self ...$years,
+    ): self {
+        foreach ($years as $other) {
+            if ($other->isBefore($year)) {
+                $year = $other;
+            }
+        }
+
+        return $year;
+    }
+
+    /**
+     * Returns the latest of the given years.
+     */
+    public static function max(
+        self $year,
+        self ...$years,
+    ): self {
+        foreach ($years as $other) {
+            if ($other->isAfter($year)) {
+                $year = $other;
+            }
+        }
+
+        return $year;
+    }
+
+    /**
+     * Can be used as callable for sorting (e.g. usort($years, Year::compare(...))).
+     */
+    public static function compare(self $a, self $b): int
+    {
+        return $a->compareTo($b);
+    }
+
+    /**
      * Returns all years until the given year. If the given year is before this year, the result will be an empty array.
      *
      * @return array<int, Year>
@@ -217,6 +257,17 @@ final readonly class Year implements IntNormalizable, NullableIntDenormalizable
                 $this->year,
             ),
             $timeZone,
+        );
+    }
+
+    /**
+     * From the start in the timezone until the start of the next one. The end isn't part of the range.
+     */
+    public function toMomentRangeInTimeZone(\DateTimeZone $timeZone): MomentRange
+    {
+        return new MomentRange(
+            $this->toMomentInTimeZone($timeZone),
+            $this->next()->toMomentInTimeZone($timeZone),
         );
     }
 

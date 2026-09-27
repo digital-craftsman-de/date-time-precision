@@ -141,6 +141,71 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
         return $this->toDateTimeImmutable() <=> $date->toDateTimeImmutable();
     }
 
+    public function isBetween(
+        self $start,
+        self $end,
+        PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
+    ): bool {
+        $isAfterStart = $periodLimit->includesStart()
+            ? $this->isAfterOrEqualTo($start)
+            : $this->isAfter($start);
+
+        $isBeforeEnd = $periodLimit->includesEnd()
+            ? $this->isBeforeOrEqualTo($end)
+            : $this->isBefore($end);
+
+        return $isAfterStart
+            && $isBeforeEnd;
+    }
+
+    public function isNotBetween(
+        self $start,
+        self $end,
+        PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
+    ): bool {
+        return !$this->isBetween($start, $end, $periodLimit);
+    }
+
+    /**
+     * Returns the earliest of the given dates.
+     */
+    public static function min(
+        self $date,
+        self ...$dates,
+    ): self {
+        foreach ($dates as $other) {
+            if ($other->isBefore($date)) {
+                $date = $other;
+            }
+        }
+
+        return $date;
+    }
+
+    /**
+     * Returns the latest of the given dates.
+     */
+    public static function max(
+        self $date,
+        self ...$dates,
+    ): self {
+        foreach ($dates as $other) {
+            if ($other->isAfter($date)) {
+                $date = $other;
+            }
+        }
+
+        return $date;
+    }
+
+    /**
+     * Can be used as callable for sorting (e.g. usort($dates, Date::compare(...))).
+     */
+    public static function compare(self $a, self $b): int
+    {
+        return $a->compareTo($b);
+    }
+
     /**
      * Returns all dates until the given date. If the given date is before this date, the result will be an empty array.
      *
@@ -434,6 +499,17 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
                 $this->day->day,
             ),
             $timeZone,
+        );
+    }
+
+    /**
+     * From the start in the timezone until the start of the next one. The end isn't part of the range.
+     */
+    public function toMomentRangeInTimeZone(\DateTimeZone $timeZone): MomentRange
+    {
+        return new MomentRange(
+            $this->toMomentInTimeZone($timeZone),
+            $this->next()->toMomentInTimeZone($timeZone),
         );
     }
 

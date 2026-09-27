@@ -7,10 +7,13 @@ namespace DigitalCraftsman\DateTimePrecision\DependencyInjection;
 use DigitalCraftsman\DateTimePrecision\CalendarPeriod;
 use DigitalCraftsman\DateTimePrecision\CalendarUnit;
 use DigitalCraftsman\DateTimePrecision\Date;
+use DigitalCraftsman\DateTimePrecision\DateRange;
 use DigitalCraftsman\DateTimePrecision\Duration;
 use DigitalCraftsman\DateTimePrecision\Moment;
+use DigitalCraftsman\DateTimePrecision\MomentRange;
 use DigitalCraftsman\DateTimePrecision\Month;
 use DigitalCraftsman\DateTimePrecision\Time;
+use DigitalCraftsman\DateTimePrecision\TimeRange;
 use DigitalCraftsman\DateTimePrecision\Weekday;
 use DigitalCraftsman\DateTimePrecision\Weekdays;
 use DigitalCraftsman\DateTimePrecision\Year;
@@ -44,6 +47,9 @@ final readonly class DoctrineTypeRegisterCompilerPass implements CompilerPassInt
         $typeDefinitions[Duration::class] = ['class' => IntNormalizableThroughLookupType::class];
         $typeDefinitions[CalendarUnit::class] = ['class' => StringNormalizableThroughLookupType::class];
         $typeDefinitions[CalendarPeriod::class] = ['class' => ArrayNormalizableThroughLookupType::class];
+        $typeDefinitions[DateRange::class] = ['class' => ArrayNormalizableThroughLookupType::class];
+        $typeDefinitions[MomentRange::class] = ['class' => ArrayNormalizableThroughLookupType::class];
+        $typeDefinitions[TimeRange::class] = ['class' => ArrayNormalizableThroughLookupType::class];
 
         $container->setParameter(self::TYPE_DEFINITION_PARAMETER, $typeDefinitions);
     }

@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.16.0
+
+- Added `DateRange` as closed range of dates (start and end are included).
+- Added `MomentRange` as half-open range of moments (the end isn't included).
+- Added `TimeRange` as half-open range of times which may wrap around midnight, with guards `mustNotStartBefore` and `mustNotWrapAroundMidnight`.
+- Added optional `PeriodLimit` to `contains` and `notContains` of all ranges to define whether start and end are included.
+- Added `includesStart` and `includesEnd` to `PeriodLimit`.
+- Added `isBetween` and `isNotBetween` to `Date`, `Month` and `Moment`.
+- Added static `min`, `max` and `compare` to `Date`, `Month`, `Year` and `Moment`.
+- Added `toMomentRangeInTimeZone` to `Date`, `Month` and `Year`.
+- Added `contains`, `notContains` and `dateRange` to `Month`.
+
 ## 0.15.0
 
 - **[Breaking change](./UPGRADE.md#moment-is-always-in-utc)**: `Moment` is now always in UTC. A `\DateTimeImmutable` in another timezone or with an offset is converted to UTC on construction (the moment in time is kept).

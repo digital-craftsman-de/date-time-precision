@@ -7,11 +7,14 @@ namespace DigitalCraftsman\DateTimePrecision\DateTimePrecision\DependencyInjecti
 use DigitalCraftsman\DateTimePrecision\CalendarPeriod;
 use DigitalCraftsman\DateTimePrecision\CalendarUnit;
 use DigitalCraftsman\DateTimePrecision\Date;
+use DigitalCraftsman\DateTimePrecision\DateRange;
 use DigitalCraftsman\DateTimePrecision\DependencyInjection\DoctrineTypeRegisterCompilerPass;
 use DigitalCraftsman\DateTimePrecision\Duration;
 use DigitalCraftsman\DateTimePrecision\Moment;
+use DigitalCraftsman\DateTimePrecision\MomentRange;
 use DigitalCraftsman\DateTimePrecision\Month;
 use DigitalCraftsman\DateTimePrecision\Time;
+use DigitalCraftsman\DateTimePrecision\TimeRange;
 use DigitalCraftsman\DateTimePrecision\Weekday;
 use DigitalCraftsman\DateTimePrecision\Weekdays;
 use DigitalCraftsman\DateTimePrecision\Year;
@@ -71,5 +74,14 @@ final class DoctrineTypeRegisterCompilerPassTest extends TestCase
 
         self::assertArrayHasKey(CalendarPeriod::class, $updatedParameters);
         self::assertSame(['class' => ArrayNormalizableThroughLookupType::class], $updatedParameters[CalendarPeriod::class]);
+
+        self::assertArrayHasKey(DateRange::class, $updatedParameters);
+        self::assertSame(['class' => ArrayNormalizableThroughLookupType::class], $updatedParameters[DateRange::class]);
+
+        self::assertArrayHasKey(MomentRange::class, $updatedParameters);
+        self::assertSame(['class' => ArrayNormalizableThroughLookupType::class], $updatedParameters[MomentRange::class]);
+
+        self::assertArrayHasKey(TimeRange::class, $updatedParameters);
+        self::assertSame(['class' => ArrayNormalizableThroughLookupType::class], $updatedParameters[TimeRange::class]);
     }
 }

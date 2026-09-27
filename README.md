@@ -101,6 +101,34 @@ $duration = $startedAt->durationUntil($endedAt);
 $days = $startDate->periodUntil($endDate, CalendarUnit::DAY)->amount;
 ```
 
+## Ranges
+
+There are ranges for dates, moments and times:
+
+- `DateRange` is a closed range. Start and end are both part of the range (e.g. 01.01. until 03.01. are 3 days).
+- `MomentRange` is a half-open range. The end isn't part of the range, therefore a range ending at 12:00 doesn't overlap with a range starting at 12:00.
+- `TimeRange` is a half-open range of times of a day. An end of 00:00 is the end of the day (24:00), 00:00 until 00:00 is the full day and a range may wrap around midnight (e.g. 21:00 until 03:00).
+
+```php
+$openingHours = new TimeRange(Time::fromString('08:00'), Time::fromString('20:00'));
+if ($openingHours->notContainsRange($reservation->timeRangeInTimeZone($facilityTimeZone))) {
+    throw new ReservationIsOutsideOfOpeningHours();
+}
+```
+
+Whether start and end are included in `contains` can be defined with a `PeriodLimit`. The default follows the range (both for `DateRange`, only the start for `MomentRange` and `TimeRange`).
+
+```php
+$isWithinOpeningHours = $openingHours->contains($reservationEnd, PeriodLimit::INCLUDING_START_AND_END);
+```
+
+More strict rules for a `TimeRange` can be enforced with guards, e.g. in the constructor of your own value object:
+
+```php
+$timeRange->mustNotStartBefore(Time::fromString('05:00'));
+$timeRange->mustNotWrapAroundMidnight(static fn () => new TimeRangeMustBeWithinADay());
+```
+
 ## Integration
 
 For the best code readability, it's best to use the `Moment` provided with the package as a full replacement for `\DateTime` or `\DateTimeImmutable` when you're speaking about a moment in time and the others value objects for the rest.
