@@ -10,8 +10,10 @@ use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableArrayDenormalizable
 
 /**
  * @psalm-type NormalizedDays = list<int>
+ *
+ * @implements \IteratorAggregate<int, Day>
  */
-final readonly class Days implements ArrayNormalizable, NullableArrayDenormalizable
+final readonly class Days implements ArrayNormalizable, NullableArrayDenormalizable, \Countable, \IteratorAggregate
 {
     use NullableArrayDenormalizableTrait;
 
@@ -19,6 +21,8 @@ final readonly class Days implements ArrayNormalizable, NullableArrayDenormaliza
 
     /**
      * @param list<Day> $days
+     *
+     * @throws Exception\CollectionContainsDuplicates
      */
     public function __construct(
         /**
@@ -26,13 +30,34 @@ final readonly class Days implements ArrayNormalizable, NullableArrayDenormaliza
          */
         public array $days,
     ) {
-        $intValues = [];
-        foreach ($this->days as $day) {
-            $intValues[] = $day->day;
+        foreach ($this->days as $index => $day) {
+            for ($previousIndex = 0; $previousIndex < $index; ++$previousIndex) {
+                if ($this->days[$previousIndex]->day === $day->day) {
+                    throw new Exception\CollectionContainsDuplicates(self::class);
+                }
+            }
         }
-        if (count($intValues) !== count(array_unique($intValues))) {
-            throw new \InvalidArgumentException('Days must be unique.');
+    }
+
+    /**
+     * Keeps the first occurrence of every value.
+     *
+     * @param list<Day> $days
+     */
+    public static function fromListRemovingDuplicates(array $days): self
+    {
+        $uniqueDays = [];
+        foreach ($days as $day) {
+            foreach ($uniqueDays as $uniqueDay) {
+                if ($uniqueDay->day === $day->day) {
+                    continue 2;
+                }
+            }
+
+            $uniqueDays[] = $day;
         }
+
+        return new self($uniqueDays);
     }
 
     // -- Array normalizable
@@ -43,12 +68,12 @@ final readonly class Days implements ArrayNormalizable, NullableArrayDenormaliza
     #[\Override]
     public static function denormalize(array $data): self
     {
-        $weekdays = [];
+        $days = [];
         foreach ($data as $value) {
-            $weekdays[] = Day::denormalize($value);
+            $days[] = Day::denormalize($value);
         }
 
-        return new self($weekdays);
+        return new self($days);
     }
 
     /**
@@ -57,23 +82,144 @@ final readonly class Days implements ArrayNormalizable, NullableArrayDenormaliza
     #[\Override]
     public function normalize(): array
     {
-        $dayInts = [];
+        $normalizedDays = [];
         foreach ($this->days as $day) {
-            $dayInts[] = $day->normalize();
+            $normalizedDays[] = $day->normalize();
         }
 
-        return $dayInts;
+        return $normalizedDays;
+    }
+
+    // -- Countable
+
+    #[\Override]
+    public function count(): int
+    {
+        return count($this->days);
+    }
+
+    // -- IteratorAggregate
+
+    /**
+     * @return \Iterator<int, Day>
+     */
+    #[\Override]
+    public function getIterator(): \Iterator
+    {
+        return new \ArrayIterator($this->days);
     }
 
     // -- Accessors
 
+    public function isEmpty(): bool
+    {
+        return $this->days === [];
+    }
+
+    public function isNotEmpty(): bool
+    {
+        return $this->days !== [];
+    }
+
     public function contains(Day $day): bool
     {
-        return in_array($day, $this->days, false);
+        foreach ($this->days as $existingDay) {
+            if ($existingDay->day === $day->day) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function notContains(Day $day): bool
     {
-        return !in_array($day, $this->days, false);
+        return !$this->contains($day);
+    }
+
+    /**
+     * Collections are equal when they contain the same values, independent of their order.
+     */
+    public function isEqualTo(self $days): bool
+    {
+        if (count($this->days) !== count($days->days)) {
+            return false;
+        }
+
+        foreach ($this->days as $day) {
+            if ($days->notContains($day)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function isNotEqualTo(self $days): bool
+    {
+        return !$this->isEqualTo($days);
+    }
+
+    public function first(): ?Day
+    {
+        return $this->days[0] ?? null;
+    }
+
+    public function last(): ?Day
+    {
+        $lastKey = array_key_last($this->days);
+
+        return $lastKey !== null
+            ? $this->days[$lastKey]
+            : null;
+    }
+
+    /**
+     * @template T
+     *
+     * @param callable(Day): T $mapper
+     *
+     * @return list<T>
+     */
+    public function map(callable $mapper): array
+    {
+        return array_map($mapper, $this->days);
+    }
+
+    // -- Mutations
+
+    /**
+     * @param callable(Day): bool $filter
+     */
+    public function filter(callable $filter): self
+    {
+        return new self(array_values(array_filter($this->days, $filter)));
+    }
+
+    /**
+     * Sorts ascending by default.
+     *
+     * @param ?callable(Day, Day): int $comparator
+     */
+    public function sort(?callable $comparator = null): self
+    {
+        $days = $this->days;
+        usort($days, $comparator ?? static fn (Day $a, Day $b): int => $a->day <=> $b->day);
+
+        return new self($days);
+    }
+
+    public function min(): ?Day
+    {
+        return $this
+            ->sort()
+            ->first();
+    }
+
+    public function max(): ?Day
+    {
+        return $this
+            ->sort()
+            ->last();
     }
 }

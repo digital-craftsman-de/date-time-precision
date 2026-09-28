@@ -62,7 +62,7 @@ final class ConstructionTest extends TestCase
         };
 
         // -- Assert
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\DigitalCraftsman\DateTimePrecision\Exception\CollectionContainsDuplicates::class);
 
         // -- Act
         new Months($elements);

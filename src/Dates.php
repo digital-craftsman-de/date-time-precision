@@ -10,8 +10,10 @@ use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableArrayDenormalizable
 
 /**
  * @psalm-type NormalizedDates = list<string>
+ *
+ * @implements \IteratorAggregate<int, Date>
  */
-final readonly class Dates implements ArrayNormalizable, NullableArrayDenormalizable
+final readonly class Dates implements ArrayNormalizable, NullableArrayDenormalizable, \Countable, \IteratorAggregate
 {
     use NullableArrayDenormalizableTrait;
 
@@ -19,6 +21,8 @@ final readonly class Dates implements ArrayNormalizable, NullableArrayDenormaliz
 
     /**
      * @param list<Date> $dates
+     *
+     * @throws Exception\CollectionContainsDuplicates
      */
     public function __construct(
         /**
@@ -29,10 +33,31 @@ final readonly class Dates implements ArrayNormalizable, NullableArrayDenormaliz
         foreach ($this->dates as $index => $date) {
             for ($previousIndex = 0; $previousIndex < $index; ++$previousIndex) {
                 if ($this->dates[$previousIndex]->isEqualTo($date)) {
-                    throw new \InvalidArgumentException('Dates must be unique.');
+                    throw new Exception\CollectionContainsDuplicates(self::class);
                 }
             }
         }
+    }
+
+    /**
+     * Keeps the first occurrence of every value.
+     *
+     * @param list<Date> $dates
+     */
+    public static function fromListRemovingDuplicates(array $dates): self
+    {
+        $uniqueDates = [];
+        foreach ($dates as $date) {
+            foreach ($uniqueDates as $uniqueDate) {
+                if ($uniqueDate->isEqualTo($date)) {
+                    continue 2;
+                }
+            }
+
+            $uniqueDates[] = $date;
+        }
+
+        return new self($uniqueDates);
     }
 
     // -- Array normalizable
@@ -65,7 +90,36 @@ final readonly class Dates implements ArrayNormalizable, NullableArrayDenormaliz
         return $normalizedDates;
     }
 
+    // -- Countable
+
+    #[\Override]
+    public function count(): int
+    {
+        return count($this->dates);
+    }
+
+    // -- IteratorAggregate
+
+    /**
+     * @return \Iterator<int, Date>
+     */
+    #[\Override]
+    public function getIterator(): \Iterator
+    {
+        return new \ArrayIterator($this->dates);
+    }
+
     // -- Accessors
+
+    public function isEmpty(): bool
+    {
+        return $this->dates === [];
+    }
+
+    public function isNotEmpty(): bool
+    {
+        return $this->dates !== [];
+    }
 
     public function contains(Date $date): bool
     {
@@ -81,5 +135,91 @@ final readonly class Dates implements ArrayNormalizable, NullableArrayDenormaliz
     public function notContains(Date $date): bool
     {
         return !$this->contains($date);
+    }
+
+    /**
+     * Collections are equal when they contain the same values, independent of their order.
+     */
+    public function isEqualTo(self $dates): bool
+    {
+        if (count($this->dates) !== count($dates->dates)) {
+            return false;
+        }
+
+        foreach ($this->dates as $date) {
+            if ($dates->notContains($date)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function isNotEqualTo(self $dates): bool
+    {
+        return !$this->isEqualTo($dates);
+    }
+
+    public function first(): ?Date
+    {
+        return $this->dates[0] ?? null;
+    }
+
+    public function last(): ?Date
+    {
+        $lastKey = array_key_last($this->dates);
+
+        return $lastKey !== null
+            ? $this->dates[$lastKey]
+            : null;
+    }
+
+    /**
+     * @template T
+     *
+     * @param callable(Date): T $mapper
+     *
+     * @return list<T>
+     */
+    public function map(callable $mapper): array
+    {
+        return array_map($mapper, $this->dates);
+    }
+
+    // -- Mutations
+
+    /**
+     * @param callable(Date): bool $filter
+     */
+    public function filter(callable $filter): self
+    {
+        return new self(array_values(array_filter($this->dates, $filter)));
+    }
+
+    /**
+     * Sorts ascending by default.
+     *
+     * @param ?callable(Date, Date): int $comparator
+     */
+    public function sort(?callable $comparator = null): self
+    {
+        $dates = $this->dates;
+        usort($dates, $comparator ?? static fn (Date $a, Date $b): int => $a->compareTo($b));
+
+        return new self($dates);
+    }
+
+    public function min(): ?Date
+    {
+        return $this
+            ->sort()
+            ->first();
+    }
+
+    public function max(): ?Date
+    {
+        return $this
+            ->sort()
+            ->last();
     }
 }

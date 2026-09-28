@@ -10,8 +10,10 @@ use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableArrayDenormalizable
 
 /**
  * @psalm-type NormalizedMoments = list<string>
+ *
+ * @implements \IteratorAggregate<int, Moment>
  */
-final readonly class Moments implements ArrayNormalizable, NullableArrayDenormalizable
+final readonly class Moments implements ArrayNormalizable, NullableArrayDenormalizable, \Countable, \IteratorAggregate
 {
     use NullableArrayDenormalizableTrait;
 
@@ -19,6 +21,8 @@ final readonly class Moments implements ArrayNormalizable, NullableArrayDenormal
 
     /**
      * @param list<Moment> $moments
+     *
+     * @throws Exception\CollectionContainsDuplicates
      */
     public function __construct(
         /**
@@ -29,10 +33,31 @@ final readonly class Moments implements ArrayNormalizable, NullableArrayDenormal
         foreach ($this->moments as $index => $moment) {
             for ($previousIndex = 0; $previousIndex < $index; ++$previousIndex) {
                 if ($this->moments[$previousIndex]->isEqualTo($moment)) {
-                    throw new \InvalidArgumentException('Moments must be unique.');
+                    throw new Exception\CollectionContainsDuplicates(self::class);
                 }
             }
         }
+    }
+
+    /**
+     * Keeps the first occurrence of every value.
+     *
+     * @param list<Moment> $moments
+     */
+    public static function fromListRemovingDuplicates(array $moments): self
+    {
+        $uniqueMoments = [];
+        foreach ($moments as $moment) {
+            foreach ($uniqueMoments as $uniqueMoment) {
+                if ($uniqueMoment->isEqualTo($moment)) {
+                    continue 2;
+                }
+            }
+
+            $uniqueMoments[] = $moment;
+        }
+
+        return new self($uniqueMoments);
     }
 
     // -- Array normalizable
@@ -65,7 +90,36 @@ final readonly class Moments implements ArrayNormalizable, NullableArrayDenormal
         return $normalizedMoments;
     }
 
+    // -- Countable
+
+    #[\Override]
+    public function count(): int
+    {
+        return count($this->moments);
+    }
+
+    // -- IteratorAggregate
+
+    /**
+     * @return \Iterator<int, Moment>
+     */
+    #[\Override]
+    public function getIterator(): \Iterator
+    {
+        return new \ArrayIterator($this->moments);
+    }
+
     // -- Accessors
+
+    public function isEmpty(): bool
+    {
+        return $this->moments === [];
+    }
+
+    public function isNotEmpty(): bool
+    {
+        return $this->moments !== [];
+    }
 
     public function contains(Moment $moment): bool
     {
@@ -81,5 +135,91 @@ final readonly class Moments implements ArrayNormalizable, NullableArrayDenormal
     public function notContains(Moment $moment): bool
     {
         return !$this->contains($moment);
+    }
+
+    /**
+     * Collections are equal when they contain the same values, independent of their order.
+     */
+    public function isEqualTo(self $moments): bool
+    {
+        if (count($this->moments) !== count($moments->moments)) {
+            return false;
+        }
+
+        foreach ($this->moments as $moment) {
+            if ($moments->notContains($moment)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function isNotEqualTo(self $moments): bool
+    {
+        return !$this->isEqualTo($moments);
+    }
+
+    public function first(): ?Moment
+    {
+        return $this->moments[0] ?? null;
+    }
+
+    public function last(): ?Moment
+    {
+        $lastKey = array_key_last($this->moments);
+
+        return $lastKey !== null
+            ? $this->moments[$lastKey]
+            : null;
+    }
+
+    /**
+     * @template T
+     *
+     * @param callable(Moment): T $mapper
+     *
+     * @return list<T>
+     */
+    public function map(callable $mapper): array
+    {
+        return array_map($mapper, $this->moments);
+    }
+
+    // -- Mutations
+
+    /**
+     * @param callable(Moment): bool $filter
+     */
+    public function filter(callable $filter): self
+    {
+        return new self(array_values(array_filter($this->moments, $filter)));
+    }
+
+    /**
+     * Sorts ascending by default.
+     *
+     * @param ?callable(Moment, Moment): int $comparator
+     */
+    public function sort(?callable $comparator = null): self
+    {
+        $moments = $this->moments;
+        usort($moments, $comparator ?? static fn (Moment $a, Moment $b): int => $a->compareTo($b));
+
+        return new self($moments);
+    }
+
+    public function min(): ?Moment
+    {
+        return $this
+            ->sort()
+            ->first();
+    }
+
+    public function max(): ?Moment
+    {
+        return $this
+            ->sort()
+            ->last();
     }
 }

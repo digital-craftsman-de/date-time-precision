@@ -10,8 +10,10 @@ use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableArrayDenormalizable
 
 /**
  * @psalm-type NormalizedCalendarUnits = list<string>
+ *
+ * @implements \IteratorAggregate<int, CalendarUnit>
  */
-final readonly class CalendarUnits implements ArrayNormalizable, NullableArrayDenormalizable
+final readonly class CalendarUnits implements ArrayNormalizable, NullableArrayDenormalizable, \Countable, \IteratorAggregate
 {
     use NullableArrayDenormalizableTrait;
 
@@ -19,6 +21,8 @@ final readonly class CalendarUnits implements ArrayNormalizable, NullableArrayDe
 
     /**
      * @param list<CalendarUnit> $calendarUnits
+     *
+     * @throws Exception\CollectionContainsDuplicates
      */
     public function __construct(
         /**
@@ -29,10 +33,31 @@ final readonly class CalendarUnits implements ArrayNormalizable, NullableArrayDe
         foreach ($this->calendarUnits as $index => $calendarUnit) {
             for ($previousIndex = 0; $previousIndex < $index; ++$previousIndex) {
                 if ($this->calendarUnits[$previousIndex] === $calendarUnit) {
-                    throw new \InvalidArgumentException('CalendarUnits must be unique.');
+                    throw new Exception\CollectionContainsDuplicates(self::class);
                 }
             }
         }
+    }
+
+    /**
+     * Keeps the first occurrence of every value.
+     *
+     * @param list<CalendarUnit> $calendarUnits
+     */
+    public static function fromListRemovingDuplicates(array $calendarUnits): self
+    {
+        $uniqueCalendarUnits = [];
+        foreach ($calendarUnits as $calendarUnit) {
+            foreach ($uniqueCalendarUnits as $uniqueCalendarUnit) {
+                if ($uniqueCalendarUnit === $calendarUnit) {
+                    continue 2;
+                }
+            }
+
+            $uniqueCalendarUnits[] = $calendarUnit;
+        }
+
+        return new self($uniqueCalendarUnits);
     }
 
     // -- Array normalizable
@@ -65,7 +90,36 @@ final readonly class CalendarUnits implements ArrayNormalizable, NullableArrayDe
         return $normalizedCalendarUnits;
     }
 
+    // -- Countable
+
+    #[\Override]
+    public function count(): int
+    {
+        return count($this->calendarUnits);
+    }
+
+    // -- IteratorAggregate
+
+    /**
+     * @return \Iterator<int, CalendarUnit>
+     */
+    #[\Override]
+    public function getIterator(): \Iterator
+    {
+        return new \ArrayIterator($this->calendarUnits);
+    }
+
     // -- Accessors
+
+    public function isEmpty(): bool
+    {
+        return $this->calendarUnits === [];
+    }
+
+    public function isNotEmpty(): bool
+    {
+        return $this->calendarUnits !== [];
+    }
 
     public function contains(CalendarUnit $calendarUnit): bool
     {
@@ -81,5 +135,75 @@ final readonly class CalendarUnits implements ArrayNormalizable, NullableArrayDe
     public function notContains(CalendarUnit $calendarUnit): bool
     {
         return !$this->contains($calendarUnit);
+    }
+
+    /**
+     * Collections are equal when they contain the same values, independent of their order.
+     */
+    public function isEqualTo(self $calendarUnits): bool
+    {
+        if (count($this->calendarUnits) !== count($calendarUnits->calendarUnits)) {
+            return false;
+        }
+
+        foreach ($this->calendarUnits as $calendarUnit) {
+            if ($calendarUnits->notContains($calendarUnit)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function isNotEqualTo(self $calendarUnits): bool
+    {
+        return !$this->isEqualTo($calendarUnits);
+    }
+
+    public function first(): ?CalendarUnit
+    {
+        return $this->calendarUnits[0] ?? null;
+    }
+
+    public function last(): ?CalendarUnit
+    {
+        $lastKey = array_key_last($this->calendarUnits);
+
+        return $lastKey !== null
+            ? $this->calendarUnits[$lastKey]
+            : null;
+    }
+
+    /**
+     * @template T
+     *
+     * @param callable(CalendarUnit): T $mapper
+     *
+     * @return list<T>
+     */
+    public function map(callable $mapper): array
+    {
+        return array_map($mapper, $this->calendarUnits);
+    }
+
+    // -- Mutations
+
+    /**
+     * @param callable(CalendarUnit): bool $filter
+     */
+    public function filter(callable $filter): self
+    {
+        return new self(array_values(array_filter($this->calendarUnits, $filter)));
+    }
+
+    /**
+     * @param callable(CalendarUnit, CalendarUnit): int $comparator
+     */
+    public function sort(callable $comparator): self
+    {
+        $calendarUnits = $this->calendarUnits;
+        usort($calendarUnits, $comparator);
+
+        return new self($calendarUnits);
     }
 }

@@ -8,6 +8,13 @@
 - Added optional `PeriodLimit` to `contains` and `notContains` of all ranges to define whether start and end are included.
 - Added `includesStart` and `includesEnd` to `PeriodLimit`.
 - Added collections `Moments`, `Dates`, `Times`, `Months`, `Years`, `Durations`, `CalendarUnits`, `CalendarPeriods`, `DateRanges`, `MomentRanges` and `TimeRanges` (like the existing `Days` and `Weekdays`).
+- Added to all collections (including `Days` and `Weekdays`):
+  - `Countable` and `IteratorAggregate`, `isEmpty` and `isNotEmpty`.
+  - `filter`, `map` and `sort` (ascending by default for ordered values, with a required comparator otherwise).
+  - `first` and `last` as well as `min` and `max` for ordered values.
+  - `isEqualTo` and `isNotEqualTo` for the whole collection (independent of the order).
+  - `fromListRemovingDuplicates` as factory which keeps the first occurrence of every value.
+- Added `CollectionContainsDuplicates` exception (extends `\InvalidArgumentException`) which is now thrown for duplicates in all collections.
 - Fixed missing registration of Doctrine types for `Day` and `Days`.
 - Added `isBetween` and `isNotBetween` to `Date`, `Month` and `Moment`.
 - Added static `min`, `max` and `compare` to `Date`, `Month`, `Year` and `Moment`.
