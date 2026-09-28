@@ -1,32 +1,10 @@
 # Changelog
 
-## 0.16.0
-
-- **[Breaking change](./UPGRADE.md#collections-instead-of-arrays)**: `Date::datesUntil`, `Month::monthsUntil` and `Year::yearsUntil` return the collections `Dates`, `Months` and `Years` instead of arrays.
-- Added `DateRange` as closed range of dates (start and end are included).
-- Added `MomentRange` as half-open range of moments (the end isn't included).
-- Added `TimeRange` as half-open range of times which may wrap around midnight, with guards `mustNotStartBefore` and `mustNotWrapAroundMidnight`.
-- Added optional `PeriodLimit` to `contains` and `notContains` of all ranges to define whether start and end are included.
-- Added `includesStart` and `includesEnd` to `PeriodLimit`.
-- Added collections `Moments`, `Dates`, `Times`, `Months`, `Years`, `Durations`, `CalendarUnits`, `CalendarPeriods`, `DateRanges`, `MomentRanges` and `TimeRanges` (like the existing `Days` and `Weekdays`).
-- Added to all collections (including `Days` and `Weekdays`):
-  - `Countable` and `IteratorAggregate`, `isEmpty` and `isNotEmpty`.
-  - `filter`, `map` and `sort` (ascending by default for ordered values, with a required comparator otherwise).
-  - `first` and `last` as well as `min` and `max` for ordered values.
-  - `isEqualTo` and `isNotEqualTo` for the whole collection (independent of the order).
-  - `fromListRemovingDuplicates` as factory which keeps the first occurrence of every value.
-- Collections check for duplicates in linear time through a unique key per value (previously every value was compared with every other value).
-- Added `CollectionContainsDuplicates` exception (extends `\InvalidArgumentException`) which is now thrown for duplicates in all collections.
-- Fixed missing registration of Doctrine types for `Day` and `Days`.
-- Added `isBetween` and `isNotBetween` to `Date`, `Month` and `Moment`.
-- Added static `min`, `max` and `compare` to `Date`, `Month`, `Year` and `Moment`.
-- Added `toMomentRangeInTimeZone` to `Date`, `Month` and `Year`.
-- Added `contains`, `notContains` and `dateRange` to `Month`.
-
 ## 0.15.0
 
 - **[Breaking change](./UPGRADE.md#moment-is-always-in-utc)**: `Moment` is now always in UTC. A `\DateTimeImmutable` in another timezone or with an offset is converted to UTC on construction (the moment in time is kept).
 - **[Breaking change](./UPGRADE.md#validation-of-date)**: `Date` now throws `InvalidDate` when the day doesn't exist in the month (e.g. 31.04.).
+- **[Breaking change](./UPGRADE.md#collections-instead-of-arrays)**: `Date::datesUntil`, `Month::monthsUntil` and `Year::yearsUntil` return the collections `Dates`, `Months` and `Years` instead of arrays.
 - Added `Duration` for elapsed time with microsecond precision (normalized as integer of microseconds).
 - Added `CalendarPeriod` and `CalendarUnit` for movements in the calendar (days, weeks, months, quarters and years).
 - Added `add` and `subtract` with `Duration` to `Moment` and `Time` (wrapping around midnight).
@@ -35,7 +13,25 @@
 - Added `next` and `previous` to `Weekday`.
 - Added `durationUntil` to `Moment` and `Time` as well as `periodUntilInTimeZone` to `Moment` and `periodUntil` to `Date`, `Month` and `Year`.
 - Added `atTimeInTimeZone` to `Date` and `numberOfDays` to `Month`.
+- Added `DateRange` as closed range of dates (start and end are included).
+- Added `MomentRange` as half-open range of moments (the end isn't included).
+- Added `TimeRange` as half-open range of times which may wrap around midnight, with guards `mustNotStartBefore` and `mustNotWrapAroundMidnight`.
+- Added optional `PeriodLimit` to `contains` and `notContains` of all ranges to define whether start and end are included.
+- Added `includesStart` and `includesEnd` to `PeriodLimit`.
+- Added `isBetween` and `isNotBetween` to `Date`, `Month` and `Moment`.
+- Added static `min`, `max` and `compare` to `Date`, `Month`, `Year` and `Moment`.
+- Added `toMomentRangeInTimeZone` to `Date`, `Month` and `Year`.
+- Added `contains`, `notContains` and `dateRange` to `Month`.
+- Added collections `Moments`, `Dates`, `Times`, `Months`, `Years`, `Durations`, `CalendarUnits`, `CalendarPeriods`, `DateRanges`, `MomentRanges` and `TimeRanges` (like the existing `Days` and `Weekdays`).
+- Added to all collections (including `Days` and `Weekdays`):
+  - `Countable` and `IteratorAggregate`, `isEmpty` and `isNotEmpty`.
+  - `filter`, `map` and `sort` (ascending by default for ordered values, with a required comparator otherwise).
+  - `first` and `last` as well as `min` and `max` for ordered values.
+  - `isEqualTo` and `isNotEqualTo` for the whole collection (independent of the order).
+  - `fromListRemovingDuplicates` as factory which keeps the first occurrence of every value.
+- Added `CollectionContainsDuplicates` exception (extends `\InvalidArgumentException`) which is now thrown for duplicates in all collections.
 - Fixed microseconds below 100000 in `Time` being interpreted as fractions of a second (e.g. 5 microseconds as 0.5 seconds) in comparisons, formatting and modifications.
+- Fixed missing registration of Doctrine types for `Day` and `Days`.
 - [Deprecated](./UPGRADE.md#deprecated-modifications-in-time-zone-for-calendar-values) `modifyInTimeZone` of `Date`, `Month` and `Year`.
 - [Deprecated](./UPGRADE.md#deprecated-distance-in-minutes-of-time) `distanceInMinutesTo` of `Time`.
 - [Deprecated](./UPGRADE.md#moment-is-always-in-utc) `toTimeZone` of `Moment` as it has no effect anymore.

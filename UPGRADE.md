@@ -1,29 +1,5 @@
 # Upgrade guide
 
-## From 0.15.* to 0.16.0
-
-### Collections instead of arrays
-
-`Date::datesUntil`, `Month::monthsUntil` and `Year::yearsUntil` return the collections `Dates`, `Months` and `Years` instead of arrays. The collections are countable and iterable, so `foreach` and `count` still work. Array functions need to be replaced with the methods of the collections or the list of values.
-
-Before:
-```php
-$weekdays = array_filter(
-    $start->datesUntil($end),
-    static fn (Date $date): bool => $date->weekday() === Weekday::MONDAY,
-);
-```
-
-After:
-```php
-$weekdays = $start
-    ->datesUntil($end)
-    ->filter(static fn (Date $date): bool => $date->weekday() === Weekday::MONDAY);
-
-// Or when an array is needed
-$dates = $start->datesUntil($end)->dates;
-```
-
 ## From 0.14.* to 0.15.0
 
 ### Moment is always in UTC
@@ -57,6 +33,28 @@ As a side effect, a moment in another timezone can't be persisted with a shifted
 ### Validation of date
 
 `Date` now validates that the day exists in the month and throws `InvalidDate` otherwise. Previously `new Date(new Month(new Year(2022), 2), new Day(31))` was accepted. Construction through `Date::fromString` or `Date::fromDateTime` isn't affected as `\DateTimeImmutable` already moves those days into the following month.
+
+### Collections instead of arrays
+
+`Date::datesUntil`, `Month::monthsUntil` and `Year::yearsUntil` return the collections `Dates`, `Months` and `Years` instead of arrays. The collections are countable and iterable, so `foreach` and `count` still work. Array functions need to be replaced with the methods of the collections or the list of values.
+
+Before:
+```php
+$weekdays = array_filter(
+    $start->datesUntil($end),
+    static fn (Date $date): bool => $date->weekday() === Weekday::MONDAY,
+);
+```
+
+After:
+```php
+$weekdays = $start
+    ->datesUntil($end)
+    ->filter(static fn (Date $date): bool => $date->weekday() === Weekday::MONDAY);
+
+// Or when an array is needed
+$dates = $start->datesUntil($end)->dates;
+```
 
 ### Deprecated modifications in time zone for calendar values
 
