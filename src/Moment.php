@@ -103,6 +103,16 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
         return Weekday::fromDateTime($this->dateTime->setTimezone($timeZone));
     }
 
+    public function week(): Week
+    {
+        return Week::fromDateTime($this->dateTime);
+    }
+
+    public function weekInTimeZone(\DateTimeZone $timeZone): Week
+    {
+        return Week::fromDateTime($this->dateTime->setTimezone($timeZone));
+    }
+
     public function month(): Month
     {
         return Month::fromDateTime($this->dateTime);

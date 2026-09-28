@@ -22,12 +22,17 @@ use DigitalCraftsman\DateTimePrecision\MomentRanges;
 use DigitalCraftsman\DateTimePrecision\Moments;
 use DigitalCraftsman\DateTimePrecision\Month;
 use DigitalCraftsman\DateTimePrecision\Months;
+use DigitalCraftsman\DateTimePrecision\Recurrence;
+use DigitalCraftsman\DateTimePrecision\RecurrenceFrequency;
+use DigitalCraftsman\DateTimePrecision\Recurrences;
 use DigitalCraftsman\DateTimePrecision\Time;
 use DigitalCraftsman\DateTimePrecision\TimeRange;
 use DigitalCraftsman\DateTimePrecision\TimeRanges;
 use DigitalCraftsman\DateTimePrecision\Times;
+use DigitalCraftsman\DateTimePrecision\Week;
 use DigitalCraftsman\DateTimePrecision\Weekday;
 use DigitalCraftsman\DateTimePrecision\Weekdays;
+use DigitalCraftsman\DateTimePrecision\Weeks;
 use DigitalCraftsman\DateTimePrecision\Year;
 use DigitalCraftsman\DateTimePrecision\Years;
 use DigitalCraftsman\SelfAwareNormalizers\Doctrine\ArrayNormalizableThroughLookupType;
@@ -76,6 +81,11 @@ final readonly class DoctrineTypeRegisterCompilerPass implements CompilerPassInt
         $typeDefinitions[DateRanges::class] = ['class' => ArrayNormalizableThroughLookupType::class];
         $typeDefinitions[MomentRanges::class] = ['class' => ArrayNormalizableThroughLookupType::class];
         $typeDefinitions[TimeRanges::class] = ['class' => ArrayNormalizableThroughLookupType::class];
+        $typeDefinitions[Week::class] = ['class' => StringNormalizableThroughLookupType::class];
+        $typeDefinitions[Weeks::class] = ['class' => ArrayNormalizableThroughLookupType::class];
+        $typeDefinitions[RecurrenceFrequency::class] = ['class' => StringNormalizableThroughLookupType::class];
+        $typeDefinitions[Recurrence::class] = ['class' => ArrayNormalizableThroughLookupType::class];
+        $typeDefinitions[Recurrences::class] = ['class' => ArrayNormalizableThroughLookupType::class];
 
         $container->setParameter(self::TYPE_DEFINITION_PARAMETER, $typeDefinitions);
     }

@@ -248,6 +248,34 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
     }
 
     /**
+     * The calendar week according to ISO 8601.
+     */
+    public function week(): Week
+    {
+        return Week::fromDateTime($this->toDateTimeImmutable());
+    }
+
+    /**
+     * The Monday of the calendar week according to ISO 8601.
+     */
+    public function startOfWeek(): self
+    {
+        return $this
+            ->week()
+            ->firstDay();
+    }
+
+    /**
+     * The Sunday of the calendar week according to ISO 8601.
+     */
+    public function endOfWeek(): self
+    {
+        return $this
+            ->week()
+            ->lastDay();
+    }
+
+    /**
      * Only full units are counted (e.g. 31.01. until 01.03. is 0 months and 29 days).
      *
      * @throws Exception\DateIsBefore when the given date is before this date

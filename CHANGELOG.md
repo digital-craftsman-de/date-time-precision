@@ -13,6 +13,9 @@
 - Added `next` and `previous` to `Weekday`.
 - Added `durationUntil` to `Moment` and `Time` as well as `periodUntilInTimeZone` to `Moment` and `periodUntil` to `Date`, `Month` and `Year`.
 - Added `atTimeInTimeZone` to `Date` and `numberOfDays` to `Month`.
+- Added `Week` as calendar week according to ISO 8601 with comparisons, `firstDay`, `lastDay`, `dates`, `weeksUntil`, `add`, `subtract`, `next`, `previous` and `periodUntil`.
+- Added `week`, `startOfWeek` and `endOfWeek` to `Date` as well as `week` and `weekInTimeZone` to `Moment`.
+- Added `Recurrence` (daily, weekly on weekdays, monthly on days) with `occursOn`, `nextOccurrenceAfter`, `previousOccurrenceOnOrBefore`, `occurrencesBetween`, `nextOccurrenceAtTimeInTimeZone` and the guard `mustOccurOn`.
 - Added `DateRange` as closed range of dates (start and end are included).
 - Added `MomentRange` as half-open range of moments (the end isn't included).
 - Added `TimeRange` as half-open range of times which may wrap around midnight, with guards `mustNotStartBefore` and `mustNotWrapAroundMidnight`.
@@ -22,7 +25,7 @@
 - Added static `min`, `max` and `compare` to `Date`, `Month`, `Year` and `Moment`.
 - Added `toMomentRangeInTimeZone` to `Date`, `Month` and `Year`.
 - Added `contains`, `notContains` and `dateRange` to `Month`.
-- Added collections `Moments`, `Dates`, `Times`, `Months`, `Years`, `Durations`, `CalendarUnits`, `CalendarPeriods`, `DateRanges`, `MomentRanges` and `TimeRanges` (like the existing `Days` and `Weekdays`).
+- Added collections `Moments`, `Dates`, `Times`, `Weeks`, `Months`, `Years`, `Durations`, `CalendarUnits`, `CalendarPeriods`, `DateRanges`, `MomentRanges`, `TimeRanges` and `Recurrences` (like the existing `Days` and `Weekdays`).
 - Added to all collections (including `Days` and `Weekdays`):
   - `Countable` and `IteratorAggregate`, `isEmpty` and `isNotEmpty`.
   - `filter`, `map` and `sort` (ascending by default for ordered values, with a required comparator otherwise).

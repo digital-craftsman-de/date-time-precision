@@ -23,12 +23,17 @@ use DigitalCraftsman\DateTimePrecision\MomentRanges;
 use DigitalCraftsman\DateTimePrecision\Moments;
 use DigitalCraftsman\DateTimePrecision\Month;
 use DigitalCraftsman\DateTimePrecision\Months;
+use DigitalCraftsman\DateTimePrecision\Recurrence;
+use DigitalCraftsman\DateTimePrecision\RecurrenceFrequency;
+use DigitalCraftsman\DateTimePrecision\Recurrences;
 use DigitalCraftsman\DateTimePrecision\Time;
 use DigitalCraftsman\DateTimePrecision\TimeRange;
 use DigitalCraftsman\DateTimePrecision\TimeRanges;
 use DigitalCraftsman\DateTimePrecision\Times;
+use DigitalCraftsman\DateTimePrecision\Week;
 use DigitalCraftsman\DateTimePrecision\Weekday;
 use DigitalCraftsman\DateTimePrecision\Weekdays;
+use DigitalCraftsman\DateTimePrecision\Weeks;
 use DigitalCraftsman\DateTimePrecision\Year;
 use DigitalCraftsman\DateTimePrecision\Years;
 use DigitalCraftsman\SelfAwareNormalizers\Doctrine\ArrayNormalizableThroughLookupType;
@@ -135,5 +140,20 @@ final class DoctrineTypeRegisterCompilerPassTest extends TestCase
 
         self::assertArrayHasKey(TimeRanges::class, $updatedParameters);
         self::assertSame(['class' => ArrayNormalizableThroughLookupType::class], $updatedParameters[TimeRanges::class]);
+
+        self::assertArrayHasKey(Week::class, $updatedParameters);
+        self::assertSame(['class' => StringNormalizableThroughLookupType::class], $updatedParameters[Week::class]);
+
+        self::assertArrayHasKey(Weeks::class, $updatedParameters);
+        self::assertSame(['class' => ArrayNormalizableThroughLookupType::class], $updatedParameters[Weeks::class]);
+
+        self::assertArrayHasKey(RecurrenceFrequency::class, $updatedParameters);
+        self::assertSame(['class' => StringNormalizableThroughLookupType::class], $updatedParameters[RecurrenceFrequency::class]);
+
+        self::assertArrayHasKey(Recurrence::class, $updatedParameters);
+        self::assertSame(['class' => ArrayNormalizableThroughLookupType::class], $updatedParameters[Recurrence::class]);
+
+        self::assertArrayHasKey(Recurrences::class, $updatedParameters);
+        self::assertSame(['class' => ArrayNormalizableThroughLookupType::class], $updatedParameters[Recurrences::class]);
     }
 }

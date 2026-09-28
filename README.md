@@ -129,6 +129,23 @@ $timeRange->mustNotStartBefore(Time::fromString('05:00'));
 $timeRange->mustNotWrapAroundMidnight(static fn () => new TimeRangeMustBeWithinADay());
 ```
 
+## Weeks and recurrences
+
+`Week` is a calendar week according to ISO 8601. A week starts on Monday and belongs to the year of its Thursday, so the year of a week can differ from the year of its dates around new year.
+
+```php
+$week = $date->week(); // e.g. 2026-W01 for 29.12.2025
+$monday = $date->startOfWeek();
+```
+
+`Recurrence` describes on which dates something recurs: every day, on specific weekdays or on specific days of the month (a day which doesn't exist in a month is skipped). It contains neither a time nor a start or end.
+
+```php
+$recurrence = Recurrence::weekly(new Weekdays([Weekday::MONDAY, Weekday::WEDNESDAY]));
+$nextReminderAt = $recurrence->nextOccurrenceAtTimeInTimeZone($reminderTime, $now, $userTimeZone);
+$lessonDates = $recurrence->occurrencesBetween($seriesStart, $seriesEnd);
+```
+
 ## Integration
 
 For the best code readability, it's best to use the `Moment` provided with the package as a full replacement for `\DateTime` or `\DateTimeImmutable` when you're speaking about a moment in time and the others value objects for the rest.
