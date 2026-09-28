@@ -26,7 +26,7 @@ final class MomentsTest extends TestCase
         self::assertSame([
             '2026-01-01T10:00:00.000000+00:00',
             '2026-01-01T10:30:00.000000+00:00',
-        ], array_map(static fn (Moment $moment): string => $moment->normalize(), $momentRange->moments(Duration::fromMinutes(30))));
+        ], $momentRange->moments(Duration::fromMinutes(30))->normalize());
     }
 
     #[Test]
@@ -39,7 +39,7 @@ final class MomentsTest extends TestCase
         self::assertSame([
             '2026-01-01T10:00:00.000000+00:00',
             '2026-01-01T10:45:00.000000+00:00',
-        ], array_map(static fn (Moment $moment): string => $moment->normalize(), $momentRange->moments(Duration::fromMinutes(45))));
+        ], $momentRange->moments(Duration::fromMinutes(45))->normalize());
     }
 
     #[Test]

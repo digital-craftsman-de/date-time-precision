@@ -17,6 +17,13 @@ final readonly class Dates implements ArrayNormalizable, NullableArrayDenormaliz
 {
     use NullableArrayDenormalizableTrait;
 
+    /**
+     * Values by their unique key for a linear lookup.
+     *
+     * @var array<int|string, Date>
+     */
+    private array $keys;
+
     // -- Construction
 
     /**
@@ -30,17 +37,21 @@ final readonly class Dates implements ArrayNormalizable, NullableArrayDenormaliz
          */
         public array $dates,
     ) {
-        foreach ($this->dates as $index => $date) {
-            for ($previousIndex = 0; $previousIndex < $index; ++$previousIndex) {
-                if ($this->dates[$previousIndex]->isEqualTo($date)) {
-                    throw new Exception\CollectionContainsDuplicates(self::class);
-                }
+        $keys = [];
+        foreach ($this->dates as $date) {
+            $key = $date->normalize();
+            if (array_key_exists($key, $keys)) {
+                throw new Exception\CollectionContainsDuplicates(self::class);
             }
+
+            $keys[$key] = $date;
         }
+
+        $this->keys = $keys;
     }
 
     /**
-     * Keeps the first occurrence of every value.
+     * Keeps the order in which the values occur first.
      *
      * @param list<Date> $dates
      */
@@ -48,16 +59,10 @@ final readonly class Dates implements ArrayNormalizable, NullableArrayDenormaliz
     {
         $uniqueDates = [];
         foreach ($dates as $date) {
-            foreach ($uniqueDates as $uniqueDate) {
-                if ($uniqueDate->isEqualTo($date)) {
-                    continue 2;
-                }
-            }
-
-            $uniqueDates[] = $date;
+            $uniqueDates[$date->normalize()] = $date;
         }
 
-        return new self($uniqueDates);
+        return new self(array_values($uniqueDates));
     }
 
     // -- Array normalizable
@@ -123,13 +128,7 @@ final readonly class Dates implements ArrayNormalizable, NullableArrayDenormaliz
 
     public function contains(Date $date): bool
     {
-        foreach ($this->dates as $existingDate) {
-            if ($existingDate->isEqualTo($date)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_key_exists($date->normalize(), $this->keys);
     }
 
     public function notContains(Date $date): bool

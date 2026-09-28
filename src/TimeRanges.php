@@ -19,6 +19,13 @@ final readonly class TimeRanges implements ArrayNormalizable, NullableArrayDenor
 {
     use NullableArrayDenormalizableTrait;
 
+    /**
+     * Values by their unique key for a linear lookup.
+     *
+     * @var array<int|string, TimeRange>
+     */
+    private array $keys;
+
     // -- Construction
 
     /**
@@ -32,17 +39,21 @@ final readonly class TimeRanges implements ArrayNormalizable, NullableArrayDenor
          */
         public array $timeRanges,
     ) {
-        foreach ($this->timeRanges as $index => $timeRange) {
-            for ($previousIndex = 0; $previousIndex < $index; ++$previousIndex) {
-                if ($this->timeRanges[$previousIndex]->isEqualTo($timeRange)) {
-                    throw new Exception\CollectionContainsDuplicates(self::class);
-                }
+        $keys = [];
+        foreach ($this->timeRanges as $timeRange) {
+            $key = serialize([$timeRange->start->format('H:i:s.u'), $timeRange->end->format('H:i:s.u')]);
+            if (array_key_exists($key, $keys)) {
+                throw new Exception\CollectionContainsDuplicates(self::class);
             }
+
+            $keys[$key] = $timeRange;
         }
+
+        $this->keys = $keys;
     }
 
     /**
-     * Keeps the first occurrence of every value.
+     * Keeps the order in which the values occur first.
      *
      * @param list<TimeRange> $timeRanges
      */
@@ -50,16 +61,10 @@ final readonly class TimeRanges implements ArrayNormalizable, NullableArrayDenor
     {
         $uniqueTimeRanges = [];
         foreach ($timeRanges as $timeRange) {
-            foreach ($uniqueTimeRanges as $uniqueTimeRange) {
-                if ($uniqueTimeRange->isEqualTo($timeRange)) {
-                    continue 2;
-                }
-            }
-
-            $uniqueTimeRanges[] = $timeRange;
+            $uniqueTimeRanges[serialize([$timeRange->start->format('H:i:s.u'), $timeRange->end->format('H:i:s.u')])] = $timeRange;
         }
 
-        return new self($uniqueTimeRanges);
+        return new self(array_values($uniqueTimeRanges));
     }
 
     // -- Array normalizable
@@ -125,13 +130,7 @@ final readonly class TimeRanges implements ArrayNormalizable, NullableArrayDenor
 
     public function contains(TimeRange $timeRange): bool
     {
-        foreach ($this->timeRanges as $existingTimeRange) {
-            if ($existingTimeRange->isEqualTo($timeRange)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_key_exists(serialize([$timeRange->start->format('H:i:s.u'), $timeRange->end->format('H:i:s.u')]), $this->keys);
     }
 
     public function notContains(TimeRange $timeRange): bool

@@ -17,6 +17,13 @@ final readonly class Days implements ArrayNormalizable, NullableArrayDenormaliza
 {
     use NullableArrayDenormalizableTrait;
 
+    /**
+     * Values by their unique key for a linear lookup.
+     *
+     * @var array<int|string, Day>
+     */
+    private array $keys;
+
     // -- Construction
 
     /**
@@ -30,17 +37,21 @@ final readonly class Days implements ArrayNormalizable, NullableArrayDenormaliza
          */
         public array $days,
     ) {
-        foreach ($this->days as $index => $day) {
-            for ($previousIndex = 0; $previousIndex < $index; ++$previousIndex) {
-                if ($this->days[$previousIndex]->day === $day->day) {
-                    throw new Exception\CollectionContainsDuplicates(self::class);
-                }
+        $keys = [];
+        foreach ($this->days as $day) {
+            $key = $day->day;
+            if (array_key_exists($key, $keys)) {
+                throw new Exception\CollectionContainsDuplicates(self::class);
             }
+
+            $keys[$key] = $day;
         }
+
+        $this->keys = $keys;
     }
 
     /**
-     * Keeps the first occurrence of every value.
+     * Keeps the order in which the values occur first.
      *
      * @param list<Day> $days
      */
@@ -48,16 +59,10 @@ final readonly class Days implements ArrayNormalizable, NullableArrayDenormaliza
     {
         $uniqueDays = [];
         foreach ($days as $day) {
-            foreach ($uniqueDays as $uniqueDay) {
-                if ($uniqueDay->day === $day->day) {
-                    continue 2;
-                }
-            }
-
-            $uniqueDays[] = $day;
+            $uniqueDays[$day->day] = $day;
         }
 
-        return new self($uniqueDays);
+        return new self(array_values($uniqueDays));
     }
 
     // -- Array normalizable
@@ -123,13 +128,7 @@ final readonly class Days implements ArrayNormalizable, NullableArrayDenormaliza
 
     public function contains(Day $day): bool
     {
-        foreach ($this->days as $existingDay) {
-            if ($existingDay->day === $day->day) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_key_exists($day->day, $this->keys);
     }
 
     public function notContains(Day $day): bool

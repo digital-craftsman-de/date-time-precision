@@ -17,6 +17,13 @@ final readonly class Times implements ArrayNormalizable, NullableArrayDenormaliz
 {
     use NullableArrayDenormalizableTrait;
 
+    /**
+     * Values by their unique key for a linear lookup.
+     *
+     * @var array<int|string, Time>
+     */
+    private array $keys;
+
     // -- Construction
 
     /**
@@ -30,17 +37,21 @@ final readonly class Times implements ArrayNormalizable, NullableArrayDenormaliz
          */
         public array $times,
     ) {
-        foreach ($this->times as $index => $time) {
-            for ($previousIndex = 0; $previousIndex < $index; ++$previousIndex) {
-                if ($this->times[$previousIndex]->isEqualTo($time)) {
-                    throw new Exception\CollectionContainsDuplicates(self::class);
-                }
+        $keys = [];
+        foreach ($this->times as $time) {
+            $key = $time->format('H:i:s.u');
+            if (array_key_exists($key, $keys)) {
+                throw new Exception\CollectionContainsDuplicates(self::class);
             }
+
+            $keys[$key] = $time;
         }
+
+        $this->keys = $keys;
     }
 
     /**
-     * Keeps the first occurrence of every value.
+     * Keeps the order in which the values occur first.
      *
      * @param list<Time> $times
      */
@@ -48,16 +59,10 @@ final readonly class Times implements ArrayNormalizable, NullableArrayDenormaliz
     {
         $uniqueTimes = [];
         foreach ($times as $time) {
-            foreach ($uniqueTimes as $uniqueTime) {
-                if ($uniqueTime->isEqualTo($time)) {
-                    continue 2;
-                }
-            }
-
-            $uniqueTimes[] = $time;
+            $uniqueTimes[$time->format('H:i:s.u')] = $time;
         }
 
-        return new self($uniqueTimes);
+        return new self(array_values($uniqueTimes));
     }
 
     // -- Array normalizable
@@ -123,13 +128,7 @@ final readonly class Times implements ArrayNormalizable, NullableArrayDenormaliz
 
     public function contains(Time $time): bool
     {
-        foreach ($this->times as $existingTime) {
-            if ($existingTime->isEqualTo($time)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_key_exists($time->format('H:i:s.u'), $this->keys);
     }
 
     public function notContains(Time $time): bool

@@ -17,6 +17,13 @@ final readonly class CalendarUnits implements ArrayNormalizable, NullableArrayDe
 {
     use NullableArrayDenormalizableTrait;
 
+    /**
+     * Values by their unique key for a linear lookup.
+     *
+     * @var array<int|string, CalendarUnit>
+     */
+    private array $keys;
+
     // -- Construction
 
     /**
@@ -30,17 +37,21 @@ final readonly class CalendarUnits implements ArrayNormalizable, NullableArrayDe
          */
         public array $calendarUnits,
     ) {
-        foreach ($this->calendarUnits as $index => $calendarUnit) {
-            for ($previousIndex = 0; $previousIndex < $index; ++$previousIndex) {
-                if ($this->calendarUnits[$previousIndex] === $calendarUnit) {
-                    throw new Exception\CollectionContainsDuplicates(self::class);
-                }
+        $keys = [];
+        foreach ($this->calendarUnits as $calendarUnit) {
+            $key = $calendarUnit->value;
+            if (array_key_exists($key, $keys)) {
+                throw new Exception\CollectionContainsDuplicates(self::class);
             }
+
+            $keys[$key] = $calendarUnit;
         }
+
+        $this->keys = $keys;
     }
 
     /**
-     * Keeps the first occurrence of every value.
+     * Keeps the order in which the values occur first.
      *
      * @param list<CalendarUnit> $calendarUnits
      */
@@ -48,16 +59,10 @@ final readonly class CalendarUnits implements ArrayNormalizable, NullableArrayDe
     {
         $uniqueCalendarUnits = [];
         foreach ($calendarUnits as $calendarUnit) {
-            foreach ($uniqueCalendarUnits as $uniqueCalendarUnit) {
-                if ($uniqueCalendarUnit === $calendarUnit) {
-                    continue 2;
-                }
-            }
-
-            $uniqueCalendarUnits[] = $calendarUnit;
+            $uniqueCalendarUnits[$calendarUnit->value] = $calendarUnit;
         }
 
-        return new self($uniqueCalendarUnits);
+        return new self(array_values($uniqueCalendarUnits));
     }
 
     // -- Array normalizable
@@ -123,13 +128,7 @@ final readonly class CalendarUnits implements ArrayNormalizable, NullableArrayDe
 
     public function contains(CalendarUnit $calendarUnit): bool
     {
-        foreach ($this->calendarUnits as $existingCalendarUnit) {
-            if ($existingCalendarUnit === $calendarUnit) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_key_exists($calendarUnit->value, $this->keys);
     }
 
     public function notContains(CalendarUnit $calendarUnit): bool

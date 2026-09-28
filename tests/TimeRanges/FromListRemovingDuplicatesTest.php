@@ -49,4 +49,18 @@ final class FromListRemovingDuplicatesTest extends TestCase
             new TimeRange(Time::fromString('10:00:00'), Time::fromString('12:00:00')),
         ]);
     }
+
+    #[Test]
+    public function from_list_removing_duplicates_keeps_ranges_with_same_start_or_end(): void
+    {
+        // -- Act
+        $collection = TimeRanges::fromListRemovingDuplicates([
+            new TimeRange(Time::fromString('10:00:00'), Time::fromString('12:00:00')),
+            new TimeRange(Time::fromString('11:00:00'), Time::fromString('12:00:00')),
+            new TimeRange(Time::fromString('10:00:00'), Time::fromString('13:00:00')),
+        ]);
+
+        // -- Assert
+        self::assertCount(3, $collection);
+    }
 }

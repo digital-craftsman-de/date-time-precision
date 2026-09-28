@@ -17,6 +17,13 @@ final readonly class Months implements ArrayNormalizable, NullableArrayDenormali
 {
     use NullableArrayDenormalizableTrait;
 
+    /**
+     * Values by their unique key for a linear lookup.
+     *
+     * @var array<int|string, Month>
+     */
+    private array $keys;
+
     // -- Construction
 
     /**
@@ -30,17 +37,21 @@ final readonly class Months implements ArrayNormalizable, NullableArrayDenormali
          */
         public array $months,
     ) {
-        foreach ($this->months as $index => $month) {
-            for ($previousIndex = 0; $previousIndex < $index; ++$previousIndex) {
-                if ($this->months[$previousIndex]->isEqualTo($month)) {
-                    throw new Exception\CollectionContainsDuplicates(self::class);
-                }
+        $keys = [];
+        foreach ($this->months as $month) {
+            $key = $month->normalize();
+            if (array_key_exists($key, $keys)) {
+                throw new Exception\CollectionContainsDuplicates(self::class);
             }
+
+            $keys[$key] = $month;
         }
+
+        $this->keys = $keys;
     }
 
     /**
-     * Keeps the first occurrence of every value.
+     * Keeps the order in which the values occur first.
      *
      * @param list<Month> $months
      */
@@ -48,16 +59,10 @@ final readonly class Months implements ArrayNormalizable, NullableArrayDenormali
     {
         $uniqueMonths = [];
         foreach ($months as $month) {
-            foreach ($uniqueMonths as $uniqueMonth) {
-                if ($uniqueMonth->isEqualTo($month)) {
-                    continue 2;
-                }
-            }
-
-            $uniqueMonths[] = $month;
+            $uniqueMonths[$month->normalize()] = $month;
         }
 
-        return new self($uniqueMonths);
+        return new self(array_values($uniqueMonths));
     }
 
     // -- Array normalizable
@@ -123,13 +128,7 @@ final readonly class Months implements ArrayNormalizable, NullableArrayDenormali
 
     public function contains(Month $month): bool
     {
-        foreach ($this->months as $existingMonth) {
-            if ($existingMonth->isEqualTo($month)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_key_exists($month->normalize(), $this->keys);
     }
 
     public function notContains(Month $month): bool

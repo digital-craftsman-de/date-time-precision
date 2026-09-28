@@ -207,14 +207,12 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
     }
 
     /**
-     * Returns all dates until the given date. If the given date is before this date, the result will be an empty array.
-     *
-     * @return array<int, Date>
+     * Returns all dates until the given date. If the given date is before this date, the result will be an empty collection.
      */
     public function datesUntil(
         self $date,
         PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
-    ): array {
+    ): Dates {
         $startDateTime = $periodLimit === PeriodLimit::INCLUDING_START_AND_END
         || $periodLimit === PeriodLimit::INCLUDING_START
             ? $this
@@ -241,7 +239,7 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
             $dates[] = self::fromDateTime($dateTime);
         }
 
-        return $dates;
+        return new Dates($dates);
     }
 
     public function weekday(): Weekday

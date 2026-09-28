@@ -110,10 +110,7 @@ final readonly class DateRange implements ArrayNormalizable, NullableArrayDenorm
         return !$this->isEqualTo($dateRange);
     }
 
-    /**
-     * @return array<int, Date>
-     */
-    public function dates(PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END): array
+    public function dates(PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END): Dates
     {
         return $this->start->datesUntil($this->end, $periodLimit);
     }

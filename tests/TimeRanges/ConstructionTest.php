@@ -82,4 +82,20 @@ final class ConstructionTest extends TestCase
             'duplicate of second at the end' => ['duplicate of second at the end'],
         ];
     }
+
+    #[Test]
+    public function construction_works_with_same_start_or_end(): void
+    {
+        // -- Act
+        $collection = new TimeRanges([
+            new TimeRange(Time::fromString('10:00:00'), Time::fromString('12:00:00')),
+            new TimeRange(Time::fromString('10:00:00'), Time::fromString('13:00:00')),
+            new TimeRange(Time::fromString('10:00:00'), Time::fromString('12:00:00.000001')),
+            new TimeRange(Time::fromString('11:00:00'), Time::fromString('12:00:00')),
+            new TimeRange(Time::fromString('10:00:00.000001'), Time::fromString('12:00:00')),
+        ]);
+
+        // -- Assert
+        self::assertCount(5, $collection);
+    }
 }

@@ -17,6 +17,13 @@ final readonly class Moments implements ArrayNormalizable, NullableArrayDenormal
 {
     use NullableArrayDenormalizableTrait;
 
+    /**
+     * Values by their unique key for a linear lookup.
+     *
+     * @var array<int|string, Moment>
+     */
+    private array $keys;
+
     // -- Construction
 
     /**
@@ -30,17 +37,21 @@ final readonly class Moments implements ArrayNormalizable, NullableArrayDenormal
          */
         public array $moments,
     ) {
-        foreach ($this->moments as $index => $moment) {
-            for ($previousIndex = 0; $previousIndex < $index; ++$previousIndex) {
-                if ($this->moments[$previousIndex]->isEqualTo($moment)) {
-                    throw new Exception\CollectionContainsDuplicates(self::class);
-                }
+        $keys = [];
+        foreach ($this->moments as $moment) {
+            $key = $moment->normalize();
+            if (array_key_exists($key, $keys)) {
+                throw new Exception\CollectionContainsDuplicates(self::class);
             }
+
+            $keys[$key] = $moment;
         }
+
+        $this->keys = $keys;
     }
 
     /**
-     * Keeps the first occurrence of every value.
+     * Keeps the order in which the values occur first.
      *
      * @param list<Moment> $moments
      */
@@ -48,16 +59,10 @@ final readonly class Moments implements ArrayNormalizable, NullableArrayDenormal
     {
         $uniqueMoments = [];
         foreach ($moments as $moment) {
-            foreach ($uniqueMoments as $uniqueMoment) {
-                if ($uniqueMoment->isEqualTo($moment)) {
-                    continue 2;
-                }
-            }
-
-            $uniqueMoments[] = $moment;
+            $uniqueMoments[$moment->normalize()] = $moment;
         }
 
-        return new self($uniqueMoments);
+        return new self(array_values($uniqueMoments));
     }
 
     // -- Array normalizable
@@ -123,13 +128,7 @@ final readonly class Moments implements ArrayNormalizable, NullableArrayDenormal
 
     public function contains(Moment $moment): bool
     {
-        foreach ($this->moments as $existingMoment) {
-            if ($existingMoment->isEqualTo($moment)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_key_exists($moment->normalize(), $this->keys);
     }
 
     public function notContains(Moment $moment): bool

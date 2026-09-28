@@ -17,6 +17,13 @@ final readonly class Durations implements ArrayNormalizable, NullableArrayDenorm
 {
     use NullableArrayDenormalizableTrait;
 
+    /**
+     * Values by their unique key for a linear lookup.
+     *
+     * @var array<int|string, Duration>
+     */
+    private array $keys;
+
     // -- Construction
 
     /**
@@ -30,17 +37,21 @@ final readonly class Durations implements ArrayNormalizable, NullableArrayDenorm
          */
         public array $durations,
     ) {
-        foreach ($this->durations as $index => $duration) {
-            for ($previousIndex = 0; $previousIndex < $index; ++$previousIndex) {
-                if ($this->durations[$previousIndex]->isEqualTo($duration)) {
-                    throw new Exception\CollectionContainsDuplicates(self::class);
-                }
+        $keys = [];
+        foreach ($this->durations as $duration) {
+            $key = $duration->microseconds;
+            if (array_key_exists($key, $keys)) {
+                throw new Exception\CollectionContainsDuplicates(self::class);
             }
+
+            $keys[$key] = $duration;
         }
+
+        $this->keys = $keys;
     }
 
     /**
-     * Keeps the first occurrence of every value.
+     * Keeps the order in which the values occur first.
      *
      * @param list<Duration> $durations
      */
@@ -48,16 +59,10 @@ final readonly class Durations implements ArrayNormalizable, NullableArrayDenorm
     {
         $uniqueDurations = [];
         foreach ($durations as $duration) {
-            foreach ($uniqueDurations as $uniqueDuration) {
-                if ($uniqueDuration->isEqualTo($duration)) {
-                    continue 2;
-                }
-            }
-
-            $uniqueDurations[] = $duration;
+            $uniqueDurations[$duration->microseconds] = $duration;
         }
 
-        return new self($uniqueDurations);
+        return new self(array_values($uniqueDurations));
     }
 
     // -- Array normalizable
@@ -123,13 +128,7 @@ final readonly class Durations implements ArrayNormalizable, NullableArrayDenorm
 
     public function contains(Duration $duration): bool
     {
-        foreach ($this->durations as $existingDuration) {
-            if ($existingDuration->isEqualTo($duration)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_key_exists($duration->microseconds, $this->keys);
     }
 
     public function notContains(Duration $duration): bool

@@ -17,6 +17,13 @@ final readonly class Weekdays implements ArrayNormalizable, NullableArrayDenorma
 {
     use NullableArrayDenormalizableTrait;
 
+    /**
+     * Values by their unique key for a linear lookup.
+     *
+     * @var array<int|string, Weekday>
+     */
+    private array $keys;
+
     // -- Construction
 
     /**
@@ -30,17 +37,21 @@ final readonly class Weekdays implements ArrayNormalizable, NullableArrayDenorma
          */
         public array $weekdays,
     ) {
-        foreach ($this->weekdays as $index => $weekday) {
-            for ($previousIndex = 0; $previousIndex < $index; ++$previousIndex) {
-                if ($this->weekdays[$previousIndex] === $weekday) {
-                    throw new Exception\CollectionContainsDuplicates(self::class);
-                }
+        $keys = [];
+        foreach ($this->weekdays as $weekday) {
+            $key = $weekday->value;
+            if (array_key_exists($key, $keys)) {
+                throw new Exception\CollectionContainsDuplicates(self::class);
             }
+
+            $keys[$key] = $weekday;
         }
+
+        $this->keys = $keys;
     }
 
     /**
-     * Keeps the first occurrence of every value.
+     * Keeps the order in which the values occur first.
      *
      * @param list<Weekday> $weekdays
      */
@@ -48,16 +59,10 @@ final readonly class Weekdays implements ArrayNormalizable, NullableArrayDenorma
     {
         $uniqueWeekdays = [];
         foreach ($weekdays as $weekday) {
-            foreach ($uniqueWeekdays as $uniqueWeekday) {
-                if ($uniqueWeekday === $weekday) {
-                    continue 2;
-                }
-            }
-
-            $uniqueWeekdays[] = $weekday;
+            $uniqueWeekdays[$weekday->value] = $weekday;
         }
 
-        return new self($uniqueWeekdays);
+        return new self(array_values($uniqueWeekdays));
     }
 
     // -- Array normalizable
@@ -123,13 +128,7 @@ final readonly class Weekdays implements ArrayNormalizable, NullableArrayDenorma
 
     public function contains(Weekday $weekday): bool
     {
-        foreach ($this->weekdays as $existingWeekday) {
-            if ($existingWeekday === $weekday) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_key_exists($weekday->value, $this->keys);
     }
 
     public function notContains(Weekday $weekday): bool

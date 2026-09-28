@@ -149,14 +149,12 @@ final readonly class Year implements IntNormalizable, NullableIntDenormalizable
     }
 
     /**
-     * Returns all years until the given year. If the given year is before this year, the result will be an empty array.
-     *
-     * @return array<int, Year>
+     * Returns all years until the given year. If the given year is before this year, the result will be an empty collection.
      */
     public function yearsUntil(
         self $year,
         PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
-    ): array {
+    ): Years {
         $startDateTime = $periodLimit === PeriodLimit::INCLUDING_START_AND_END
         || $periodLimit === PeriodLimit::INCLUDING_START
             ? $this
@@ -183,7 +181,7 @@ final readonly class Year implements IntNormalizable, NullableIntDenormalizable
             $years[] = self::fromDateTime($dateTime);
         }
 
-        return $years;
+        return new Years($years);
     }
 
     /**

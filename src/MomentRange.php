@@ -144,11 +144,9 @@ final readonly class MomentRange implements ArrayNormalizable, NullableArrayDeno
     /**
      * Returns all moments from the start in steps of the given duration. The end isn't included.
      *
-     * @return list<Moment>
-     *
      * @throws Exception\DurationIsZero
      */
-    public function moments(Duration $step): array
+    public function moments(Duration $step): Moments
     {
         if ($step->isZero()) {
             throw new Exception\DurationIsZero();
@@ -161,7 +159,7 @@ final readonly class MomentRange implements ArrayNormalizable, NullableArrayDeno
             $moment = $moment->add($step);
         }
 
-        return $moments;
+        return new Moments($moments);
     }
 
     /**

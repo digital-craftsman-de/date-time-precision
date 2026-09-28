@@ -19,6 +19,13 @@ final readonly class MomentRanges implements ArrayNormalizable, NullableArrayDen
 {
     use NullableArrayDenormalizableTrait;
 
+    /**
+     * Values by their unique key for a linear lookup.
+     *
+     * @var array<int|string, MomentRange>
+     */
+    private array $keys;
+
     // -- Construction
 
     /**
@@ -32,17 +39,21 @@ final readonly class MomentRanges implements ArrayNormalizable, NullableArrayDen
          */
         public array $momentRanges,
     ) {
-        foreach ($this->momentRanges as $index => $momentRange) {
-            for ($previousIndex = 0; $previousIndex < $index; ++$previousIndex) {
-                if ($this->momentRanges[$previousIndex]->isEqualTo($momentRange)) {
-                    throw new Exception\CollectionContainsDuplicates(self::class);
-                }
+        $keys = [];
+        foreach ($this->momentRanges as $momentRange) {
+            $key = serialize($momentRange->normalize());
+            if (array_key_exists($key, $keys)) {
+                throw new Exception\CollectionContainsDuplicates(self::class);
             }
+
+            $keys[$key] = $momentRange;
         }
+
+        $this->keys = $keys;
     }
 
     /**
-     * Keeps the first occurrence of every value.
+     * Keeps the order in which the values occur first.
      *
      * @param list<MomentRange> $momentRanges
      */
@@ -50,16 +61,10 @@ final readonly class MomentRanges implements ArrayNormalizable, NullableArrayDen
     {
         $uniqueMomentRanges = [];
         foreach ($momentRanges as $momentRange) {
-            foreach ($uniqueMomentRanges as $uniqueMomentRange) {
-                if ($uniqueMomentRange->isEqualTo($momentRange)) {
-                    continue 2;
-                }
-            }
-
-            $uniqueMomentRanges[] = $momentRange;
+            $uniqueMomentRanges[serialize($momentRange->normalize())] = $momentRange;
         }
 
-        return new self($uniqueMomentRanges);
+        return new self(array_values($uniqueMomentRanges));
     }
 
     // -- Array normalizable
@@ -125,13 +130,7 @@ final readonly class MomentRanges implements ArrayNormalizable, NullableArrayDen
 
     public function contains(MomentRange $momentRange): bool
     {
-        foreach ($this->momentRanges as $existingMomentRange) {
-            if ($existingMomentRange->isEqualTo($momentRange)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_key_exists(serialize($momentRange->normalize()), $this->keys);
     }
 
     public function notContains(MomentRange $momentRange): bool

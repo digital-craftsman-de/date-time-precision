@@ -19,6 +19,13 @@ final readonly class CalendarPeriods implements ArrayNormalizable, NullableArray
 {
     use NullableArrayDenormalizableTrait;
 
+    /**
+     * Values by their unique key for a linear lookup.
+     *
+     * @var array<int|string, CalendarPeriod>
+     */
+    private array $keys;
+
     // -- Construction
 
     /**
@@ -32,17 +39,21 @@ final readonly class CalendarPeriods implements ArrayNormalizable, NullableArray
          */
         public array $calendarPeriods,
     ) {
-        foreach ($this->calendarPeriods as $index => $calendarPeriod) {
-            for ($previousIndex = 0; $previousIndex < $index; ++$previousIndex) {
-                if ($this->calendarPeriods[$previousIndex]->isEqualTo($calendarPeriod)) {
-                    throw new Exception\CollectionContainsDuplicates(self::class);
-                }
+        $keys = [];
+        foreach ($this->calendarPeriods as $calendarPeriod) {
+            $key = serialize($calendarPeriod->normalize());
+            if (array_key_exists($key, $keys)) {
+                throw new Exception\CollectionContainsDuplicates(self::class);
             }
+
+            $keys[$key] = $calendarPeriod;
         }
+
+        $this->keys = $keys;
     }
 
     /**
-     * Keeps the first occurrence of every value.
+     * Keeps the order in which the values occur first.
      *
      * @param list<CalendarPeriod> $calendarPeriods
      */
@@ -50,16 +61,10 @@ final readonly class CalendarPeriods implements ArrayNormalizable, NullableArray
     {
         $uniqueCalendarPeriods = [];
         foreach ($calendarPeriods as $calendarPeriod) {
-            foreach ($uniqueCalendarPeriods as $uniqueCalendarPeriod) {
-                if ($uniqueCalendarPeriod->isEqualTo($calendarPeriod)) {
-                    continue 2;
-                }
-            }
-
-            $uniqueCalendarPeriods[] = $calendarPeriod;
+            $uniqueCalendarPeriods[serialize($calendarPeriod->normalize())] = $calendarPeriod;
         }
 
-        return new self($uniqueCalendarPeriods);
+        return new self(array_values($uniqueCalendarPeriods));
     }
 
     // -- Array normalizable
@@ -125,13 +130,7 @@ final readonly class CalendarPeriods implements ArrayNormalizable, NullableArray
 
     public function contains(CalendarPeriod $calendarPeriod): bool
     {
-        foreach ($this->calendarPeriods as $existingCalendarPeriod) {
-            if ($existingCalendarPeriod->isEqualTo($calendarPeriod)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_key_exists(serialize($calendarPeriod->normalize()), $this->keys);
     }
 
     public function notContains(CalendarPeriod $calendarPeriod): bool

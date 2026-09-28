@@ -81,4 +81,17 @@ final class ConstructionTest extends TestCase
             'duplicate of second at the end' => ['duplicate of second at the end'],
         ];
     }
+
+    #[Test]
+    public function construction_fails_with_same_moment_from_different_time_zones(): void
+    {
+        // -- Assert
+        $this->expectException(\DigitalCraftsman\DateTimePrecision\Exception\CollectionContainsDuplicates::class);
+
+        // -- Act
+        new Moments([
+            Moment::fromString('2026-01-01 10:00:00'),
+            Moment::fromDateTime(new \DateTimeImmutable('2026-01-01 11:00:00', new \DateTimeZone('Europe/Berlin'))),
+        ]);
+    }
 }

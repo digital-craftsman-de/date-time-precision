@@ -19,6 +19,13 @@ final readonly class DateRanges implements ArrayNormalizable, NullableArrayDenor
 {
     use NullableArrayDenormalizableTrait;
 
+    /**
+     * Values by their unique key for a linear lookup.
+     *
+     * @var array<int|string, DateRange>
+     */
+    private array $keys;
+
     // -- Construction
 
     /**
@@ -32,17 +39,21 @@ final readonly class DateRanges implements ArrayNormalizable, NullableArrayDenor
          */
         public array $dateRanges,
     ) {
-        foreach ($this->dateRanges as $index => $dateRange) {
-            for ($previousIndex = 0; $previousIndex < $index; ++$previousIndex) {
-                if ($this->dateRanges[$previousIndex]->isEqualTo($dateRange)) {
-                    throw new Exception\CollectionContainsDuplicates(self::class);
-                }
+        $keys = [];
+        foreach ($this->dateRanges as $dateRange) {
+            $key = serialize($dateRange->normalize());
+            if (array_key_exists($key, $keys)) {
+                throw new Exception\CollectionContainsDuplicates(self::class);
             }
+
+            $keys[$key] = $dateRange;
         }
+
+        $this->keys = $keys;
     }
 
     /**
-     * Keeps the first occurrence of every value.
+     * Keeps the order in which the values occur first.
      *
      * @param list<DateRange> $dateRanges
      */
@@ -50,16 +61,10 @@ final readonly class DateRanges implements ArrayNormalizable, NullableArrayDenor
     {
         $uniqueDateRanges = [];
         foreach ($dateRanges as $dateRange) {
-            foreach ($uniqueDateRanges as $uniqueDateRange) {
-                if ($uniqueDateRange->isEqualTo($dateRange)) {
-                    continue 2;
-                }
-            }
-
-            $uniqueDateRanges[] = $dateRange;
+            $uniqueDateRanges[serialize($dateRange->normalize())] = $dateRange;
         }
 
-        return new self($uniqueDateRanges);
+        return new self(array_values($uniqueDateRanges));
     }
 
     // -- Array normalizable
@@ -125,13 +130,7 @@ final readonly class DateRanges implements ArrayNormalizable, NullableArrayDenor
 
     public function contains(DateRange $dateRange): bool
     {
-        foreach ($this->dateRanges as $existingDateRange) {
-            if ($existingDateRange->isEqualTo($dateRange)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_key_exists(serialize($dateRange->normalize()), $this->keys);
     }
 
     public function notContains(DateRange $dateRange): bool

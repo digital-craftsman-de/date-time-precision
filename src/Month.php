@@ -223,14 +223,12 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
     }
 
     /**
-     * Returns all months until the given month. If the given month is before this month, the result will be an empty array.
-     *
-     * @return array<int, Month>
+     * Returns all months until the given month. If the given month is before this month, the result will be an empty collection.
      */
     public function monthsUntil(
         self $month,
         PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
-    ): array {
+    ): Months {
         $startDateTime = $periodLimit === PeriodLimit::INCLUDING_START_AND_END
             || $periodLimit === PeriodLimit::INCLUDING_START
             ? $this
@@ -257,7 +255,7 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
             $months[] = self::fromDateTime($dateTime);
         }
 
-        return $months;
+        return new Months($months);
     }
 
     public function numberOfDays(): int

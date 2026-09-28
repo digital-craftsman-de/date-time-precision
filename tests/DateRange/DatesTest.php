@@ -6,6 +6,7 @@ namespace DigitalCraftsman\DateTimePrecision\DateRange;
 
 use DigitalCraftsman\DateTimePrecision\Date;
 use DigitalCraftsman\DateTimePrecision\DateRange;
+use DigitalCraftsman\DateTimePrecision\Dates;
 use DigitalCraftsman\DateTimePrecision\PeriodLimit;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
@@ -21,16 +22,16 @@ final class DatesTest extends TestCase
         $dateRange = new DateRange(Date::fromString('2026-01-30'), Date::fromString('2026-02-02'));
 
         // -- Act & Assert
-        self::assertEquals([
+        self::assertEquals(new Dates([
             Date::fromString('2026-01-30'),
             Date::fromString('2026-01-31'),
             Date::fromString('2026-02-01'),
             Date::fromString('2026-02-02'),
-        ], $dateRange->dates());
-        self::assertEquals([
+        ]), $dateRange->dates());
+        self::assertEquals(new Dates([
             Date::fromString('2026-01-31'),
             Date::fromString('2026-02-01'),
-        ], $dateRange->dates(PeriodLimit::EXCLUDING_START_AND_END));
+        ]), $dateRange->dates(PeriodLimit::EXCLUDING_START_AND_END));
     }
 
     #[Test]

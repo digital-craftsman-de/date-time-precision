@@ -17,6 +17,13 @@ final readonly class Years implements ArrayNormalizable, NullableArrayDenormaliz
 {
     use NullableArrayDenormalizableTrait;
 
+    /**
+     * Values by their unique key for a linear lookup.
+     *
+     * @var array<int|string, Year>
+     */
+    private array $keys;
+
     // -- Construction
 
     /**
@@ -30,17 +37,21 @@ final readonly class Years implements ArrayNormalizable, NullableArrayDenormaliz
          */
         public array $years,
     ) {
-        foreach ($this->years as $index => $year) {
-            for ($previousIndex = 0; $previousIndex < $index; ++$previousIndex) {
-                if ($this->years[$previousIndex]->isEqualTo($year)) {
-                    throw new Exception\CollectionContainsDuplicates(self::class);
-                }
+        $keys = [];
+        foreach ($this->years as $year) {
+            $key = $year->year;
+            if (array_key_exists($key, $keys)) {
+                throw new Exception\CollectionContainsDuplicates(self::class);
             }
+
+            $keys[$key] = $year;
         }
+
+        $this->keys = $keys;
     }
 
     /**
-     * Keeps the first occurrence of every value.
+     * Keeps the order in which the values occur first.
      *
      * @param list<Year> $years
      */
@@ -48,16 +59,10 @@ final readonly class Years implements ArrayNormalizable, NullableArrayDenormaliz
     {
         $uniqueYears = [];
         foreach ($years as $year) {
-            foreach ($uniqueYears as $uniqueYear) {
-                if ($uniqueYear->isEqualTo($year)) {
-                    continue 2;
-                }
-            }
-
-            $uniqueYears[] = $year;
+            $uniqueYears[$year->year] = $year;
         }
 
-        return new self($uniqueYears);
+        return new self(array_values($uniqueYears));
     }
 
     // -- Array normalizable
@@ -123,13 +128,7 @@ final readonly class Years implements ArrayNormalizable, NullableArrayDenormaliz
 
     public function contains(Year $year): bool
     {
-        foreach ($this->years as $existingYear) {
-            if ($existingYear->isEqualTo($year)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_key_exists($year->year, $this->keys);
     }
 
     public function notContains(Year $year): bool

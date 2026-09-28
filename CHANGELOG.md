@@ -2,6 +2,7 @@
 
 ## 0.16.0
 
+- **[Breaking change](./UPGRADE.md#collections-instead-of-arrays)**: `Date::datesUntil`, `Month::monthsUntil` and `Year::yearsUntil` return the collections `Dates`, `Months` and `Years` instead of arrays.
 - Added `DateRange` as closed range of dates (start and end are included).
 - Added `MomentRange` as half-open range of moments (the end isn't included).
 - Added `TimeRange` as half-open range of times which may wrap around midnight, with guards `mustNotStartBefore` and `mustNotWrapAroundMidnight`.
@@ -14,6 +15,7 @@
   - `first` and `last` as well as `min` and `max` for ordered values.
   - `isEqualTo` and `isNotEqualTo` for the whole collection (independent of the order).
   - `fromListRemovingDuplicates` as factory which keeps the first occurrence of every value.
+- Collections check for duplicates in linear time through a unique key per value (previously every value was compared with every other value).
 - Added `CollectionContainsDuplicates` exception (extends `\InvalidArgumentException`) which is now thrown for duplicates in all collections.
 - Fixed missing registration of Doctrine types for `Day` and `Days`.
 - Added `isBetween` and `isNotBetween` to `Date`, `Month` and `Moment`.
