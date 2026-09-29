@@ -10,15 +10,26 @@ use DigitalCraftsman\SelfAwareNormalizers\Serializer\NullableArrayDenormalizable
 
 /**
  * @psalm-type NormalizedWeekdays = list<string>
+ *
+ * @implements \IteratorAggregate<int, Weekday>
  */
-final readonly class Weekdays implements ArrayNormalizable, NullableArrayDenormalizable
+final readonly class Weekdays implements ArrayNormalizable, NullableArrayDenormalizable, \Countable, \IteratorAggregate
 {
     use NullableArrayDenormalizableTrait;
+
+    /**
+     * Values by their unique key for a linear lookup.
+     *
+     * @var array<int|string, Weekday>
+     */
+    private array $keys;
 
     // -- Construction
 
     /**
      * @param list<Weekday> $weekdays
+     *
+     * @throws Exception\CollectionContainsDuplicates
      */
     public function __construct(
         /**
@@ -26,13 +37,32 @@ final readonly class Weekdays implements ArrayNormalizable, NullableArrayDenorma
          */
         public array $weekdays,
     ) {
-        $enumValues = [];
+        $keys = [];
         foreach ($this->weekdays as $weekday) {
-            $enumValues[] = $weekday->value;
+            $key = $weekday->value;
+            if (array_key_exists($key, $keys)) {
+                throw new Exception\CollectionContainsDuplicates(self::class);
+            }
+
+            $keys[$key] = $weekday;
         }
-        if (count($enumValues) !== count(array_unique($enumValues))) {
-            throw new \InvalidArgumentException('Weekdays must be unique.');
+
+        $this->keys = $keys;
+    }
+
+    /**
+     * Keeps the order in which the values occur first.
+     *
+     * @param list<Weekday> $weekdays
+     */
+    public static function fromListRemovingDuplicates(array $weekdays): self
+    {
+        $uniqueWeekdays = [];
+        foreach ($weekdays as $weekday) {
+            $uniqueWeekdays[$weekday->value] = $weekday;
         }
+
+        return new self(array_values($uniqueWeekdays));
     }
 
     // -- Array normalizable
@@ -57,23 +87,138 @@ final readonly class Weekdays implements ArrayNormalizable, NullableArrayDenorma
     #[\Override]
     public function normalize(): array
     {
-        $weekdayStrings = [];
+        $normalizedWeekdays = [];
         foreach ($this->weekdays as $weekday) {
-            $weekdayStrings[] = $weekday->normalize();
+            $normalizedWeekdays[] = $weekday->normalize();
         }
 
-        return $weekdayStrings;
+        return $normalizedWeekdays;
+    }
+
+    // -- Countable
+
+    #[\Override]
+    public function count(): int
+    {
+        return count($this->weekdays);
+    }
+
+    // -- IteratorAggregate
+
+    /**
+     * @return \Iterator<int, Weekday>
+     */
+    #[\Override]
+    public function getIterator(): \Iterator
+    {
+        return new \ArrayIterator($this->weekdays);
     }
 
     // -- Accessors
 
+    public function isEmpty(): bool
+    {
+        return $this->weekdays === [];
+    }
+
+    public function isNotEmpty(): bool
+    {
+        return $this->weekdays !== [];
+    }
+
     public function contains(Weekday $weekday): bool
     {
-        return in_array($weekday, $this->weekdays, true);
+        return array_key_exists($weekday->value, $this->keys);
     }
 
     public function notContains(Weekday $weekday): bool
     {
-        return !in_array($weekday, $this->weekdays, true);
+        return !$this->contains($weekday);
+    }
+
+    /**
+     * Collections are equal when they contain the same values, independent of their order.
+     */
+    public function isEqualTo(self $weekdays): bool
+    {
+        if (count($this->weekdays) !== count($weekdays->weekdays)) {
+            return false;
+        }
+
+        foreach ($this->weekdays as $weekday) {
+            if ($weekdays->notContains($weekday)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function isNotEqualTo(self $weekdays): bool
+    {
+        return !$this->isEqualTo($weekdays);
+    }
+
+    public function first(): ?Weekday
+    {
+        return $this->weekdays[0] ?? null;
+    }
+
+    public function last(): ?Weekday
+    {
+        $lastKey = array_key_last($this->weekdays);
+
+        return $lastKey !== null
+            ? $this->weekdays[$lastKey]
+            : null;
+    }
+
+    /**
+     * @template T
+     *
+     * @param callable(Weekday): T $mapper
+     *
+     * @return list<T>
+     */
+    public function map(callable $mapper): array
+    {
+        return array_map($mapper, $this->weekdays);
+    }
+
+    // -- Mutations
+
+    /**
+     * @param callable(Weekday): bool $filter
+     */
+    public function filter(callable $filter): self
+    {
+        return new self(array_values(array_filter($this->weekdays, $filter)));
+    }
+
+    /**
+     * Sorts ascending by default.
+     *
+     * @param ?callable(Weekday, Weekday): int $comparator
+     */
+    public function sort(?callable $comparator = null): self
+    {
+        $weekdays = $this->weekdays;
+        usort($weekdays, $comparator ?? static fn (Weekday $a, Weekday $b): int => $a->compareTo($b));
+
+        return new self($weekdays);
+    }
+
+    public function min(): ?Weekday
+    {
+        return $this
+            ->sort()
+            ->first();
+    }
+
+    public function max(): ?Weekday
+    {
+        return $this
+            ->sort()
+            ->last();
     }
 }

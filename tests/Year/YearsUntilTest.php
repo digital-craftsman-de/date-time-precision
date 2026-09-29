@@ -6,6 +6,7 @@ namespace DigitalCraftsman\DateTimePrecision\Year;
 
 use DigitalCraftsman\DateTimePrecision\PeriodLimit;
 use DigitalCraftsman\DateTimePrecision\Year;
+use DigitalCraftsman\DateTimePrecision\Years;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -14,6 +15,9 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(Year::class)]
 final class YearsUntilTest extends TestCase
 {
+    /**
+     * @param list<Year> $expectedResult
+     */
     #[Test]
     #[DataProvider('dataProvider')]
     public function years_until_works(
@@ -23,7 +27,7 @@ final class YearsUntilTest extends TestCase
         PeriodLimit $periodLimit,
     ): void {
         // -- Act & Assert
-        self::assertEquals($expectedResult, $startYear->yearsUntil($endYear, $periodLimit));
+        self::assertEquals(new Years($expectedResult), $startYear->yearsUntil($endYear, $periodLimit));
     }
 
     /**

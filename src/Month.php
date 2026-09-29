@@ -139,15 +139,96 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
         return $this->toDateTimeImmutable() <=> $month->toDateTimeImmutable();
     }
 
+    public function isBetween(
+        self $start,
+        self $end,
+        PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
+    ): bool {
+        $isAfterStart = $periodLimit->includesStart()
+            ? $this->isAfterOrEqualTo($start)
+            : $this->isAfter($start);
+
+        $isBeforeEnd = $periodLimit->includesEnd()
+            ? $this->isBeforeOrEqualTo($end)
+            : $this->isBefore($end);
+
+        return $isAfterStart
+            && $isBeforeEnd;
+    }
+
+    public function isNotBetween(
+        self $start,
+        self $end,
+        PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
+    ): bool {
+        return !$this->isBetween($start, $end, $periodLimit);
+    }
+
     /**
-     * Returns all months until the given month. If the given month is before this month, the result will be an empty array.
-     *
-     * @return array<int, Month>
+     * Returns the earliest of the given months.
+     */
+    public static function min(
+        self $month,
+        self ...$months,
+    ): self {
+        foreach ($months as $other) {
+            if ($other->isBefore($month)) {
+                $month = $other;
+            }
+        }
+
+        return $month;
+    }
+
+    /**
+     * Returns the latest of the given months.
+     */
+    public static function max(
+        self $month,
+        self ...$months,
+    ): self {
+        foreach ($months as $other) {
+            if ($other->isAfter($month)) {
+                $month = $other;
+            }
+        }
+
+        return $month;
+    }
+
+    /**
+     * Can be used as callable for sorting (e.g. usort($months, Month::compare(...))).
+     */
+    public static function compare(self $a, self $b): int
+    {
+        return $a->compareTo($b);
+    }
+
+    public function contains(Date $date): bool
+    {
+        return $date->month->isEqualTo($this);
+    }
+
+    public function notContains(Date $date): bool
+    {
+        return !$this->contains($date);
+    }
+
+    public function dateRange(): DateRange
+    {
+        return new DateRange(
+            $this->firstDay(),
+            $this->lastDay(),
+        );
+    }
+
+    /**
+     * Returns all months until the given month. If the given month is before this month, the result will be an empty collection.
      */
     public function monthsUntil(
         self $month,
         PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
-    ): array {
+    ): Months {
         $startDateTime = $periodLimit === PeriodLimit::INCLUDING_START_AND_END
             || $periodLimit === PeriodLimit::INCLUDING_START
             ? $this
@@ -174,10 +255,65 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
             $months[] = self::fromDateTime($dateTime);
         }
 
-        return $months;
+        return new Months($months);
+    }
+
+    public function numberOfDays(): int
+    {
+        return (int) $this->format('t');
+    }
+
+    /**
+     * @throws Exception\MonthIsBefore              when the given month is before this month
+     * @throws Exception\CalendarUnitIsNotSupported when the unit is more precise than a month
+     */
+    public function periodUntil(
+        self $month,
+        CalendarUnit $calendarUnit = CalendarUnit::MONTH,
+    ): CalendarPeriod {
+        self::mustSupportCalendarUnit($calendarUnit);
+
+        if ($month->isBefore($this)) {
+            throw new Exception\MonthIsBefore();
+        }
+
+        return CalendarPeriod::fromDateInterval(
+            $this->toDateTimeImmutable()->diff($month->toDateTimeImmutable()),
+            $calendarUnit,
+        );
     }
 
     // -- Mutations
+
+    /**
+     * @throws Exception\CalendarUnitIsNotSupported when the unit is more precise than a month
+     */
+    public function add(CalendarPeriod $calendarPeriod): self
+    {
+        self::mustSupportCalendarUnit($calendarPeriod->unit);
+
+        return $this->modify(sprintf('+%s', $calendarPeriod->modifier()));
+    }
+
+    /**
+     * @throws Exception\CalendarUnitIsNotSupported when the unit is more precise than a month
+     */
+    public function subtract(CalendarPeriod $calendarPeriod): self
+    {
+        self::mustSupportCalendarUnit($calendarPeriod->unit);
+
+        return $this->modify(sprintf('-%s', $calendarPeriod->modifier()));
+    }
+
+    public function next(): self
+    {
+        return $this->add(CalendarPeriod::months(1));
+    }
+
+    public function previous(): self
+    {
+        return $this->subtract(CalendarPeriod::months(1));
+    }
 
     public function firstDay(): Date
     {
@@ -229,6 +365,20 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
         );
     }
 
+    /**
+     * From the start in the timezone until the start of the next one. The end isn't part of the range.
+     */
+    public function toMomentRangeInTimeZone(\DateTimeZone $timeZone): MomentRange
+    {
+        return new MomentRange(
+            $this->toMomentInTimeZone($timeZone),
+            $this->next()->toMomentInTimeZone($timeZone),
+        );
+    }
+
+    /**
+     * @deprecated A month has no time and therefore the timezone has no effect. Use add, subtract or modify instead.
+     */
     public function modifyInTimeZone(string $modify, \DateTimeZone $timeZone): self
     {
         $dateTimeImmutable = new \DateTimeImmutable(
@@ -242,6 +392,18 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
 
         /** @psalm-suppress PossiblyFalseArgument */
         return self::fromDateTime($dateTimeImmutable->modify($modify));
+    }
+
+    /**
+     * @throws Exception\CalendarUnitIsNotSupported
+     */
+    private static function mustSupportCalendarUnit(CalendarUnit $calendarUnit): void
+    {
+        if ($calendarUnit === CalendarUnit::DAY
+            || $calendarUnit === CalendarUnit::WEEK
+        ) {
+            throw new Exception\CalendarUnitIsNotSupported($calendarUnit, self::class);
+        }
     }
 
     private function toDateTimeImmutable(): \DateTimeImmutable

@@ -37,10 +37,9 @@ final class YearTest extends TestCase
                 new Year(2022),
                 Moment::fromString('2022-01-01 00:00:00'),
             ],
-            'year the same with same time zone' => [
-                new Year(2022),
-                Moment::fromStringInTimeZone('2022-01-01 00:00:00', new \DateTimeZone('Europe/Berlin'))
-                    ->toTimeZone(new \DateTimeZone('Europe/Berlin')),
+            'year in UTC for normalized date time with offset' => [
+                new Year(2021),
+                Moment::denormalize('2022-01-01T00:00:00.000000+01:00'),
             ],
             'year is different when in different time zone' => [
                 new Year(2021),

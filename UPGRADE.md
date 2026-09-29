@@ -1,5 +1,91 @@
 # Upgrade guide
 
+## From 0.14.* to 0.15.0
+
+### Moment is always in UTC
+
+Previously `Moment` kept the timezone of the given `\DateTimeImmutable`. This was the case for `Moment::fromDateTime`, `new Moment`, `denormalize` with an offset (like `+02:00`) and `toTimeZone`. Now the date time is converted to UTC on construction. The moment in time is kept, but all methods without an explicit timezone now work in UTC for those moments:
+
+- `date`, `time`, `weekday`, `day`, `month`, `year`, `isAtMidnight` and `isNotAtMidnight` return the values in UTC.
+- `format`, `normalize` and `__toString` return the values in UTC (with offset `+00:00`).
+- `midnight`, `setTime` and `modify` are applied in UTC.
+
+Comparisons and all `*InTimeZone` methods aren't affected.
+
+If you create moments from a date time in another timezone (e.g. `$context->triggeredAt` of the Symfony scheduler) and rely on one of the methods above, switch to the matching `*InTimeZone` method:
+
+Before:
+```php
+$now = Moment::fromDateTime($context->triggeredAt); // In Europe/Berlin
+$today = $now->date();
+```
+
+After:
+```php
+$now = Moment::fromDateTime($context->triggeredAt); // Converted to UTC
+$today = $now->dateInTimeZone(new \DateTimeZone('Europe/Berlin'));
+```
+
+As a side effect, a moment in another timezone can't be persisted with a shifted time anymore. With `TIMESTAMP WITHOUT TIME ZONE`, the offset of the normalized value was ignored by the database.
+
+`toTimeZone` is deprecated as it has no effect anymore and will be removed in 1.0. Use the `*InTimeZone` methods instead.
+
+### Validation of date
+
+`Date` now validates that the day exists in the month and throws `InvalidDate` otherwise. Previously `new Date(new Month(new Year(2022), 2), new Day(31))` was accepted. Construction through `Date::fromString` or `Date::fromDateTime` isn't affected as `\DateTimeImmutable` already moves those days into the following month.
+
+### Collections instead of arrays
+
+`Date::datesUntil`, `Month::monthsUntil` and `Year::yearsUntil` return the collections `Dates`, `Months` and `Years` instead of arrays. The collections are countable and iterable, so `foreach` and `count` still work. Array functions need to be replaced with the methods of the collections or the list of values.
+
+Before:
+```php
+$weekdays = array_filter(
+    $start->datesUntil($end),
+    static fn (Date $date): bool => $date->weekday() === Weekday::MONDAY,
+);
+```
+
+After:
+```php
+$weekdays = $start
+    ->datesUntil($end)
+    ->filter(static fn (Date $date): bool => $date->weekday() === Weekday::MONDAY);
+
+// Or when an array is needed
+$dates = $start->datesUntil($end)->dates;
+```
+
+### Deprecated modifications in time zone for calendar values
+
+`modifyInTimeZone` of `Date`, `Month` and `Year` is deprecated and will be removed in 1.0. Those values don't have a time and therefore the timezone has no effect. Use `add` and `subtract` with a `CalendarPeriod` or `modify` instead.
+
+Before:
+```php
+$tomorrow = $date->modifyInTimeZone('+ 1 day', $timeZone);
+$nextMonth = $month->modifyInTimeZone('+ 1 month', $timeZone);
+```
+
+After:
+```php
+$tomorrow = $date->add(CalendarPeriod::days(1));
+$nextMonth = $month->next();
+```
+
+### Deprecated distance in minutes of time
+
+`distanceInMinutesTo` of `Time` is deprecated and will be removed in 1.0. Use `durationUntil` instead. Be aware that `durationUntil` wraps around midnight when the given time is before the time, whereas `distanceInMinutesTo` returned the absolute distance.
+
+Before:
+```php
+$minutes = $timeFrom->distanceInMinutesTo($timeTo);
+```
+
+After:
+```php
+$minutes = $timeFrom->durationUntil($timeTo)->inMinutes();
+```
+
 ## From 0.13.* to 0.14.0
 
 ### Day as part of month

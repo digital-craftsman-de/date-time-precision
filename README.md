@@ -16,15 +16,15 @@ It's only a thin wrapper over `DateTime` and uses it internally for all modifica
 - at the first of the month to compare months.
 - at the first of the year to compare years.
 
-Additionally, the package provides a streamlined way to have the system running in `UTC` but still do the modifications in the relevant timezone. The internal `DateTime` is always in `UTC` and only internally converted to the relevant timezone for modifications. This way you can be sure that you're not missing or receiving an hour due to a switch of summer-time to winter-time in the relevant timezone.
+Additionally, the package provides a streamlined way to have the system running in `UTC` but still do the modifications in the relevant timezone. The internal `DateTime` is always in `UTC` and only internally converted to the relevant timezone for modifications. A `DateTime` in another timezone or with an offset is converted to `UTC` when a `Moment` is created from it (the moment in time is kept). This way you can be sure that you're not missing or receiving an hour due to a switch of summer-time to winter-time in the relevant timezone.
 
-There are also classes like `Day` or `Weekday` and collections like `Days` or `Weekdays`.
+There are also classes like `Day` or `Weekday`. For every value object there is a collection with unique values (like `Days`, `Weekdays`, `Dates` or `TimeRanges`). The collections are countable and iterable and provide methods like `filter`, `map`, `sort`, `first`, `last`, `min` or `max`.
 
 This Symfony bundle includes Symfony normalizers for automatic normalization and denormalization and Doctrine types to store the objects directly in the database. 
 
 As it's a central part of an application, it's tested thoroughly (including mutation testing). Currently, more than 80% of the lines of code in this repository are tests.
 
-[![Latest Stable Version](https://img.shields.io/badge/stable-0.14.0-blue)](https://packagist.org/packages/digital-craftsman/date-time-precision)
+[![Latest Stable Version](https://img.shields.io/badge/stable-0.15.0-blue)](https://packagist.org/packages/digital-craftsman/date-time-precision)
 [![PHP Version Require](https://img.shields.io/badge/php-8.4|8.5-5b5d95)](https://packagist.org/packages/digital-craftsman/date-time-precision)
 [![codecov](https://codecov.io/gh/digital-craftsman-de/date-time-precision/branch/main/graph/badge.svg?token=vZ0IvKPj2f)](https://codecov.io/gh/digital-craftsman-de/date-time-precision)
 ![Packagist Downloads](https://img.shields.io/packagist/dt/digital-craftsman/date-time-precision)
@@ -38,7 +38,7 @@ Install package through composer:
 composer require digital-craftsman/date-time-precision
 ```
 
-> ⚠️ This bundle can be used (and is being used) in production, but hasn't reached version 1.0 yet. Therefore, there will be breaking changes between minor versions. I'd recommend that you require the bundle only with the current minor version like `composer require digital-craftsman/date-time-precision:0.14.*`. Breaking changes are described in the releases and [the changelog](./CHANGELOG.md). Updates are described in the [upgrade guide](./UPGRADE.md).
+> ⚠️ This bundle can be used (and is being used) in production, but hasn't reached version 1.0 yet. Therefore, there will be breaking changes between minor versions. I'd recommend that you require the bundle only with the current minor version like `composer require digital-craftsman/date-time-precision:0.15.*`. Breaking changes are described in the releases and [the changelog](./CHANGELOG.md). Updates are described in the [upgrade guide](./UPGRADE.md).
 
 ## When would I need that?
 
@@ -69,6 +69,82 @@ $bookingsAllowedFrom = $now->modifyInTimeZone('+ 7 days', $facilityTimeZone);
 ```
 
 The resulting `$bookingsAllowedFrom` is still a date time with timezone `UTC` but the modification is done in the relevant timezone.
+
+## Elapsed time and calendar movements
+
+There are two different kinds of time spans and the package represents them with two different value objects:
+
+- `Duration` is elapsed time, like 90 minutes or 6 hours. It's independent of any timezone and always exact, even across a switch from summer-time to winter-time. It's stored with microsecond precision.
+- `CalendarPeriod` is a movement in the calendar, like 1 day, 2 weeks, 3 months, 1 quarter or 1 year. Days and months don't have a fixed length, therefore it's applied in the calendar of a timezone.
+
+```php
+$expiresAt = $now->add(Duration::fromHours(6));
+$sameTimeTomorrow = $now->addInTimeZone(CalendarPeriod::days(1), $facilityTimeZone);
+```
+
+Across the switch from summer-time to winter-time, `$expiresAt` is exactly 6 hours later while `$sameTimeTomorrow` is 25 hours later but at the same local time.
+
+Calendar values like `Date`, `Month` and `Year` don't have a time and therefore don't need a timezone. They only accept units which are at least as coarse as their own precision (e.g. a `Month` can't be moved by days). `Time` accepts a `Duration` and wraps around midnight.
+
+```php
+$dueDate = $invoiceDate->add(CalendarPeriod::days(14));
+$nextBillingMonth = $billingMonth->add(CalendarPeriod::quarters(1));
+$end = $start->add(Duration::fromMinutes(90));
+```
+
+All calculations are done with `\DateTimeImmutable` internally and therefore follow its behaviour even when it's not intuitive. For example 31.01. + 1 month results in 03.03. and 31.01. until 01.03. is 0 full months.
+
+The distance between two values is returned as the type used for the modification:
+
+```php
+$duration = $startedAt->durationUntil($endedAt);
+$days = $startDate->periodUntil($endDate, CalendarUnit::DAY)->amount;
+```
+
+## Ranges
+
+There are ranges for dates, moments and times:
+
+- `DateRange` is a closed range. Start and end are both part of the range (e.g. 01.01. until 03.01. are 3 days).
+- `MomentRange` is a half-open range. The end isn't part of the range, therefore a range ending at 12:00 doesn't overlap with a range starting at 12:00.
+- `TimeRange` is a half-open range of times of a day. An end of 00:00 is the end of the day (24:00), 00:00 until 00:00 is the full day and a range may wrap around midnight (e.g. 21:00 until 03:00).
+
+```php
+$openingHours = new TimeRange(Time::fromString('08:00'), Time::fromString('20:00'));
+if ($openingHours->notContainsRange($reservation->timeRangeInTimeZone($facilityTimeZone))) {
+    throw new ReservationIsOutsideOfOpeningHours();
+}
+```
+
+Whether start and end are included in `contains` can be defined with a `PeriodLimit`. The default follows the range (both for `DateRange`, only the start for `MomentRange` and `TimeRange`).
+
+```php
+$isWithinOpeningHours = $openingHours->contains($reservationEnd, PeriodLimit::INCLUDING_START_AND_END);
+```
+
+More strict rules for a `TimeRange` can be enforced with guards, e.g. in the constructor of your own value object:
+
+```php
+$timeRange->mustNotStartBefore(Time::fromString('05:00'));
+$timeRange->mustNotWrapAroundMidnight(static fn () => new TimeRangeMustBeWithinADay());
+```
+
+## Weeks and recurrences
+
+`Week` is a calendar week according to ISO 8601. A week starts on Monday and belongs to the year of its Thursday, so the year of a week can differ from the year of its dates around new year.
+
+```php
+$week = $date->week(); // e.g. 2026-W01 for 29.12.2025
+$monday = $date->startOfWeek();
+```
+
+`Recurrence` describes on which dates something recurs: every day, on specific weekdays or on specific days of the month (a day which doesn't exist in a month is skipped). It contains neither a time nor a start or end.
+
+```php
+$recurrence = Recurrence::weekly(new Weekdays([Weekday::MONDAY, Weekday::WEDNESDAY]));
+$nextReminderAt = $recurrence->nextOccurrenceAtTimeInTimeZone($reminderTime, $now, $userTimeZone);
+$lessonDates = $recurrence->occurrencesBetween($seriesStart, $seriesEnd);
+```
 
 ## Integration
 

@@ -109,14 +109,52 @@ final readonly class Year implements IntNormalizable, NullableIntDenormalizable
     }
 
     /**
-     * Returns all years until the given year. If the given year is before this year, the result will be an empty array.
-     *
-     * @return array<int, Year>
+     * Returns the earliest of the given years.
+     */
+    public static function min(
+        self $year,
+        self ...$years,
+    ): self {
+        foreach ($years as $other) {
+            if ($other->isBefore($year)) {
+                $year = $other;
+            }
+        }
+
+        return $year;
+    }
+
+    /**
+     * Returns the latest of the given years.
+     */
+    public static function max(
+        self $year,
+        self ...$years,
+    ): self {
+        foreach ($years as $other) {
+            if ($other->isAfter($year)) {
+                $year = $other;
+            }
+        }
+
+        return $year;
+    }
+
+    /**
+     * Can be used as callable for sorting (e.g. usort($years, Year::compare(...))).
+     */
+    public static function compare(self $a, self $b): int
+    {
+        return $a->compareTo($b);
+    }
+
+    /**
+     * Returns all years until the given year. If the given year is before this year, the result will be an empty collection.
      */
     public function yearsUntil(
         self $year,
         PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
-    ): array {
+    ): Years {
         $startDateTime = $periodLimit === PeriodLimit::INCLUDING_START_AND_END
         || $periodLimit === PeriodLimit::INCLUDING_START
             ? $this
@@ -143,10 +181,55 @@ final readonly class Year implements IntNormalizable, NullableIntDenormalizable
             $years[] = self::fromDateTime($dateTime);
         }
 
-        return $years;
+        return new Years($years);
+    }
+
+    /**
+     * @throws Exception\YearIsBefore when the given year is before this year
+     */
+    public function periodUntil(self $year): CalendarPeriod
+    {
+        if ($year->isBefore($this)) {
+            throw new Exception\YearIsBefore();
+        }
+
+        return CalendarPeriod::fromDateInterval(
+            $this->toDateTimeImmutable()->diff($year->toDateTimeImmutable()),
+            CalendarUnit::YEAR,
+        );
     }
 
     // -- Mutations
+
+    /**
+     * @throws Exception\CalendarUnitIsNotSupported when the unit is not a year
+     */
+    public function add(CalendarPeriod $calendarPeriod): self
+    {
+        self::mustSupportCalendarUnit($calendarPeriod->unit);
+
+        return $this->modify(sprintf('+%s', $calendarPeriod->modifier()));
+    }
+
+    /**
+     * @throws Exception\CalendarUnitIsNotSupported when the unit is not a year
+     */
+    public function subtract(CalendarPeriod $calendarPeriod): self
+    {
+        self::mustSupportCalendarUnit($calendarPeriod->unit);
+
+        return $this->modify(sprintf('-%s', $calendarPeriod->modifier()));
+    }
+
+    public function next(): self
+    {
+        return $this->add(CalendarPeriod::years(1));
+    }
+
+    public function previous(): self
+    {
+        return $this->subtract(CalendarPeriod::years(1));
+    }
 
     public function format(string $format): string
     {
@@ -175,6 +258,20 @@ final readonly class Year implements IntNormalizable, NullableIntDenormalizable
         );
     }
 
+    /**
+     * From the start in the timezone until the start of the next one. The end isn't part of the range.
+     */
+    public function toMomentRangeInTimeZone(\DateTimeZone $timeZone): MomentRange
+    {
+        return new MomentRange(
+            $this->toMomentInTimeZone($timeZone),
+            $this->next()->toMomentInTimeZone($timeZone),
+        );
+    }
+
+    /**
+     * @deprecated A year has no time and therefore the timezone has no effect. Use add, subtract or modify instead.
+     */
     public function modifyInTimeZone(string $modify, \DateTimeZone $timeZone): self
     {
         $dateTimeImmutable = new \DateTimeImmutable(
@@ -187,6 +284,16 @@ final readonly class Year implements IntNormalizable, NullableIntDenormalizable
 
         /** @psalm-suppress PossiblyFalseArgument */
         return self::fromDateTime($dateTimeImmutable->modify($modify));
+    }
+
+    /**
+     * @throws Exception\CalendarUnitIsNotSupported
+     */
+    private static function mustSupportCalendarUnit(CalendarUnit $calendarUnit): void
+    {
+        if ($calendarUnit !== CalendarUnit::YEAR) {
+            throw new Exception\CalendarUnitIsNotSupported($calendarUnit, self::class);
+        }
     }
 
     private function toDateTimeImmutable(): \DateTimeImmutable

@@ -37,10 +37,9 @@ final class DateTest extends TestCase
                 Date::fromString('2022-10-08'),
                 Moment::fromString('2022-10-08 00:00:00'),
             ],
-            'date the same with same time zone' => [
-                Date::fromString('2022-10-08'),
-                Moment::fromStringInTimeZone('2022-10-08 01:00:00', new \DateTimeZone('Europe/Berlin'))
-                    ->toTimeZone(new \DateTimeZone('Europe/Berlin')),
+            'date in UTC for date time in other time zone' => [
+                Date::fromString('2022-10-07'),
+                Moment::fromDateTime(new \DateTimeImmutable('2022-10-08 01:00:00', new \DateTimeZone('Europe/Berlin'))),
             ],
         ];
     }

@@ -37,10 +37,9 @@ final class TimeTest extends TestCase
                 Time::fromString('15:00:00'),
                 Moment::fromString('2022-10-08 15:00:00'),
             ],
-            'time adapted due to time zone difference' => [
-                Time::fromString('15:00:00'),
-                Moment::fromStringInTimeZone('2022-10-08 15:00:00', new \DateTimeZone('Europe/Berlin'))
-                    ->toTimeZone(new \DateTimeZone('Europe/Berlin')),
+            'time in UTC for date time in other time zone' => [
+                Time::fromString('13:00:00'),
+                Moment::fromDateTime(new \DateTimeImmutable('2022-10-08 15:00:00', new \DateTimeZone('Europe/Berlin'))),
             ],
         ];
     }

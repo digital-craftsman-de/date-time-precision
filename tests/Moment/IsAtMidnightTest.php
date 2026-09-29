@@ -44,10 +44,9 @@ final class IsAtMidnightTest extends TestCase
                 false,
                 Moment::fromString('2022-10-08 00:00:00.023423'),
             ],
-            'midnight in specific timezone' => [
-                true,
-                Moment::fromStringInTimeZone('2022-10-08 00:00:00', new \DateTimeZone('Europe/Berlin'))
-                    ->toTimeZone(new \DateTimeZone('Europe/Berlin')),
+            'midnight in other time zone is not midnight in UTC' => [
+                false,
+                Moment::fromDateTime(new \DateTimeImmutable('2022-10-08 00:00:00', new \DateTimeZone('Europe/Berlin'))),
             ],
         ];
     }

@@ -20,9 +20,16 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     // -- Construction
 
+    /**
+     * Always in UTC. The moment in time of the given date time is kept, but it's converted to UTC when it's in another timezone or only
+     * has an offset or abbreviation (like "+02:00" or "Z").
+     */
+    public \DateTimeImmutable $dateTime;
+
     public function __construct(
-        public \DateTimeImmutable $dateTime,
+        \DateTimeImmutable $dateTime,
     ) {
+        $this->dateTime = $dateTime->setTimezone(new \DateTimeZone('UTC'));
     }
 
     public static function fromString(string $string): self
@@ -34,10 +41,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
         string $string,
         \DateTimeZone $timeZone,
     ): self {
-        $defaultTimeZone = new \DateTimeZone('UTC');
-
-        return (new self(new \DateTimeImmutable($string, $timeZone)))
-            ->toTimeZone($defaultTimeZone);
+        return new self(new \DateTimeImmutable($string, $timeZone));
     }
 
     public static function fromDateTime(\DateTimeImmutable $dateTime): self
@@ -76,9 +80,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function dateInTimeZone(\DateTimeZone $timeZone): Date
     {
-        return $this
-            ->toTimeZone($timeZone)
-            ->date();
+        return Date::fromDateTime($this->dateTime->setTimezone($timeZone));
     }
 
     public function time(): Time
@@ -88,9 +90,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function timeInTimeZone(\DateTimeZone $timeZone): Time
     {
-        return $this
-            ->toTimeZone($timeZone)
-            ->time();
+        return Time::fromDateTime($this->dateTime->setTimezone($timeZone));
     }
 
     public function weekday(): Weekday
@@ -100,9 +100,17 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function weekdayInTimeZone(\DateTimeZone $timeZone): Weekday
     {
-        return $this
-            ->toTimeZone($timeZone)
-            ->weekday();
+        return Weekday::fromDateTime($this->dateTime->setTimezone($timeZone));
+    }
+
+    public function week(): Week
+    {
+        return Week::fromDateTime($this->dateTime);
+    }
+
+    public function weekInTimeZone(\DateTimeZone $timeZone): Week
+    {
+        return Week::fromDateTime($this->dateTime->setTimezone($timeZone));
     }
 
     public function month(): Month
@@ -112,9 +120,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function monthInTimeZone(\DateTimeZone $timeZone): Month
     {
-        return $this
-            ->toTimeZone($timeZone)
-            ->month();
+        return Month::fromDateTime($this->dateTime->setTimezone($timeZone));
     }
 
     public function year(): Year
@@ -124,9 +130,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function yearInTimeZone(\DateTimeZone $timeZone): Year
     {
-        return $this
-            ->toTimeZone($timeZone)
-            ->year();
+        return Year::fromDateTime($this->dateTime->setTimezone($timeZone));
     }
 
     public function day(): Day
@@ -136,9 +140,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function dayInTimeZone(\DateTimeZone $timeZone): Day
     {
-        return $this
-            ->toTimeZone($timeZone)
-            ->day();
+        return Day::fromDateTime($this->dateTime->setTimezone($timeZone));
     }
 
     public function isEqualTo(self $moment): bool
@@ -327,6 +329,71 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
         return $this->dateTime <=> $moment->dateTime;
     }
 
+    public function isBetween(
+        self $start,
+        self $end,
+        PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
+    ): bool {
+        $isAfterStart = $periodLimit->includesStart()
+            ? $this->isAfterOrEqualTo($start)
+            : $this->isAfter($start);
+
+        $isBeforeEnd = $periodLimit->includesEnd()
+            ? $this->isBeforeOrEqualTo($end)
+            : $this->isBefore($end);
+
+        return $isAfterStart
+            && $isBeforeEnd;
+    }
+
+    public function isNotBetween(
+        self $start,
+        self $end,
+        PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
+    ): bool {
+        return !$this->isBetween($start, $end, $periodLimit);
+    }
+
+    /**
+     * Returns the earliest of the given moments.
+     */
+    public static function min(
+        self $moment,
+        self ...$moments,
+    ): self {
+        foreach ($moments as $other) {
+            if ($other->isBefore($moment)) {
+                $moment = $other;
+            }
+        }
+
+        return $moment;
+    }
+
+    /**
+     * Returns the latest of the given moments.
+     */
+    public static function max(
+        self $moment,
+        self ...$moments,
+    ): self {
+        foreach ($moments as $other) {
+            if ($other->isAfter($moment)) {
+                $moment = $other;
+            }
+        }
+
+        return $moment;
+    }
+
+    /**
+     * Can be used as callable for sorting (e.g. usort($moments, Moment::compare(...))).
+     */
+    public static function compare(self $a, self $b): int
+    {
+        return $a->compareTo($b);
+    }
+
     public function isAtMidnight(): bool
     {
         return $this
@@ -355,8 +422,43 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
             ->isNotMidnight();
     }
 
+    /**
+     * Exact elapsed time on the timeline, independent of any timezone.
+     *
+     * @throws Exception\MomentIsBefore when the given moment is before this moment
+     */
+    public function durationUntil(self $moment): Duration
+    {
+        $moment->mustNotBeBefore($this);
+
+        return Duration::between($this->dateTime, $moment->dateTime);
+    }
+
+    /**
+     * Only full units are counted in the calendar of the given timezone (e.g. 31.01. until 01.03. is 0 months and 29 days).
+     *
+     * @throws Exception\MomentIsBefore when the given moment is before this moment
+     */
+    public function periodUntilInTimeZone(
+        self $moment,
+        CalendarUnit $calendarUnit,
+        \DateTimeZone $timeZone,
+    ): CalendarPeriod {
+        $moment->mustNotBeBefore($this);
+
+        return CalendarPeriod::fromDateInterval(
+            $this->dateTime
+                ->setTimezone($timeZone)
+                ->diff($moment->dateTime->setTimezone($timeZone)),
+            $calendarUnit,
+        );
+    }
+
     // -- Modifications
 
+    /**
+     * The modification is applied in UTC. Use modifyInTimeZone for modifications in the calendar of a specific timezone.
+     */
     public function modify(string $modifier): self
     {
         /** @psalm-suppress PossiblyFalseArgument */
@@ -372,12 +474,14 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function formatInTimeZone(string $format, \DateTimeZone $timeZone): string
     {
-        return $this
-            ->toTimeZone($timeZone)
-            ->dateTime
+        return $this->dateTime
+            ->setTimezone($timeZone)
             ->format($format);
     }
 
+    /**
+     * @deprecated A moment is always in UTC, therefore this method has no effect anymore. Use the *InTimeZone methods instead.
+     */
     public function toTimeZone(\DateTimeZone $timeZone): self
     {
         return new self(
@@ -385,17 +489,53 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
         );
     }
 
+    /**
+     * Modifications with hours, minutes or seconds are applied to the wall clock of the timezone. Across a change of daylight saving
+     * time, the elapsed time therefore differs from the modifier (e.g. "+2 hours" might only be 1 or up to 3 hours). Use add with a
+     * Duration for elapsed time.
+     */
     public function modifyInTimeZone(string $modifier, \DateTimeZone $timeZone): self
     {
-        $originalTimeZone = $this->dateTime->getTimezone();
-
-        /** @psalm-suppress PossiblyFalseReference */
+        /** @psalm-suppress PossiblyFalseArgument */
         return new self(
             $this->dateTime
                 ->setTimezone($timeZone)
-                ->modify($modifier)
-                ->setTimezone($originalTimeZone),
+                ->modify($modifier),
         );
+    }
+
+    /**
+     * Adds exact elapsed time on the timeline, independent of any timezone.
+     */
+    public function add(Duration $duration): self
+    {
+        return $this->modify(sprintf('+%d microseconds', $duration->microseconds));
+    }
+
+    /**
+     * Subtracts exact elapsed time on the timeline, independent of any timezone.
+     */
+    public function subtract(Duration $duration): self
+    {
+        return $this->modify(sprintf('-%d microseconds', $duration->microseconds));
+    }
+
+    /**
+     * Moves in the calendar of the given timezone and follows the native overflow behaviour of \DateTimeImmutable (e.g. 31.01. + 1 month =
+     * 03.03.). When the resulting local time doesn't exist (because of daylight saving time), it's moved forward like natively.
+     */
+    public function addInTimeZone(CalendarPeriod $calendarPeriod, \DateTimeZone $timeZone): self
+    {
+        return $this->modifyInTimeZone(sprintf('+%s', $calendarPeriod->modifier()), $timeZone);
+    }
+
+    /**
+     * Moves in the calendar of the given timezone and follows the native overflow behaviour of \DateTimeImmutable (e.g. 31.03. - 1 month =
+     * 03.03.). When the resulting local time doesn't exist (because of daylight saving time), it's moved forward like natively.
+     */
+    public function subtractInTimeZone(CalendarPeriod $calendarPeriod, \DateTimeZone $timeZone): self
+    {
+        return $this->modifyInTimeZone(sprintf('-%s', $calendarPeriod->modifier()), $timeZone);
     }
 
     public function setTime(Time $time): self
@@ -412,12 +552,16 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function setTimeInTimeZone(Time $time, \DateTimeZone $timeZone): self
     {
-        $originalTimeZone = $this->dateTime->getTimezone();
-
-        return $this
-            ->toTimeZone($timeZone)
-            ->setTime($time)
-            ->toTimeZone($originalTimeZone);
+        return new self(
+            $this->dateTime
+                ->setTimezone($timeZone)
+                ->setTime(
+                    $time->hour,
+                    $time->minute,
+                    $time->second,
+                    $time->microsecond,
+                ),
+        );
     }
 
     public function midnight(): self
@@ -431,12 +575,14 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
 
     public function midnightInTimeZone(\DateTimeZone $timeZone): self
     {
-        $originalTimeZone = $this->dateTime->getTimezone();
-
-        return $this
-            ->toTimeZone($timeZone)
-            ->midnight()
-            ->toTimeZone($originalTimeZone);
+        return $this->setTimeInTimeZone(
+            new Time(
+                0,
+                0,
+                0,
+            ),
+            $timeZone,
+        );
     }
 
     // -- Guards

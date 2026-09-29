@@ -22,6 +22,9 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
         public Month $month,
         public Day $day,
     ) {
+        if ($day->day > $month->numberOfDays()) {
+            throw new Exception\InvalidDate($month->year->year, $month->month, $day->day);
+        }
     }
 
     public static function fromDateTime(\DateTimeImmutable $dateTime): self
@@ -138,15 +141,78 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
         return $this->toDateTimeImmutable() <=> $date->toDateTimeImmutable();
     }
 
+    public function isBetween(
+        self $start,
+        self $end,
+        PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
+    ): bool {
+        $isAfterStart = $periodLimit->includesStart()
+            ? $this->isAfterOrEqualTo($start)
+            : $this->isAfter($start);
+
+        $isBeforeEnd = $periodLimit->includesEnd()
+            ? $this->isBeforeOrEqualTo($end)
+            : $this->isBefore($end);
+
+        return $isAfterStart
+            && $isBeforeEnd;
+    }
+
+    public function isNotBetween(
+        self $start,
+        self $end,
+        PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
+    ): bool {
+        return !$this->isBetween($start, $end, $periodLimit);
+    }
+
     /**
-     * Returns all dates until the given date. If the given date is before this date, the result will be an empty array.
-     *
-     * @return array<int, Date>
+     * Returns the earliest of the given dates.
+     */
+    public static function min(
+        self $date,
+        self ...$dates,
+    ): self {
+        foreach ($dates as $other) {
+            if ($other->isBefore($date)) {
+                $date = $other;
+            }
+        }
+
+        return $date;
+    }
+
+    /**
+     * Returns the latest of the given dates.
+     */
+    public static function max(
+        self $date,
+        self ...$dates,
+    ): self {
+        foreach ($dates as $other) {
+            if ($other->isAfter($date)) {
+                $date = $other;
+            }
+        }
+
+        return $date;
+    }
+
+    /**
+     * Can be used as callable for sorting (e.g. usort($dates, Date::compare(...))).
+     */
+    public static function compare(self $a, self $b): int
+    {
+        return $a->compareTo($b);
+    }
+
+    /**
+     * Returns all dates until the given date. If the given date is before this date, the result will be an empty collection.
      */
     public function datesUntil(
         self $date,
         PeriodLimit $periodLimit = PeriodLimit::INCLUDING_START_AND_END,
-    ): array {
+    ): Dates {
         $startDateTime = $periodLimit === PeriodLimit::INCLUDING_START_AND_END
         || $periodLimit === PeriodLimit::INCLUDING_START
             ? $this
@@ -173,12 +239,57 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
             $dates[] = self::fromDateTime($dateTime);
         }
 
-        return $dates;
+        return new Dates($dates);
     }
 
     public function weekday(): Weekday
     {
         return Weekday::fromDateTime($this->toDateTimeImmutable());
+    }
+
+    /**
+     * The calendar week according to ISO 8601.
+     */
+    public function week(): Week
+    {
+        return Week::fromDateTime($this->toDateTimeImmutable());
+    }
+
+    /**
+     * The Monday of the calendar week according to ISO 8601.
+     */
+    public function startOfWeek(): self
+    {
+        return $this
+            ->week()
+            ->firstDay();
+    }
+
+    /**
+     * The Sunday of the calendar week according to ISO 8601.
+     */
+    public function endOfWeek(): self
+    {
+        return $this
+            ->week()
+            ->lastDay();
+    }
+
+    /**
+     * Only full units are counted (e.g. 31.01. until 01.03. is 0 months and 29 days).
+     *
+     * @throws Exception\DateIsBefore when the given date is before this date
+     */
+    public function periodUntil(
+        self $date,
+        CalendarUnit $calendarUnit,
+    ): CalendarPeriod {
+        $date->mustNotBeBefore($this);
+
+        return CalendarPeriod::fromDateInterval(
+            $this->toDateTimeImmutable()->diff($date->toDateTimeImmutable()),
+            $calendarUnit,
+        );
     }
 
     // -- Guards
@@ -371,6 +482,39 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
         return self::fromDateTime($modifiedDateTime);
     }
 
+    /**
+     * Follows the native overflow behaviour of \DateTimeImmutable (e.g. 31.01. + 1 month = 03.03.).
+     */
+    public function add(CalendarPeriod $calendarPeriod): self
+    {
+        return $this->modify(sprintf('+%s', $calendarPeriod->modifier()));
+    }
+
+    /**
+     * Follows the native overflow behaviour of \DateTimeImmutable (e.g. 31.03. - 1 month = 03.03.).
+     */
+    public function subtract(CalendarPeriod $calendarPeriod): self
+    {
+        return $this->modify(sprintf('-%s', $calendarPeriod->modifier()));
+    }
+
+    public function next(): self
+    {
+        return $this->add(CalendarPeriod::days(1));
+    }
+
+    public function previous(): self
+    {
+        return $this->subtract(CalendarPeriod::days(1));
+    }
+
+    public function atTimeInTimeZone(Time $time, \DateTimeZone $timeZone): Moment
+    {
+        return $this
+            ->toMomentInTimeZone($timeZone)
+            ->setTimeInTimeZone($time, $timeZone);
+    }
+
     public function toMomentInTimeZone(\DateTimeZone $timeZone): Moment
     {
         return Moment::fromStringInTimeZone(
@@ -384,6 +528,20 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
         );
     }
 
+    /**
+     * From the start in the timezone until the start of the next one. The end isn't part of the range.
+     */
+    public function toMomentRangeInTimeZone(\DateTimeZone $timeZone): MomentRange
+    {
+        return new MomentRange(
+            $this->toMomentInTimeZone($timeZone),
+            $this->next()->toMomentInTimeZone($timeZone),
+        );
+    }
+
+    /**
+     * @deprecated A date has no time and therefore the timezone has no effect. Use add, subtract or modify instead.
+     */
     public function modifyInTimeZone(string $modify, \DateTimeZone $timeZone): self
     {
         $dateTimeImmutable = new \DateTimeImmutable(

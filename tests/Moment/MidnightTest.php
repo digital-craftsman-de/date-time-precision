@@ -44,11 +44,9 @@ final class MidnightTest extends TestCase
                 Moment::fromString('2022-10-08 00:00:00'),
                 Moment::fromString('2022-10-08 15:00:00.023423'),
             ],
-            'midnight in specific timezone' => [
-                Moment::fromStringInTimeZone('2022-10-08 00:00:00', new \DateTimeZone('Europe/Berlin'))
-                    ->toTimeZone(new \DateTimeZone('Europe/Berlin')),
-                Moment::fromStringInTimeZone('2022-10-08 15:00:00', new \DateTimeZone('Europe/Berlin'))
-                    ->toTimeZone(new \DateTimeZone('Europe/Berlin')),
+            'midnight in UTC for date time in other time zone' => [
+                Moment::fromString('2022-10-07 00:00:00'),
+                Moment::fromDateTime(new \DateTimeImmutable('2022-10-08 01:00:00', new \DateTimeZone('Europe/Berlin'))),
             ],
         ];
     }

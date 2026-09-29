@@ -35,7 +35,7 @@ final class DiffTest extends TestCase
     {
         return [
             '5 minutes' => [
-                (new \DateTimeImmutable('2022-10-08 15:00:00'))->diff(new \DateTimeImmutable('2022-10-08 15:05:00')),
+                new \DateTimeImmutable('2022-10-08 15:00:00')->diff(new \DateTimeImmutable('2022-10-08 15:05:00')),
                 Time::fromString('15:00:00'),
                 Time::fromString('15:05:00'),
             ],

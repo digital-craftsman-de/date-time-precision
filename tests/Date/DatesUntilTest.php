@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DigitalCraftsman\DateTimePrecision\Date;
 
 use DigitalCraftsman\DateTimePrecision\Date;
+use DigitalCraftsman\DateTimePrecision\Dates;
 use DigitalCraftsman\DateTimePrecision\PeriodLimit;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -14,6 +15,9 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(Date::class)]
 final class DatesUntilTest extends TestCase
 {
+    /**
+     * @param list<Date> $expectedResult
+     */
     #[Test]
     #[DataProvider('dataProvider')]
     public function dates_until_works(
@@ -23,7 +27,7 @@ final class DatesUntilTest extends TestCase
         PeriodLimit $periodLimit,
     ): void {
         // -- Act & Assert
-        self::assertEquals($expectedResult, $startDate->datesUntil($endDate, $periodLimit));
+        self::assertEquals(new Dates($expectedResult), $startDate->datesUntil($endDate, $periodLimit));
     }
 
     /**

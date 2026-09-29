@@ -37,10 +37,9 @@ final class WeekdayTest extends TestCase
                 Weekday::SATURDAY,
                 Moment::fromString('2022-10-08 15:00:00'),
             ],
-            'weekday adapted due to weekday zone difference' => [
-                Weekday::SATURDAY,
-                Moment::fromStringInTimeZone('2022-10-08 00:00:00', new \DateTimeZone('Europe/Berlin'))
-                    ->toTimeZone(new \DateTimeZone('Europe/Berlin')),
+            'weekday in UTC for date time in other time zone' => [
+                Weekday::FRIDAY,
+                Moment::fromDateTime(new \DateTimeImmutable('2022-10-08 00:00:00', new \DateTimeZone('Europe/Berlin'))),
             ],
         ];
     }
