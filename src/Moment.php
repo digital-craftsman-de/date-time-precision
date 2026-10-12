@@ -29,7 +29,10 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
     public function __construct(
         \DateTimeImmutable $dateTime,
     ) {
-        $this->dateTime = $dateTime->setTimezone(new \DateTimeZone('UTC'));
+        // Reused as the constructor is part of every operation on a moment.
+        static $utc = new \DateTimeZone('UTC');
+
+        $this->dateTime = $dateTime->setTimezone($utc);
     }
 
     public static function fromString(string $string): self

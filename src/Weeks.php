@@ -39,7 +39,7 @@ final readonly class Weeks implements ArrayNormalizable, NullableArrayDenormaliz
     ) {
         $keys = [];
         foreach ($this->weeks as $week) {
-            $key = $week->normalize();
+            $key = "{$week->year->year}-{$week->week}";
             if (array_key_exists($key, $keys)) {
                 throw new Exception\CollectionContainsDuplicates(self::class);
             }
@@ -59,7 +59,7 @@ final readonly class Weeks implements ArrayNormalizable, NullableArrayDenormaliz
     {
         $uniqueWeeks = [];
         foreach ($weeks as $week) {
-            $uniqueWeeks[$week->normalize()] = $week;
+            $uniqueWeeks["{$week->year->year}-{$week->week}"] = $week;
         }
 
         return new self(array_values($uniqueWeeks));
@@ -128,7 +128,7 @@ final readonly class Weeks implements ArrayNormalizable, NullableArrayDenormaliz
 
     public function contains(Week $week): bool
     {
-        return array_key_exists($week->normalize(), $this->keys);
+        return array_key_exists("{$week->year->year}-{$week->week}", $this->keys);
     }
 
     public function notContains(Week $week): bool
@@ -210,15 +210,29 @@ final readonly class Weeks implements ArrayNormalizable, NullableArrayDenormaliz
 
     public function min(): ?Week
     {
-        return $this
-            ->sort()
-            ->first();
+        $min = null;
+        foreach ($this->weeks as $week) {
+            if ($min === null
+                || $week->isBefore($min)
+            ) {
+                $min = $week;
+            }
+        }
+
+        return $min;
     }
 
     public function max(): ?Week
     {
-        return $this
-            ->sort()
-            ->last();
+        $max = null;
+        foreach ($this->weeks as $week) {
+            if ($max === null
+                || $week->isAfter($max)
+            ) {
+                $max = $week;
+            }
+        }
+
+        return $max;
     }
 }

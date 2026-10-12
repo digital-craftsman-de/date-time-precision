@@ -39,6 +39,11 @@ final class CompareToTest extends TestCase
                 Date::fromString('2022-10-08'),
                 Date::fromString('2021-10-08'),
             ],
+            'year before 100 with same last digits' => [
+                -1,
+                Date::fromString('0005-03-01'),
+                Date::fromString('2005-03-01'),
+            ],
             'same date' => [
                 0,
                 Date::fromString('2022-10-08'),

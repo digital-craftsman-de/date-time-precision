@@ -41,7 +41,7 @@ final readonly class DateRanges implements ArrayNormalizable, NullableArrayDenor
     ) {
         $keys = [];
         foreach ($this->dateRanges as $dateRange) {
-            $key = serialize($dateRange->normalize());
+            $key = "{$dateRange->start->month->year->year}-{$dateRange->start->month->month}-{$dateRange->start->day->day}/{$dateRange->end->month->year->year}-{$dateRange->end->month->month}-{$dateRange->end->day->day}";
             if (array_key_exists($key, $keys)) {
                 throw new Exception\CollectionContainsDuplicates(self::class);
             }
@@ -61,7 +61,7 @@ final readonly class DateRanges implements ArrayNormalizable, NullableArrayDenor
     {
         $uniqueDateRanges = [];
         foreach ($dateRanges as $dateRange) {
-            $uniqueDateRanges[serialize($dateRange->normalize())] = $dateRange;
+            $uniqueDateRanges["{$dateRange->start->month->year->year}-{$dateRange->start->month->month}-{$dateRange->start->day->day}/{$dateRange->end->month->year->year}-{$dateRange->end->month->month}-{$dateRange->end->day->day}"] = $dateRange;
         }
 
         return new self(array_values($uniqueDateRanges));
@@ -130,7 +130,7 @@ final readonly class DateRanges implements ArrayNormalizable, NullableArrayDenor
 
     public function contains(DateRange $dateRange): bool
     {
-        return array_key_exists(serialize($dateRange->normalize()), $this->keys);
+        return array_key_exists("{$dateRange->start->month->year->year}-{$dateRange->start->month->month}-{$dateRange->start->day->day}/{$dateRange->end->month->year->year}-{$dateRange->end->month->month}-{$dateRange->end->day->day}", $this->keys);
     }
 
     public function notContains(DateRange $dateRange): bool

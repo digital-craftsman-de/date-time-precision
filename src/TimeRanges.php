@@ -41,7 +41,7 @@ final readonly class TimeRanges implements ArrayNormalizable, NullableArrayDenor
     ) {
         $keys = [];
         foreach ($this->timeRanges as $timeRange) {
-            $key = serialize([$timeRange->start->format('H:i:s.u'), $timeRange->end->format('H:i:s.u')]);
+            $key = "{$timeRange->start->hour}:{$timeRange->start->minute}:{$timeRange->start->second}.{$timeRange->start->microsecond}/{$timeRange->end->hour}:{$timeRange->end->minute}:{$timeRange->end->second}.{$timeRange->end->microsecond}";
             if (array_key_exists($key, $keys)) {
                 throw new Exception\CollectionContainsDuplicates(self::class);
             }
@@ -61,7 +61,7 @@ final readonly class TimeRanges implements ArrayNormalizable, NullableArrayDenor
     {
         $uniqueTimeRanges = [];
         foreach ($timeRanges as $timeRange) {
-            $uniqueTimeRanges[serialize([$timeRange->start->format('H:i:s.u'), $timeRange->end->format('H:i:s.u')])] = $timeRange;
+            $uniqueTimeRanges["{$timeRange->start->hour}:{$timeRange->start->minute}:{$timeRange->start->second}.{$timeRange->start->microsecond}/{$timeRange->end->hour}:{$timeRange->end->minute}:{$timeRange->end->second}.{$timeRange->end->microsecond}"] = $timeRange;
         }
 
         return new self(array_values($uniqueTimeRanges));
@@ -130,7 +130,7 @@ final readonly class TimeRanges implements ArrayNormalizable, NullableArrayDenor
 
     public function contains(TimeRange $timeRange): bool
     {
-        return array_key_exists(serialize([$timeRange->start->format('H:i:s.u'), $timeRange->end->format('H:i:s.u')]), $this->keys);
+        return array_key_exists("{$timeRange->start->hour}:{$timeRange->start->minute}:{$timeRange->start->second}.{$timeRange->start->microsecond}/{$timeRange->end->hour}:{$timeRange->end->minute}:{$timeRange->end->second}.{$timeRange->end->microsecond}", $this->keys);
     }
 
     public function notContains(TimeRange $timeRange): bool

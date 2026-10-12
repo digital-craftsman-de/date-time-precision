@@ -17,8 +17,6 @@ final readonly class Week implements \Stringable, StringNormalizable, NullableSt
 {
     use NullableStringDenormalizableTrait;
 
-    private const string WEEK_FORMAT = 'o-\WW';
-
     // -- Construction
 
     /**
@@ -63,7 +61,7 @@ final readonly class Week implements \Stringable, StringNormalizable, NullableSt
     #[\Override]
     public function __toString(): string
     {
-        return $this->format(self::WEEK_FORMAT);
+        return sprintf('%04d-W%02d', $this->year->year, $this->week);
     }
 
     // -- String normalizable
@@ -77,7 +75,7 @@ final readonly class Week implements \Stringable, StringNormalizable, NullableSt
     #[\Override]
     public function normalize(): string
     {
-        return $this->format(self::WEEK_FORMAT);
+        return sprintf('%04d-W%02d', $this->year->year, $this->week);
     }
 
     // -- Accessors

@@ -87,7 +87,7 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
     #[\Override]
     public function __toString(): string
     {
-        return $this->format(self::DATE_FORMAT);
+        return sprintf('%04d-%02d-%02d', $this->month->year->year, $this->month->month, $this->day->day);
     }
 
     // -- String normalizable
@@ -101,64 +101,77 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
     #[\Override]
     public function normalize(): string
     {
-        return $this->format(self::DATE_FORMAT);
+        return sprintf('%04d-%02d-%02d', $this->month->year->year, $this->month->month, $this->day->day);
     }
 
     // -- Accessors
 
     public function isEqualTo(self $date): bool
     {
-        return $this->toDateTimeImmutable() == $date->toDateTimeImmutable();
+        return $this->day->day === $date->day->day
+            && $this->month->month === $date->month->month
+            && $this->month->year->year === $date->month->year->year;
     }
 
     public function isNotEqualTo(self $date): bool
     {
-        return $this->toDateTimeImmutable() != $date->toDateTimeImmutable();
+        return $this->day->day !== $date->day->day
+            || $this->month->month !== $date->month->month
+            || $this->month->year->year !== $date->month->year->year;
     }
 
     public function isBefore(self $date): bool
     {
-        return $this->toDateTimeImmutable() < $date->toDateTimeImmutable();
+        return [$this->month->year->year, $this->month->month, $this->day->day]
+            < [$date->month->year->year, $date->month->month, $date->day->day];
     }
 
     public function isNotBefore(self $date): bool
     {
-        return !($this->toDateTimeImmutable() < $date->toDateTimeImmutable());
+        return !([$this->month->year->year, $this->month->month, $this->day->day]
+            < [$date->month->year->year, $date->month->month, $date->day->day]);
     }
 
     public function isBeforeOrEqualTo(self $date): bool
     {
-        return $this->toDateTimeImmutable() <= $date->toDateTimeImmutable();
+        return [$this->month->year->year, $this->month->month, $this->day->day]
+            <= [$date->month->year->year, $date->month->month, $date->day->day];
     }
 
     public function isNotBeforeOrEqualTo(self $date): bool
     {
-        return !($this->toDateTimeImmutable() <= $date->toDateTimeImmutable());
+        return !([$this->month->year->year, $this->month->month, $this->day->day]
+            <= [$date->month->year->year, $date->month->month, $date->day->day]);
     }
 
     public function isAfter(self $date): bool
     {
-        return $this->toDateTimeImmutable() > $date->toDateTimeImmutable();
+        return [$this->month->year->year, $this->month->month, $this->day->day]
+            > [$date->month->year->year, $date->month->month, $date->day->day];
     }
 
     public function isNotAfter(self $date): bool
     {
-        return !($this->toDateTimeImmutable() > $date->toDateTimeImmutable());
+        return !([$this->month->year->year, $this->month->month, $this->day->day]
+            > [$date->month->year->year, $date->month->month, $date->day->day]);
     }
 
     public function isAfterOrEqualTo(self $date): bool
     {
-        return $this->toDateTimeImmutable() >= $date->toDateTimeImmutable();
+        return [$this->month->year->year, $this->month->month, $this->day->day]
+            >= [$date->month->year->year, $date->month->month, $date->day->day];
     }
 
     public function isNotAfterOrEqualTo(self $date): bool
     {
-        return !($this->toDateTimeImmutable() >= $date->toDateTimeImmutable());
+        return !([$this->month->year->year, $this->month->month, $this->day->day]
+            >= [$date->month->year->year, $date->month->month, $date->day->day]);
     }
 
     public function compareTo(self $date): int
     {
-        return $this->toDateTimeImmutable() <=> $date->toDateTimeImmutable();
+        return [$this->month->year->year, $this->month->month, $this->day->day]
+            <=> [$date->month->year->year, $date->month->month, $date->day->day];
     }
 
     public function isBetween(
