@@ -47,6 +47,7 @@ final class InvalidDateTest extends TestCase
             'last day of april' => [2022, 4, 30],
             'last day of february' => [2022, 2, 28],
             'leap day' => [2024, 2, 29],
+            'leap day in year divisible by 400' => [2000, 2, 29],
         ];
     }
 
@@ -77,6 +78,9 @@ final class InvalidDateTest extends TestCase
             'day 31 in april' => [2022, 4, 31],
             'day 29 in february without leap year' => [2022, 2, 29],
             'day 30 in february of leap year' => [2024, 2, 30],
+            'day 29 in february of year divisible by 100' => [1900, 2, 29],
+            'year zero' => [0, 1, 1],
+            'negative year' => [-1, 1, 1],
         ];
     }
 }

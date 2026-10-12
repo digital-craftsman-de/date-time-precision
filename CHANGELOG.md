@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.15.1
+
+- Improved performance of the construction of `Date` (through the constructor, `fromString`, `denormalize` and `fromDateTime`) and of `Month::numberOfDays`. The validation is done through `checkdate` instead of creating additional `\DateTimeImmutable` instances, and the normalized format (`Y-m-d`) is parsed without creating a `\DateTimeImmutable` at all. All other formats are still parsed by `\DateTimeImmutable` with the same behaviour as before.
+- `Date` now throws `InvalidDate` for years outside of 1 to 32767 (the range supported by `checkdate`). Those years couldn't be formatted or compared correctly before.
+
 ## 0.15.0
 
 - **[Breaking change](./UPGRADE.md#moment-is-always-in-utc)**: `Moment` is now always in UTC. A `\DateTimeImmutable` in another timezone or with an offset is converted to UTC on construction (the moment in time is kept).

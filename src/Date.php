@@ -22,7 +22,8 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
         public Month $month,
         public Day $day,
     ) {
-        if ($day->day > $month->numberOfDays()) {
+        // Native validation without creating a \DateTimeImmutable (this constructor is part of every construction of a date).
+        if (!checkdate($month->month, $day->day, $month->year->year)) {
             throw new Exception\InvalidDate($month->year->year, $month->month, $day->day);
         }
     }
@@ -55,6 +56,25 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
 
     public static function fromString(string $date): self
     {
+        /**
+         * Fast path for the normalized format of an existing date. All other formats (like relative ones) and dates that don't exist
+         * (like 2022-02-31) are parsed by \DateTimeImmutable to keep its behaviour.
+         * As the result is the same with and without the fast path, mutations of it can't be detected.
+         *
+         * @infection-ignore-all
+         */
+        if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date, $matches) === 1
+            && checkdate((int) $matches[2], (int) $matches[3], (int) $matches[1])
+        ) {
+            return new self(
+                new Month(
+                    new Year((int) $matches[1]),
+                    (int) $matches[2],
+                ),
+                new Day((int) $matches[3]),
+            );
+        }
+
         try {
             return self::fromDateTime(new \DateTimeImmutable($date));
         } catch (\Exception) {

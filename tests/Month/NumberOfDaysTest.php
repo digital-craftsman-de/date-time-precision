@@ -36,6 +36,17 @@ final class NumberOfDaysTest extends TestCase
             'april' => [30, Month::fromString('2026-04')],
             'february' => [28, Month::fromString('2026-02')],
             'february in leap year' => [29, Month::fromString('2024-02')],
+            'february in year divisible by 100' => [28, Month::fromString('1900-02')],
+            'february in year divisible by 400' => [29, Month::fromString('2000-02')],
+            'march' => [31, Month::fromString('2026-03')],
+            'may' => [31, Month::fromString('2026-05')],
+            'june' => [30, Month::fromString('2026-06')],
+            'july' => [31, Month::fromString('2026-07')],
+            'august' => [31, Month::fromString('2026-08')],
+            'september' => [30, Month::fromString('2026-09')],
+            'october' => [31, Month::fromString('2026-10')],
+            'november' => [30, Month::fromString('2026-11')],
+            'december' => [31, Month::fromString('2026-12')],
         ];
     }
 }

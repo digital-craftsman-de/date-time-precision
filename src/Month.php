@@ -260,7 +260,11 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
 
     public function numberOfDays(): int
     {
-        return (int) $this->format('t');
+        return match ($this->month) {
+            2 => checkdate(2, 29, $this->year->year) ? 29 : 28,
+            4, 6, 9, 11 => 30,
+            default => 31,
+        };
     }
 
     /**
