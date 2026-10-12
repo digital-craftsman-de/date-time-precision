@@ -13,8 +13,6 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
 {
     use NullableStringDenormalizableTrait;
 
-    private const string MONTH_FORMAT = 'Y-m';
-
     // -- Construction
 
     public function __construct(
@@ -65,7 +63,7 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
     #[\Override]
     public function __toString()
     {
-        return $this->format(self::MONTH_FORMAT);
+        return sprintf('%04d-%02d', $this->year->year, $this->month);
     }
 
     // -- String normalizable
@@ -79,7 +77,7 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
     #[\Override]
     public function normalize(): string
     {
-        return $this->format(self::MONTH_FORMAT);
+        return sprintf('%04d-%02d', $this->year->year, $this->month);
     }
 
     // -- Accessors
@@ -260,7 +258,11 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
 
     public function numberOfDays(): int
     {
-        return (int) $this->format('t');
+        return match ($this->month) {
+            2 => checkdate(2, 29, $this->year->year) ? 29 : 28,
+            4, 6, 9, 11 => 30,
+            default => 31,
+        };
     }
 
     /**

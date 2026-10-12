@@ -210,15 +210,29 @@ final readonly class Moments implements ArrayNormalizable, NullableArrayDenormal
 
     public function min(): ?Moment
     {
-        return $this
-            ->sort()
-            ->first();
+        $min = null;
+        foreach ($this->moments as $moment) {
+            if ($min === null
+                || $moment->isBefore($min)
+            ) {
+                $min = $moment;
+            }
+        }
+
+        return $min;
     }
 
     public function max(): ?Moment
     {
-        return $this
-            ->sort()
-            ->last();
+        $max = null;
+        foreach ($this->moments as $moment) {
+            if ($max === null
+                || $moment->isAfter($max)
+            ) {
+                $max = $moment;
+            }
+        }
+
+        return $max;
     }
 }

@@ -39,7 +39,7 @@ final readonly class Months implements ArrayNormalizable, NullableArrayDenormali
     ) {
         $keys = [];
         foreach ($this->months as $month) {
-            $key = $month->normalize();
+            $key = "{$month->year->year}-{$month->month}";
             if (array_key_exists($key, $keys)) {
                 throw new Exception\CollectionContainsDuplicates(self::class);
             }
@@ -59,7 +59,7 @@ final readonly class Months implements ArrayNormalizable, NullableArrayDenormali
     {
         $uniqueMonths = [];
         foreach ($months as $month) {
-            $uniqueMonths[$month->normalize()] = $month;
+            $uniqueMonths["{$month->year->year}-{$month->month}"] = $month;
         }
 
         return new self(array_values($uniqueMonths));
@@ -128,7 +128,7 @@ final readonly class Months implements ArrayNormalizable, NullableArrayDenormali
 
     public function contains(Month $month): bool
     {
-        return array_key_exists($month->normalize(), $this->keys);
+        return array_key_exists("{$month->year->year}-{$month->month}", $this->keys);
     }
 
     public function notContains(Month $month): bool
@@ -210,15 +210,29 @@ final readonly class Months implements ArrayNormalizable, NullableArrayDenormali
 
     public function min(): ?Month
     {
-        return $this
-            ->sort()
-            ->first();
+        $min = null;
+        foreach ($this->months as $month) {
+            if ($min === null
+                || $month->isBefore($min)
+            ) {
+                $min = $month;
+            }
+        }
+
+        return $min;
     }
 
     public function max(): ?Month
     {
-        return $this
-            ->sort()
-            ->last();
+        $max = null;
+        foreach ($this->months as $month) {
+            if ($max === null
+                || $month->isAfter($max)
+            ) {
+                $max = $month;
+            }
+        }
+
+        return $max;
     }
 }

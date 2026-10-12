@@ -39,7 +39,7 @@ final readonly class Dates implements ArrayNormalizable, NullableArrayDenormaliz
     ) {
         $keys = [];
         foreach ($this->dates as $date) {
-            $key = $date->normalize();
+            $key = "{$date->month->year->year}-{$date->month->month}-{$date->day->day}";
             if (array_key_exists($key, $keys)) {
                 throw new Exception\CollectionContainsDuplicates(self::class);
             }
@@ -59,7 +59,7 @@ final readonly class Dates implements ArrayNormalizable, NullableArrayDenormaliz
     {
         $uniqueDates = [];
         foreach ($dates as $date) {
-            $uniqueDates[$date->normalize()] = $date;
+            $uniqueDates["{$date->month->year->year}-{$date->month->month}-{$date->day->day}"] = $date;
         }
 
         return new self(array_values($uniqueDates));
@@ -128,7 +128,7 @@ final readonly class Dates implements ArrayNormalizable, NullableArrayDenormaliz
 
     public function contains(Date $date): bool
     {
-        return array_key_exists($date->normalize(), $this->keys);
+        return array_key_exists("{$date->month->year->year}-{$date->month->month}-{$date->day->day}", $this->keys);
     }
 
     public function notContains(Date $date): bool
@@ -210,15 +210,29 @@ final readonly class Dates implements ArrayNormalizable, NullableArrayDenormaliz
 
     public function min(): ?Date
     {
-        return $this
-            ->sort()
-            ->first();
+        $min = null;
+        foreach ($this->dates as $date) {
+            if ($min === null
+                || $date->isBefore($min)
+            ) {
+                $min = $date;
+            }
+        }
+
+        return $min;
     }
 
     public function max(): ?Date
     {
-        return $this
-            ->sort()
-            ->last();
+        $max = null;
+        foreach ($this->dates as $date) {
+            if ($max === null
+                || $date->isAfter($max)
+            ) {
+                $max = $date;
+            }
+        }
+
+        return $max;
     }
 }

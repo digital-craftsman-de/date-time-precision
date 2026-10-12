@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.15.1
+
+- Improved performance of the construction of `Date` (through the constructor, `fromString`, `denormalize` and `fromDateTime`) and of `Month::numberOfDays`. The validation is done through `checkdate` instead of creating additional `\DateTimeImmutable` instances, and the normalized format (`Y-m-d`) is parsed without creating a `\DateTimeImmutable` at all. All other formats are still parsed by `\DateTimeImmutable` with the same behaviour as before.
+- Improved performance of the comparisons of `Date` (`isEqualTo`, `isBefore`, `compareTo`, etc. and with it `isBetween`, `min`, `max` and `DateRange`), which now compare the integer values instead of creating two `\DateTimeImmutable` instances.
+- Improved performance of `normalize` and `__toString` of `Date`, `Month`, `Week` and `Time`, which are now formatted without creating a `\DateTimeImmutable`.
+- Improved performance of the construction, `contains` and `fromListRemovingDuplicates` of `Dates`, `Months`, `Weeks`, `Times`, `DateRanges` and `TimeRanges` through cheaper internal keys.
+- Improved performance of `min` and `max` of `Dates`, `Moments`, `Months`, `Weeks`, `Times` and `Years`, which now find the value in one iteration instead of sorting the collection.
+- Improved performance of the construction of `Moment` by reusing the UTC timezone.
+- Fixed years before 100 being treated as years of the 20th or 21st century in comparisons, `normalize` and `__toString` of `Date` (e.g. `0005-03-01` was normalized as `2005-03-01`) as well as in `normalize` and `__toString` of `Month`.
+- `Date` now throws `InvalidDate` for years outside of 1 to 32767 (the range supported by `checkdate`). Those years couldn't be formatted or compared correctly before.
+
 ## 0.15.0
 
 - **[Breaking change](./UPGRADE.md#moment-is-always-in-utc)**: `Moment` is now always in UTC. A `\DateTimeImmutable` in another timezone or with an offset is converted to UTC on construction (the moment in time is kept).

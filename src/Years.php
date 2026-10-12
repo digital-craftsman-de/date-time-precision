@@ -210,15 +210,29 @@ final readonly class Years implements ArrayNormalizable, NullableArrayDenormaliz
 
     public function min(): ?Year
     {
-        return $this
-            ->sort()
-            ->first();
+        $min = null;
+        foreach ($this->years as $year) {
+            if ($min === null
+                || $year->isBefore($min)
+            ) {
+                $min = $year;
+            }
+        }
+
+        return $min;
     }
 
     public function max(): ?Year
     {
-        return $this
-            ->sort()
-            ->last();
+        $max = null;
+        foreach ($this->years as $year) {
+            if ($max === null
+                || $year->isAfter($max)
+            ) {
+                $max = $year;
+            }
+        }
+
+        return $max;
     }
 }

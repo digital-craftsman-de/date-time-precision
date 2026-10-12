@@ -27,4 +27,19 @@ final class NormalizeDenormalizeTest extends TestCase
         self::assertSame($data, $normalized);
         self::assertEquals($date, $denormalized);
     }
+
+    #[Test]
+    public function normalize_and_denormalize_works_with_year_before_100(): void
+    {
+        // -- Arrange
+        $date = Date::fromString('0005-03-01');
+
+        // -- Act
+        $normalized = $date->normalize();
+
+        // -- Assert
+        self::assertSame(5, $date->month->year->year);
+        self::assertSame('0005-03-01', $normalized);
+        self::assertSame('0005-03-01', (string) $date);
+    }
 }

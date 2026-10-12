@@ -14,7 +14,6 @@ final readonly class Time implements \Stringable, StringNormalizable, NullableSt
 {
     use NullableStringDenormalizableTrait;
 
-    private const string TIME_FORMAT = 'H:i:s';
     private const int MINUTES_IN_AN_HOUR = 60;
 
     // -- Construction
@@ -87,7 +86,7 @@ final readonly class Time implements \Stringable, StringNormalizable, NullableSt
     #[\Override]
     public function __toString(): string
     {
-        return $this->format(self::TIME_FORMAT);
+        return sprintf('%02d:%02d:%02d', $this->hour, $this->minute, $this->second);
     }
 
     // -- String normalizable
@@ -101,7 +100,7 @@ final readonly class Time implements \Stringable, StringNormalizable, NullableSt
     #[\Override]
     public function normalize(): string
     {
-        return $this->format(self::TIME_FORMAT);
+        return sprintf('%02d:%02d:%02d', $this->hour, $this->minute, $this->second);
     }
 
     // -- Accessors

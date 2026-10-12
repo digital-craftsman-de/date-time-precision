@@ -39,7 +39,7 @@ final readonly class Times implements ArrayNormalizable, NullableArrayDenormaliz
     ) {
         $keys = [];
         foreach ($this->times as $time) {
-            $key = $time->format('H:i:s.u');
+            $key = "{$time->hour}:{$time->minute}:{$time->second}.{$time->microsecond}";
             if (array_key_exists($key, $keys)) {
                 throw new Exception\CollectionContainsDuplicates(self::class);
             }
@@ -59,7 +59,7 @@ final readonly class Times implements ArrayNormalizable, NullableArrayDenormaliz
     {
         $uniqueTimes = [];
         foreach ($times as $time) {
-            $uniqueTimes[$time->format('H:i:s.u')] = $time;
+            $uniqueTimes["{$time->hour}:{$time->minute}:{$time->second}.{$time->microsecond}"] = $time;
         }
 
         return new self(array_values($uniqueTimes));
@@ -128,7 +128,7 @@ final readonly class Times implements ArrayNormalizable, NullableArrayDenormaliz
 
     public function contains(Time $time): bool
     {
-        return array_key_exists($time->format('H:i:s.u'), $this->keys);
+        return array_key_exists("{$time->hour}:{$time->minute}:{$time->second}.{$time->microsecond}", $this->keys);
     }
 
     public function notContains(Time $time): bool
@@ -210,15 +210,29 @@ final readonly class Times implements ArrayNormalizable, NullableArrayDenormaliz
 
     public function min(): ?Time
     {
-        return $this
-            ->sort()
-            ->first();
+        $min = null;
+        foreach ($this->times as $time) {
+            if ($min === null
+                || $time->isBefore($min)
+            ) {
+                $min = $time;
+            }
+        }
+
+        return $min;
     }
 
     public function max(): ?Time
     {
-        return $this
-            ->sort()
-            ->last();
+        $max = null;
+        foreach ($this->times as $time) {
+            if ($max === null
+                || $time->isAfter($max)
+            ) {
+                $max = $time;
+            }
+        }
+
+        return $max;
     }
 }
