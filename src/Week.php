@@ -280,6 +280,7 @@ final readonly class Week implements \Stringable, StringNormalizable, NullableSt
     /**
      * @throws Exception\CalendarUnitIsNotSupported when the unit is not a week
      */
+    #[\NoDiscard('as Week is immutable')]
     public function add(CalendarPeriod $calendarPeriod): self
     {
         self::mustSupportCalendarUnit($calendarPeriod->unit);
@@ -290,6 +291,7 @@ final readonly class Week implements \Stringable, StringNormalizable, NullableSt
     /**
      * @throws Exception\CalendarUnitIsNotSupported when the unit is not a week
      */
+    #[\NoDiscard('as Week is immutable')]
     public function subtract(CalendarPeriod $calendarPeriod): self
     {
         self::mustSupportCalendarUnit($calendarPeriod->unit);
@@ -297,11 +299,13 @@ final readonly class Week implements \Stringable, StringNormalizable, NullableSt
         return self::fromDateTime($this->toDateTimeImmutable()->modify(sprintf('-%s', $calendarPeriod->modifier())));
     }
 
+    #[\NoDiscard('as Week is immutable')]
     public function next(): self
     {
         return $this->add(CalendarPeriod::weeks(1));
     }
 
+    #[\NoDiscard('as Week is immutable')]
     public function previous(): self
     {
         return $this->subtract(CalendarPeriod::weeks(1));

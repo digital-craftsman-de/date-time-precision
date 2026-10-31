@@ -161,16 +161,12 @@ final readonly class Times implements ArrayNormalizable, NullableArrayDenormaliz
 
     public function first(): ?Time
     {
-        return $this->times[0] ?? null;
+        return array_first($this->times);
     }
 
     public function last(): ?Time
     {
-        $lastKey = array_key_last($this->times);
-
-        return $lastKey !== null
-            ? $this->times[$lastKey]
-            : null;
+        return array_last($this->times);
     }
 
     /**
@@ -190,6 +186,7 @@ final readonly class Times implements ArrayNormalizable, NullableArrayDenormaliz
     /**
      * @param callable(Time): bool $filter
      */
+    #[\NoDiscard('as Times is immutable')]
     public function filter(callable $filter): self
     {
         return new self(array_values(array_filter($this->times, $filter)));
@@ -200,6 +197,7 @@ final readonly class Times implements ArrayNormalizable, NullableArrayDenormaliz
      *
      * @param ?callable(Time, Time): int $comparator
      */
+    #[\NoDiscard('as Times is immutable')]
     public function sort(?callable $comparator = null): self
     {
         $times = $this->times;

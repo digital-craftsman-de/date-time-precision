@@ -161,16 +161,12 @@ final readonly class Moments implements ArrayNormalizable, NullableArrayDenormal
 
     public function first(): ?Moment
     {
-        return $this->moments[0] ?? null;
+        return array_first($this->moments);
     }
 
     public function last(): ?Moment
     {
-        $lastKey = array_key_last($this->moments);
-
-        return $lastKey !== null
-            ? $this->moments[$lastKey]
-            : null;
+        return array_last($this->moments);
     }
 
     /**
@@ -190,6 +186,7 @@ final readonly class Moments implements ArrayNormalizable, NullableArrayDenormal
     /**
      * @param callable(Moment): bool $filter
      */
+    #[\NoDiscard('as Moments is immutable')]
     public function filter(callable $filter): self
     {
         return new self(array_values(array_filter($this->moments, $filter)));
@@ -200,6 +197,7 @@ final readonly class Moments implements ArrayNormalizable, NullableArrayDenormal
      *
      * @param ?callable(Moment, Moment): int $comparator
      */
+    #[\NoDiscard('as Moments is immutable')]
     public function sort(?callable $comparator = null): self
     {
         $moments = $this->moments;

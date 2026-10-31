@@ -163,16 +163,12 @@ final readonly class TimeRanges implements ArrayNormalizable, NullableArrayDenor
 
     public function first(): ?TimeRange
     {
-        return $this->timeRanges[0] ?? null;
+        return array_first($this->timeRanges);
     }
 
     public function last(): ?TimeRange
     {
-        $lastKey = array_key_last($this->timeRanges);
-
-        return $lastKey !== null
-            ? $this->timeRanges[$lastKey]
-            : null;
+        return array_last($this->timeRanges);
     }
 
     /**
@@ -192,6 +188,7 @@ final readonly class TimeRanges implements ArrayNormalizable, NullableArrayDenor
     /**
      * @param callable(TimeRange): bool $filter
      */
+    #[\NoDiscard('as TimeRanges is immutable')]
     public function filter(callable $filter): self
     {
         return new self(array_values(array_filter($this->timeRanges, $filter)));
@@ -200,6 +197,7 @@ final readonly class TimeRanges implements ArrayNormalizable, NullableArrayDenor
     /**
      * @param callable(TimeRange, TimeRange): int $comparator
      */
+    #[\NoDiscard('as TimeRanges is immutable')]
     public function sort(callable $comparator): self
     {
         $timeRanges = $this->timeRanges;

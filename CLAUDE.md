@@ -10,15 +10,15 @@ All value objects are `final readonly` and immutable. The system assumes UTC int
 
 ## Commands
 
-All commands run via Docker Compose (PHP 8.4 and 8.5 containers). Use `make` to see all targets.
+All commands run via Docker Compose (PHP 8.5 and 8.6 containers). Use `make` to see all targets.
 
 ```bash
 # Run tests (both PHP versions)
 make php-tests
 
 # Run tests for a single PHP version
-make php-8.4-tests
 make php-8.5-tests
+make php-8.6-tests
 
 # Run a single test file directly
 docker compose run --rm php-8.5 ./vendor/bin/phpunit tests/Moment/CompareToTest.php
@@ -74,6 +74,7 @@ Each value object has comparison methods (`isAfter`, `isBefore`, `isEqualTo`, et
 - No Yoda comparisons
 - Psalm for static analysis (config in `psalm.xml`)
 - Mutation testing via Infection with **100% MSI required**
+- Every public instance method that returns a new instance of its own type (`self`/`?self`) gets `#[\NoDiscard('as {Class} is immutable')]` (enforced by `tests/DateTimePrecision/NoDiscardTest.php`). Tests that intentionally discard the result use `(void)`.
 
 ## Test Structure
 

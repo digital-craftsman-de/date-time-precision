@@ -161,16 +161,12 @@ final readonly class Durations implements ArrayNormalizable, NullableArrayDenorm
 
     public function first(): ?Duration
     {
-        return $this->durations[0] ?? null;
+        return array_first($this->durations);
     }
 
     public function last(): ?Duration
     {
-        $lastKey = array_key_last($this->durations);
-
-        return $lastKey !== null
-            ? $this->durations[$lastKey]
-            : null;
+        return array_last($this->durations);
     }
 
     /**
@@ -190,6 +186,7 @@ final readonly class Durations implements ArrayNormalizable, NullableArrayDenorm
     /**
      * @param callable(Duration): bool $filter
      */
+    #[\NoDiscard('as Durations is immutable')]
     public function filter(callable $filter): self
     {
         return new self(array_values(array_filter($this->durations, $filter)));
@@ -200,6 +197,7 @@ final readonly class Durations implements ArrayNormalizable, NullableArrayDenorm
      *
      * @param ?callable(Duration, Duration): int $comparator
      */
+    #[\NoDiscard('as Durations is immutable')]
     public function sort(?callable $comparator = null): self
     {
         $durations = $this->durations;

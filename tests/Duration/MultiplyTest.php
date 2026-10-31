@@ -56,6 +56,6 @@ final class MultiplyTest extends TestCase
         $this->expectException(InvalidDuration::class);
 
         // -- Act
-        Duration::fromMinutes(15)->multiply(-1);
+        (void) Duration::fromMinutes(15)->multiply(-1);
     }
 }

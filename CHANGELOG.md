@@ -4,6 +4,10 @@
 
 First stable release. From now on, breaking changes only happen in major versions.
 
+- **[Breaking change](./UPGRADE.md#dropped-support-for-php-84)**: Dropped support for PHP 8.4.
+- Added support for PHP 8.6.
+- [Added](./UPGRADE.md#warning-for-unused-results) `#[\NoDiscard]` to all methods that return a new instance of the value object or collection (like `add`, `modify`, `next` or `filter`). Calling them without using the result now results in a warning.
+- Updated `digital-craftsman/self-aware-normalizers` to at least 1.4.0 and `doctrine/dbal` to at least 4.5.
 - **[Breaking change](./UPGRADE.md#removed-modifications-in-time-zone-for-calendar-values)**: Removed `modifyInTimeZone` of `Date`, `Month` and `Year` (deprecated in 0.15.0).
 - **[Breaking change](./UPGRADE.md#removed-distance-in-minutes-of-time)**: Removed `distanceInMinutesTo` of `Time` (deprecated in 0.15.0).
 - **[Breaking change](./UPGRADE.md#removed-time-zone-conversion-of-moment)**: Removed `toTimeZone` of `Moment` (deprecated in 0.15.0).

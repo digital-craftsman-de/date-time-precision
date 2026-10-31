@@ -54,6 +54,6 @@ final class ShiftTest extends TestCase
         $this->expectException(MomentRangeStartIsNotBeforeEnd::class);
 
         // -- Act
-        $momentRange->shiftForwardInTimeZone(CalendarPeriod::months(1), new \DateTimeZone('UTC'));
+        (void) $momentRange->shiftForwardInTimeZone(CalendarPeriod::months(1), new \DateTimeZone('UTC'));
     }
 }

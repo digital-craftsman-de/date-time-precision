@@ -101,9 +101,9 @@ final class CalendarTest extends TestCase
         $this->expectException(CalendarUnitIsNotSupported::class);
 
         // -- Act
-        $add
+        (void) ($add
             ? Week::fromString('2026-W01')->add($calendarPeriod)
-            : Week::fromString('2026-W01')->subtract($calendarPeriod);
+            : Week::fromString('2026-W01')->subtract($calendarPeriod));
     }
 
     /**

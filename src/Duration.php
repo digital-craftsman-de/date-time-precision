@@ -164,6 +164,7 @@ final readonly class Duration implements IntNormalizable, NullableIntDenormaliza
 
     // -- Mutations
 
+    #[\NoDiscard('as Duration is immutable')]
     public function add(self $duration): self
     {
         return new self($this->microseconds + $duration->microseconds);
@@ -172,6 +173,7 @@ final readonly class Duration implements IntNormalizable, NullableIntDenormaliza
     /**
      * @throws Exception\InvalidDuration when the result would be negative
      */
+    #[\NoDiscard('as Duration is immutable')]
     public function subtract(self $duration): self
     {
         return new self($this->microseconds - $duration->microseconds);
@@ -180,6 +182,7 @@ final readonly class Duration implements IntNormalizable, NullableIntDenormaliza
     /**
      * @throws Exception\InvalidDuration when the factor is negative
      */
+    #[\NoDiscard('as Duration is immutable')]
     public function multiply(int $factor): self
     {
         return new self($this->microseconds * $factor);

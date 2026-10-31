@@ -161,16 +161,12 @@ final readonly class Weeks implements ArrayNormalizable, NullableArrayDenormaliz
 
     public function first(): ?Week
     {
-        return $this->weeks[0] ?? null;
+        return array_first($this->weeks);
     }
 
     public function last(): ?Week
     {
-        $lastKey = array_key_last($this->weeks);
-
-        return $lastKey !== null
-            ? $this->weeks[$lastKey]
-            : null;
+        return array_last($this->weeks);
     }
 
     /**
@@ -190,6 +186,7 @@ final readonly class Weeks implements ArrayNormalizable, NullableArrayDenormaliz
     /**
      * @param callable(Week): bool $filter
      */
+    #[\NoDiscard('as Weeks is immutable')]
     public function filter(callable $filter): self
     {
         return new self(array_values(array_filter($this->weeks, $filter)));
@@ -200,6 +197,7 @@ final readonly class Weeks implements ArrayNormalizable, NullableArrayDenormaliz
      *
      * @param ?callable(Week, Week): int $comparator
      */
+    #[\NoDiscard('as Weeks is immutable')]
     public function sort(?callable $comparator = null): self
     {
         $weeks = $this->weeks;

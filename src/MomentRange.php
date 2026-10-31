@@ -103,6 +103,7 @@ final readonly class MomentRange implements ArrayNormalizable, NullableArrayDeno
     /**
      * Returns the range both ranges have in common or null when they don't overlap.
      */
+    #[\NoDiscard('as MomentRange is immutable')]
     public function intersection(self $momentRange): ?self
     {
         if (!$this->overlaps($momentRange)) {
@@ -194,6 +195,7 @@ final readonly class MomentRange implements ArrayNormalizable, NullableArrayDeno
 
     // -- Mutations
 
+    #[\NoDiscard('as MomentRange is immutable')]
     public function shiftForward(Duration $duration): self
     {
         return new self(
@@ -202,6 +204,7 @@ final readonly class MomentRange implements ArrayNormalizable, NullableArrayDeno
         );
     }
 
+    #[\NoDiscard('as MomentRange is immutable')]
     public function shiftBackward(Duration $duration): self
     {
         return new self(
@@ -215,6 +218,7 @@ final readonly class MomentRange implements ArrayNormalizable, NullableArrayDeno
      *
      * @throws Exception\MomentRangeStartIsNotBeforeEnd when a native overflow moves the start to or after the end
      */
+    #[\NoDiscard('as MomentRange is immutable')]
     public function shiftForwardInTimeZone(CalendarPeriod $calendarPeriod, \DateTimeZone $timeZone): self
     {
         return new self(
@@ -228,6 +232,7 @@ final readonly class MomentRange implements ArrayNormalizable, NullableArrayDeno
      *
      * @throws Exception\MomentRangeStartIsNotBeforeEnd when a native overflow moves the start to or after the end
      */
+    #[\NoDiscard('as MomentRange is immutable')]
     public function shiftBackwardInTimeZone(CalendarPeriod $calendarPeriod, \DateTimeZone $timeZone): self
     {
         return new self(

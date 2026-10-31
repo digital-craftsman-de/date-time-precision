@@ -161,16 +161,12 @@ final readonly class Months implements ArrayNormalizable, NullableArrayDenormali
 
     public function first(): ?Month
     {
-        return $this->months[0] ?? null;
+        return array_first($this->months);
     }
 
     public function last(): ?Month
     {
-        $lastKey = array_key_last($this->months);
-
-        return $lastKey !== null
-            ? $this->months[$lastKey]
-            : null;
+        return array_last($this->months);
     }
 
     /**
@@ -190,6 +186,7 @@ final readonly class Months implements ArrayNormalizable, NullableArrayDenormali
     /**
      * @param callable(Month): bool $filter
      */
+    #[\NoDiscard('as Months is immutable')]
     public function filter(callable $filter): self
     {
         return new self(array_values(array_filter($this->months, $filter)));
@@ -200,6 +197,7 @@ final readonly class Months implements ArrayNormalizable, NullableArrayDenormali
      *
      * @param ?callable(Month, Month): int $comparator
      */
+    #[\NoDiscard('as Months is immutable')]
     public function sort(?callable $comparator = null): self
     {
         $months = $this->months;

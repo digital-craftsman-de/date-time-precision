@@ -2,7 +2,31 @@
 
 ## From 0.15.* to 1.0.0
 
-All methods and classes that were deprecated in previous versions have been removed. If your code runs on 0.15.* without deprecations, there is nothing else to do.
+Support for PHP 8.4 has been dropped and all methods and classes that were deprecated in previous versions have been removed. If your code runs on PHP 8.5 and on 0.15.* without deprecations and doesn't call modifications without using the result, there is nothing else to do.
+
+### Dropped support for PHP 8.4
+
+Update to at least PHP 8.5.
+
+### Warning for unused results
+
+All methods that return a new instance of the value object or collection (like `add`, `subtract`, `modify`, `next`, `previous`, `filter` or `sort`) are marked with `#[\NoDiscard]`. As all value objects are immutable, calling them without using the result has no effect and is most likely a bug. PHP now emits a warning in that case.
+
+Before:
+```php
+$date->add(CalendarPeriod::days(1));
+```
+
+After:
+```php
+$date = $date->add(CalendarPeriod::days(1));
+```
+
+When the result is intentionally not used (e.g. in a test which expects an exception), cast it to `(void)`:
+
+```php
+(void) $month->add(CalendarPeriod::days(1));
+```
 
 ### Removed modifications in time zone for calendar values
 

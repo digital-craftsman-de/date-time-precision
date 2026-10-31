@@ -56,6 +56,6 @@ final class MultiplyTest extends TestCase
         $this->expectException(InvalidCalendarPeriod::class);
 
         // -- Act
-        CalendarPeriod::months(2)->multiply(-1);
+        (void) CalendarPeriod::months(2)->multiply(-1);
     }
 }

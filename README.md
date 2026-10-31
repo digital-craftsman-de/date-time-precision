@@ -20,7 +20,7 @@ This package replaces it with small value objects that contain exactly the infor
 There are also value objects for durations, calendar periods, ranges and recurrences (see below).
 
 [![Latest Stable Version](https://img.shields.io/badge/stable-1.0.0-blue)](https://packagist.org/packages/digital-craftsman/date-time-precision)
-[![PHP Version Require](https://img.shields.io/badge/php-8.4|8.5-5b5d95)](https://packagist.org/packages/digital-craftsman/date-time-precision)
+[![PHP Version Require](https://img.shields.io/badge/php-8.5|8.6-5b5d95)](https://packagist.org/packages/digital-craftsman/date-time-precision)
 [![codecov](https://codecov.io/gh/digital-craftsman-de/date-time-precision/branch/main/graph/badge.svg?token=vZ0IvKPj2f)](https://codecov.io/gh/digital-craftsman-de/date-time-precision)
 ![Packagist Downloads](https://img.shields.io/packagist/dt/digital-craftsman/date-time-precision)
 ![Packagist License](https://img.shields.io/packagist/l/digital-craftsman/date-time-precision)
@@ -145,6 +145,13 @@ $bookingsAllowedFrom = $now->modifyInTimeZone('+7 days', $facilityTimeZone);
 ```
 
 This way you don't gain or lose an hour when there is a switch between summer and winter time in that timezone.
+
+As the value objects are immutable, a modification without using the result has no effect. All methods that return a new instance are marked with `#[\NoDiscard]`, so PHP warns you about it:
+
+```php
+$date->add(CalendarPeriod::days(1));         // Warning: the result isn't used
+$tomorrow = $date->add(CalendarPeriod::days(1));
+```
 
 ## Durations and calendar periods
 

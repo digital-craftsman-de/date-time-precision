@@ -462,6 +462,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
     /**
      * The modification is applied in UTC. Use modifyInTimeZone for modifications in the calendar of a specific timezone.
      */
+    #[\NoDiscard('as Moment is immutable')]
     public function modify(string $modifier): self
     {
         /** @psalm-suppress PossiblyFalseArgument */
@@ -487,6 +488,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
      * time, the elapsed time therefore differs from the modifier (e.g. "+2 hours" might only be 1 or up to 3 hours). Use add with a
      * Duration for elapsed time.
      */
+    #[\NoDiscard('as Moment is immutable')]
     public function modifyInTimeZone(string $modifier, \DateTimeZone $timeZone): self
     {
         /** @psalm-suppress PossiblyFalseArgument */
@@ -500,6 +502,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
     /**
      * Adds exact elapsed time on the timeline, independent of any timezone.
      */
+    #[\NoDiscard('as Moment is immutable')]
     public function add(Duration $duration): self
     {
         return $this->modify(sprintf('+%d microseconds', $duration->microseconds));
@@ -508,6 +511,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
     /**
      * Subtracts exact elapsed time on the timeline, independent of any timezone.
      */
+    #[\NoDiscard('as Moment is immutable')]
     public function subtract(Duration $duration): self
     {
         return $this->modify(sprintf('-%d microseconds', $duration->microseconds));
@@ -517,6 +521,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
      * Moves in the calendar of the given timezone and follows the native overflow behaviour of \DateTimeImmutable (e.g. 31.01. + 1 month =
      * 03.03.). When the resulting local time doesn't exist (because of daylight saving time), it's moved forward like natively.
      */
+    #[\NoDiscard('as Moment is immutable')]
     public function addInTimeZone(CalendarPeriod $calendarPeriod, \DateTimeZone $timeZone): self
     {
         return $this->modifyInTimeZone(sprintf('+%s', $calendarPeriod->modifier()), $timeZone);
@@ -526,11 +531,13 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
      * Moves in the calendar of the given timezone and follows the native overflow behaviour of \DateTimeImmutable (e.g. 31.03. - 1 month =
      * 03.03.). When the resulting local time doesn't exist (because of daylight saving time), it's moved forward like natively.
      */
+    #[\NoDiscard('as Moment is immutable')]
     public function subtractInTimeZone(CalendarPeriod $calendarPeriod, \DateTimeZone $timeZone): self
     {
         return $this->modifyInTimeZone(sprintf('-%s', $calendarPeriod->modifier()), $timeZone);
     }
 
+    #[\NoDiscard('as Moment is immutable')]
     public function setTime(Time $time): self
     {
         return new self(
@@ -543,6 +550,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
         );
     }
 
+    #[\NoDiscard('as Moment is immutable')]
     public function setTimeInTimeZone(Time $time, \DateTimeZone $timeZone): self
     {
         return new self(
@@ -557,6 +565,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
         );
     }
 
+    #[\NoDiscard('as Moment is immutable')]
     public function midnight(): self
     {
         return $this->setTime(new Time(
@@ -566,6 +575,7 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
         ));
     }
 
+    #[\NoDiscard('as Moment is immutable')]
     public function midnightInTimeZone(\DateTimeZone $timeZone): self
     {
         return $this->setTimeInTimeZone(

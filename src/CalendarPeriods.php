@@ -163,16 +163,12 @@ final readonly class CalendarPeriods implements ArrayNormalizable, NullableArray
 
     public function first(): ?CalendarPeriod
     {
-        return $this->calendarPeriods[0] ?? null;
+        return array_first($this->calendarPeriods);
     }
 
     public function last(): ?CalendarPeriod
     {
-        $lastKey = array_key_last($this->calendarPeriods);
-
-        return $lastKey !== null
-            ? $this->calendarPeriods[$lastKey]
-            : null;
+        return array_last($this->calendarPeriods);
     }
 
     /**
@@ -192,6 +188,7 @@ final readonly class CalendarPeriods implements ArrayNormalizable, NullableArray
     /**
      * @param callable(CalendarPeriod): bool $filter
      */
+    #[\NoDiscard('as CalendarPeriods is immutable')]
     public function filter(callable $filter): self
     {
         return new self(array_values(array_filter($this->calendarPeriods, $filter)));
@@ -200,6 +197,7 @@ final readonly class CalendarPeriods implements ArrayNormalizable, NullableArray
     /**
      * @param callable(CalendarPeriod, CalendarPeriod): int $comparator
      */
+    #[\NoDiscard('as CalendarPeriods is immutable')]
     public function sort(callable $comparator): self
     {
         $calendarPeriods = $this->calendarPeriods;

@@ -290,6 +290,7 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
     /**
      * @throws Exception\CalendarUnitIsNotSupported when the unit is more precise than a month
      */
+    #[\NoDiscard('as Month is immutable')]
     public function add(CalendarPeriod $calendarPeriod): self
     {
         self::mustSupportCalendarUnit($calendarPeriod->unit);
@@ -300,6 +301,7 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
     /**
      * @throws Exception\CalendarUnitIsNotSupported when the unit is more precise than a month
      */
+    #[\NoDiscard('as Month is immutable')]
     public function subtract(CalendarPeriod $calendarPeriod): self
     {
         self::mustSupportCalendarUnit($calendarPeriod->unit);
@@ -307,11 +309,13 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
         return $this->modify(sprintf('-%s', $calendarPeriod->modifier()));
     }
 
+    #[\NoDiscard('as Month is immutable')]
     public function next(): self
     {
         return $this->add(CalendarPeriod::months(1));
     }
 
+    #[\NoDiscard('as Month is immutable')]
     public function previous(): self
     {
         return $this->subtract(CalendarPeriod::months(1));
@@ -346,6 +350,7 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
             ->format($format);
     }
 
+    #[\NoDiscard('as Month is immutable')]
     public function modify(string $modifier): self
     {
         $modifiedDateTime = $this->toDateTimeImmutable()

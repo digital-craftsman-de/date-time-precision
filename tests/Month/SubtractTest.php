@@ -70,7 +70,7 @@ final class SubtractTest extends TestCase
         $this->expectException(CalendarUnitIsNotSupported::class);
 
         // -- Act
-        Month::fromString('2026-01')->subtract($calendarPeriod);
+        (void) Month::fromString('2026-01')->subtract($calendarPeriod);
     }
 
     /**

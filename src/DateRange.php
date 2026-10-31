@@ -130,6 +130,7 @@ final readonly class DateRange implements ArrayNormalizable, NullableArrayDenorm
      *
      * @throws Exception\DateRangeStartIsAfterEnd when a native overflow moves the start after the end (e.g. 31.01. until 01.02. + 1 month)
      */
+    #[\NoDiscard('as DateRange is immutable')]
     public function shiftForward(CalendarPeriod $calendarPeriod): self
     {
         return new self(
@@ -143,6 +144,7 @@ final readonly class DateRange implements ArrayNormalizable, NullableArrayDenorm
      *
      * @throws Exception\DateRangeStartIsAfterEnd when a native overflow moves the start after the end
      */
+    #[\NoDiscard('as DateRange is immutable')]
     public function shiftBackward(CalendarPeriod $calendarPeriod): self
     {
         return new self(

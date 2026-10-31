@@ -49,7 +49,7 @@ final class AddTest extends TestCase
         $this->expectException(CalendarUnitIsNotSupported::class);
 
         // -- Act
-        new Year(2026)->add($calendarPeriod);
+        (void) new Year(2026)->add($calendarPeriod);
     }
 
     #[Test]
@@ -61,7 +61,7 @@ final class AddTest extends TestCase
         $this->expectException(CalendarUnitIsNotSupported::class);
 
         // -- Act
-        new Year(2026)->subtract($calendarPeriod);
+        (void) new Year(2026)->subtract($calendarPeriod);
     }
 
     /**
