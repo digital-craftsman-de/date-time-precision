@@ -56,6 +56,6 @@ final class SubtractTest extends TestCase
         $this->expectException(InvalidDuration::class);
 
         // -- Act
-        Duration::fromMinutes(30)->subtract(Duration::fromHours(1));
+        (void) Duration::fromMinutes(30)->subtract(Duration::fromHours(1));
     }
 }

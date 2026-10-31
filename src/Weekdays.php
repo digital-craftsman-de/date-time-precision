@@ -161,16 +161,12 @@ final readonly class Weekdays implements ArrayNormalizable, NullableArrayDenorma
 
     public function first(): ?Weekday
     {
-        return $this->weekdays[0] ?? null;
+        return array_first($this->weekdays);
     }
 
     public function last(): ?Weekday
     {
-        $lastKey = array_key_last($this->weekdays);
-
-        return $lastKey !== null
-            ? $this->weekdays[$lastKey]
-            : null;
+        return array_last($this->weekdays);
     }
 
     /**
@@ -190,6 +186,7 @@ final readonly class Weekdays implements ArrayNormalizable, NullableArrayDenorma
     /**
      * @param callable(Weekday): bool $filter
      */
+    #[\NoDiscard('as Weekdays is immutable')]
     public function filter(callable $filter): self
     {
         return new self(array_values(array_filter($this->weekdays, $filter)));
@@ -200,6 +197,7 @@ final readonly class Weekdays implements ArrayNormalizable, NullableArrayDenorma
      *
      * @param ?callable(Weekday, Weekday): int $comparator
      */
+    #[\NoDiscard('as Weekdays is immutable')]
     public function sort(?callable $comparator = null): self
     {
         $weekdays = $this->weekdays;

@@ -204,6 +204,7 @@ final readonly class Year implements IntNormalizable, NullableIntDenormalizable
     /**
      * @throws Exception\CalendarUnitIsNotSupported when the unit is not a year
      */
+    #[\NoDiscard('as Year is immutable')]
     public function add(CalendarPeriod $calendarPeriod): self
     {
         self::mustSupportCalendarUnit($calendarPeriod->unit);
@@ -214,6 +215,7 @@ final readonly class Year implements IntNormalizable, NullableIntDenormalizable
     /**
      * @throws Exception\CalendarUnitIsNotSupported when the unit is not a year
      */
+    #[\NoDiscard('as Year is immutable')]
     public function subtract(CalendarPeriod $calendarPeriod): self
     {
         self::mustSupportCalendarUnit($calendarPeriod->unit);
@@ -221,11 +223,13 @@ final readonly class Year implements IntNormalizable, NullableIntDenormalizable
         return $this->modify(sprintf('-%s', $calendarPeriod->modifier()));
     }
 
+    #[\NoDiscard('as Year is immutable')]
     public function next(): self
     {
         return $this->add(CalendarPeriod::years(1));
     }
 
+    #[\NoDiscard('as Year is immutable')]
     public function previous(): self
     {
         return $this->subtract(CalendarPeriod::years(1));
@@ -238,6 +242,7 @@ final readonly class Year implements IntNormalizable, NullableIntDenormalizable
             ->format($format);
     }
 
+    #[\NoDiscard('as Year is immutable')]
     public function modify(string $modifier): self
     {
         $modifiedDateTime = $this->toDateTimeImmutable()
@@ -267,23 +272,6 @@ final readonly class Year implements IntNormalizable, NullableIntDenormalizable
             $this->toMomentInTimeZone($timeZone),
             $this->next()->toMomentInTimeZone($timeZone),
         );
-    }
-
-    /**
-     * @deprecated A year has no time and therefore the timezone has no effect. Use add, subtract or modify instead.
-     */
-    public function modifyInTimeZone(string $modify, \DateTimeZone $timeZone): self
-    {
-        $dateTimeImmutable = new \DateTimeImmutable(
-            sprintf(
-                '%d-01-01 00:00:00',
-                $this->year,
-            ),
-            $timeZone,
-        );
-
-        /** @psalm-suppress PossiblyFalseArgument */
-        return self::fromDateTime($dateTimeImmutable->modify($modify));
     }
 
     /**

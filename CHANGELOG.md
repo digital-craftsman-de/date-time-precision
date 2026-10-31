@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.0.0
+
+First stable release. From now on, breaking changes only happen in major versions.
+
+- **[Breaking change](./UPGRADE.md#dropped-support-for-php-84)**: Dropped support for PHP 8.4.
+- Added support for PHP 8.6.
+- [Added](./UPGRADE.md#warning-for-unused-results) `#[\NoDiscard]` to all methods that return a new instance of the value object or collection (like `add`, `modify`, `next` or `filter`). Calling them without using the result now results in a warning.
+- Updated `digital-craftsman/self-aware-normalizers` to at least 1.4.0 and `doctrine/dbal` to at least 4.5.
+- **[Breaking change](./UPGRADE.md#removed-modifications-in-time-zone-for-calendar-values)**: Removed `modifyInTimeZone` of `Date`, `Month` and `Year` (deprecated in 0.15.0).
+- **[Breaking change](./UPGRADE.md#removed-distance-in-minutes-of-time)**: Removed `distanceInMinutesTo` of `Time` (deprecated in 0.15.0).
+- **[Breaking change](./UPGRADE.md#removed-time-zone-conversion-of-moment)**: Removed `toTimeZone` of `Moment` (deprecated in 0.15.0).
+- **[Breaking change](./UPGRADE.md#removed-previous-doctrine-types)**: Removed the previous Doctrine types in `DigitalCraftsman\DateTimePrecision\Doctrine` (deprecated in 0.13.0).
+
 ## 0.15.1
 
 - Improved performance of the construction of `Date` (through the constructor, `fromString`, `denormalize` and `fromDateTime`) and of `Month::numberOfDays`. The validation is done through `checkdate` instead of creating additional `\DateTimeImmutable` instances, and the normalized format (`Y-m-d`) is parsed without creating a `\DateTimeImmutable` at all. All other formats are still parsed by `\DateTimeImmutable` with the same behaviour as before.

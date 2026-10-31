@@ -70,7 +70,7 @@ final class AddTest extends TestCase
         $this->expectException(CalendarUnitIsNotSupported::class);
 
         // -- Act
-        Month::fromString('2026-01')->add($calendarPeriod);
+        (void) Month::fromString('2026-01')->add($calendarPeriod);
     }
 
     /**

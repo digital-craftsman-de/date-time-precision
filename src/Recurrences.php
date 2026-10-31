@@ -163,16 +163,12 @@ final readonly class Recurrences implements ArrayNormalizable, NullableArrayDeno
 
     public function first(): ?Recurrence
     {
-        return $this->recurrences[0] ?? null;
+        return array_first($this->recurrences);
     }
 
     public function last(): ?Recurrence
     {
-        $lastKey = array_key_last($this->recurrences);
-
-        return $lastKey !== null
-            ? $this->recurrences[$lastKey]
-            : null;
+        return array_last($this->recurrences);
     }
 
     /**
@@ -192,6 +188,7 @@ final readonly class Recurrences implements ArrayNormalizable, NullableArrayDeno
     /**
      * @param callable(Recurrence): bool $filter
      */
+    #[\NoDiscard('as Recurrences is immutable')]
     public function filter(callable $filter): self
     {
         return new self(array_values(array_filter($this->recurrences, $filter)));
@@ -200,6 +197,7 @@ final readonly class Recurrences implements ArrayNormalizable, NullableArrayDeno
     /**
      * @param callable(Recurrence, Recurrence): int $comparator
      */
+    #[\NoDiscard('as Recurrences is immutable')]
     public function sort(callable $comparator): self
     {
         $recurrences = $this->recurrences;

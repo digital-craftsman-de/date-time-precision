@@ -1,90 +1,176 @@
-# Using `DateTime` with precision
+# Date Time Precision
 
-The only class in the PHP SPL to work with dates and times is `DateTime` (and it's immutable counterpart). It represents a specific moment in time in a specific timezone (whether that timezone/offset is explicitly defined or not). Unfortunately dates are complex and there is more than just a moment in time. For example there are
+**Use only as much date and time as you actually need.**
 
-- time of day which is relevant on every day (like business hours).
-- a specific date (like Christmas) which isn't bound to a timezone.
-- a subset of a date time like time, date, month or year.
+PHP has exactly one type for anything related to time: `DateTime` (or `DateTimeImmutable`). It always contains a date, a time down to microseconds and a timezone – even if you only mean "08:00", "Christmas" or "March 2026".
 
-Basically, every time you're not talking about a specific moment, the `DateTime` classes contain not just more informationen then needed, but even misleading information.
+This package replaces it with small value objects that contain exactly the information you're talking about. Nothing more.
 
-This bundle / package tries to solve this issue by introducing a wrapper value object `Moment` for a moment in time and value objects for the more precise sub sets like `Time`, `Date`, `Month` and `Year`. 
-It's only a thin wrapper over `DateTime` and uses it internally for all modifications and comparisons. This way you don't have to make sure that your `DateTime` is
+| You mean …                          | Use        | Contains                    |
+|-------------------------------------|------------|-----------------------------|
+| a specific point in time            | `Moment`   | date + time, always in UTC  |
+| a date like a birthday or a holiday | `Date`     | year, month, day            |
+| a time of day like opening hours    | `Time`     | hour, minute, second, µs    |
+| a month like a billing month        | `Month`    | year, month                 |
+| a year                              | `Year`     | year                        |
+| a calendar week                     | `Week`     | ISO year, week number       |
+| a day of the week                   | `Weekday`  | Monday … Sunday             |
+| a day of the month                  | `Day`      | 1 … 31                      |
 
-- at a specific date to compare times.
-- at midnight to compare dates.
-- at the first of the month to compare months.
-- at the first of the year to compare years.
+There are also value objects for durations, calendar periods, ranges and recurrences (see below).
 
-Additionally, the package provides a streamlined way to have the system running in `UTC` but still do the modifications in the relevant timezone. The internal `DateTime` is always in `UTC` and only internally converted to the relevant timezone for modifications. A `DateTime` in another timezone or with an offset is converted to `UTC` when a `Moment` is created from it (the moment in time is kept). This way you can be sure that you're not missing or receiving an hour due to a switch of summer-time to winter-time in the relevant timezone.
-
-There are also classes like `Day` or `Weekday`. For every value object there is a collection with unique values (like `Days`, `Weekdays`, `Dates` or `TimeRanges`). The collections are countable and iterable and provide methods like `filter`, `map`, `sort`, `first`, `last`, `min` or `max`.
-
-This Symfony bundle includes Symfony normalizers for automatic normalization and denormalization and Doctrine types to store the objects directly in the database. 
-
-As it's a central part of an application, it's tested thoroughly (including mutation testing). Currently, more than 80% of the lines of code in this repository are tests.
-
-[![Latest Stable Version](https://img.shields.io/badge/stable-0.15.1-blue)](https://packagist.org/packages/digital-craftsman/date-time-precision)
-[![PHP Version Require](https://img.shields.io/badge/php-8.4|8.5-5b5d95)](https://packagist.org/packages/digital-craftsman/date-time-precision)
+[![Latest Stable Version](https://img.shields.io/badge/stable-1.0.0-blue)](https://packagist.org/packages/digital-craftsman/date-time-precision)
+[![PHP Version Require](https://img.shields.io/badge/php-8.5|8.6-5b5d95)](https://packagist.org/packages/digital-craftsman/date-time-precision)
 [![codecov](https://codecov.io/gh/digital-craftsman-de/date-time-precision/branch/main/graph/badge.svg?token=vZ0IvKPj2f)](https://codecov.io/gh/digital-craftsman-de/date-time-precision)
 ![Packagist Downloads](https://img.shields.io/packagist/dt/digital-craftsman/date-time-precision)
 ![Packagist License](https://img.shields.io/packagist/l/digital-craftsman/date-time-precision)
 
-## Installation and configuration
+## Why?
 
-Install package through composer:
+Every piece of information you don't need is a source of bugs. When a `DateTime` is used for something that isn't a point in time, you suddenly have to answer questions that have nothing to do with your domain:
 
-```shell
-composer require digital-craftsman/date-time-precision
+- Opening hours are stored as `DateTime`. On which date? In which timezone? Do I need to move it to today before comparing?
+- A billing month is stored as `DateTime`. Is it the first of the month at midnight? Midnight in which timezone?
+- A due date is stored as `DateTime`. Does `$dueDate < $now` already fail at 00:00 UTC or at 00:00 local time?
+
+Every developer answers those questions slightly differently, and every variant needs its own normalization before it can be compared. That's where the bugs come from.
+
+With precise value objects these questions simply don't exist. A `Time` has no date, a `Month` has no day and a `Date` has no timezone. The code describes what's meant and nothing else:
+
+**Before**
+
+```php
+$nowInFacility = $now->setTimezone($facilityTimeZone);
+$openFrom = $nowInFacility->setTime(
+    (int) $facility->openFrom->format('H'),
+    (int) $facility->openFrom->format('i'),
+);
+
+if ($nowInFacility < $openFrom) {
+    throw new FacilityIsNotOpenYet();
+}
 ```
 
-> ⚠️ This bundle can be used (and is being used) in production, but hasn't reached version 1.0 yet. Therefore, there will be breaking changes between minor versions. I'd recommend that you require the bundle only with the current minor version like `composer require digital-craftsman/date-time-precision:0.15.*`. Breaking changes are described in the releases and [the changelog](./CHANGELOG.md). Updates are described in the [upgrade guide](./UPGRADE.md).
-
-## When would I need that?
-
-Basically whenever you use a `DateTime` object for something other than a single moment.
-
-Storing more information in those cases just lead to more questions, like "When storing the month, do we store the first day of month at midnight, and if so, in which time zone?" and therefore increases complexity. Additionally, you need mutate or reduce the point in time to be able to compare it. With the package it will be as easy as:
+**After**
 
 ```php
 if ($now->isBeforeInTimeZone($facility->openFrom, $facilityTimeZone)) {
     throw new FacilityIsNotOpenYet();
 }
 ```
-`$now` is a `Moment` (in UTC) and `$facility->openFrom` is a `Time` (in the timezone of the facility).
 
-The idea is that your system can run in `UTC` and all moments are in the timezone `UTC`. But all values that have an implicit time zone like a date or a time of day will be stored with just the data needed. This way we're getting rid of additional data that creates more surface for possible bugs. Through precise value objects and specific comparison functions, the code is more readable than before.
+`$now` is a `Moment` and `$facility->openFrom` is a `Time`. The moment is reduced to the time of day in the facility's timezone and only then compared. You don't have to think about it.
+
+In short:
+
+1. **Less data** – every value only contains what it represents.
+2. **Less variance** – there is exactly one way to represent a date, a month or a time of day.
+3. **Fewer bugs and more readable code** – no normalization before comparisons, no hidden timezone or date.
+4. **No new date logic** – everything is calculated by PHP's own `DateTimeImmutable`.
+
+## A thin wrapper, not a reimplementation
+
+This package doesn't reinvent date and time handling. The value objects are only a thin layer over `DateTimeImmutable`. Every calculation – modifications, differences, timezone conversions and parsing of arbitrary formats – is delegated to it. Only trivial operations without any calendar logic are done directly for performance, like comparing two dates by their numbers or reading the normalized format `2026-03-01` (validated with PHP's `checkdate`).
+
+That's intentional. Date and time calculations are full of edge cases: switches between summer and winter time, leap years, months of different length, timezones that changed their offset over the years. PHP's implementation handles them and has been hardened over many years in countless applications. Writing that logic again would only mean new bugs.
+
+So with this package:
+
+- edge cases behave exactly like they do in native PHP, there are no surprises.
+- there is no custom calendar logic that could break.
+- you can reason about the result with your existing knowledge of `DateTimeImmutable`.
+
+This also applies where PHP isn't intuitive. For example 31.01. + 1 month is 03.03. like with `DateTimeImmutable::modify('+1 month')`. The package doesn't "fix" this, as that would mean a second, different behaviour.
+
+The value objects add precision and readability – the calculations stay where they belong.
+
+## Installation
+
+```shell
+composer require digital-craftsman/date-time-precision
+```
+
+The package follows [semantic versioning](https://semver.org). Changes are described in [the changelog](./CHANGELOG.md) and breaking changes in the [upgrade guide](./UPGRADE.md).
+
+## The basic rule: Moments are UTC, everything else has no timezone
+
+- A `Moment` is always stored in UTC. A `DateTime` in another timezone is converted to UTC when the `Moment` is created (the point in time stays the same).
+- `Date`, `Time`, `Month`, `Year` etc. don't have a timezone at all. They're just the values.
+- Whenever a `Moment` meets one of them, you tell it in which timezone to look at it. That's what the `*InTimeZone` methods are for.
 
 ```php
-if ($now->isBeforeInTimeZone($facility->earliestDayOfBooking)) {
-    throw new BookingNotPossibleYet();
-}
-```
-`$now` is a `Moment` (in UTC) and `$facility->earliestDayOfBooking` is a `Date` (in the timezone of the facility). The same method `isBeforeInTimeZone` that is used previously for the time comparison is the same that is used here. Depending on the type of the second parameter, the comparison is done on the relevant part of the moment.
+$now = Moment::fromString('2026-03-29 07:30:00');                       // UTC
+$start = Moment::fromStringInTimeZone('2026-03-29 08:00', $berlin);    // converted to UTC
 
-Modifications work the same way.
+$date = $now->dateInTimeZone($berlin);   // Date
+$time = $now->timeInTimeZone($berlin);   // Time
+$month = $now->monthInTimeZone($berlin); // Month
+```
+
+### Comparing
+
+The same comparison methods work with all types. The type of the parameter decides which part of the moment is compared:
 
 ```php
-$bookingsAllowedFrom = $now->modifyInTimeZone('+ 7 days', $facilityTimeZone);
+$now->isBeforeInTimeZone($facility->openFrom, $facilityTimeZone);          // Time
+$now->isBeforeInTimeZone($facility->earliestBookingDate, $facilityTimeZone); // Date
+$now->isAfterInTimeZone($contract->lastMonth, $customerTimeZone);           // Month
 ```
 
-The resulting `$bookingsAllowedFrom` is still a date time with timezone `UTC` but the modification is done in the relevant timezone.
+Values of the same type are compared directly:
 
-## Elapsed time and calendar movements
+```php
+$dueDate->isBefore($today);
+$billingMonth->isEqualTo($currentMonth);
+$date->isBetween($start, $end);
+```
 
-There are two different kinds of time spans and the package represents them with two different value objects:
+Every comparison has an assertion counterpart which throws an exception. You can pass your own exception:
 
-- `Duration` is elapsed time, like 90 minutes or 6 hours. It's independent of any timezone and always exact, even across a switch from summer-time to winter-time. It's stored with microsecond precision.
-- `CalendarPeriod` is a movement in the calendar, like 1 day, 2 weeks, 3 months, 1 quarter or 1 year. Days and months don't have a fixed length, therefore it's applied in the calendar of a timezone.
+```php
+$endsAt->mustBeAfter($startsAt);
+$now->mustNotBeBeforeInTimeZone(
+    $earliestBookingDate,
+    $timeZone,
+    static fn () => new BookingNotPossibleYet(),
+);
+```
+
+### Modifying
+
+All value objects are immutable. Modifications on a `Moment` that depend on the calendar are done in the given timezone, the result is still in UTC:
+
+```php
+$bookingsAllowedFrom = $now->modifyInTimeZone('+7 days', $facilityTimeZone);
+```
+
+This way you don't gain or lose an hour when there is a switch between summer and winter time in that timezone.
+
+As the value objects are immutable, a modification without using the result has no effect. All methods that return a new instance are marked with `#[\NoDiscard]`, so PHP warns you about it:
+
+```php
+$date->add(CalendarPeriod::days(1));         // Warning: the result isn't used
+$tomorrow = $date->add(CalendarPeriod::days(1));
+```
+
+## Durations and calendar periods
+
+"6 hours" and "1 day" sound similar but aren't. Therefore there are two different value objects:
+
+- `Duration` is **elapsed time** like 90 minutes. It's always exact and independent of any timezone (microsecond precision).
+- `CalendarPeriod` is a **movement in the calendar** like 1 day, 2 weeks, 3 months, 1 quarter or 1 year. Its length depends on the calendar, so it's applied in a timezone.
 
 ```php
 $expiresAt = $now->add(Duration::fromHours(6));
-$sameTimeTomorrow = $now->addInTimeZone(CalendarPeriod::days(1), $facilityTimeZone);
+$sameTimeTomorrow = $now->addInTimeZone(
+    CalendarPeriod::days(1),
+    $facilityTimeZone,
+);
 ```
 
-Across the switch from summer-time to winter-time, `$expiresAt` is exactly 6 hours later while `$sameTimeTomorrow` is 25 hours later but at the same local time.
+On the night of the time switch `$expiresAt` is exactly 6 hours later, while `$sameTimeTomorrow` is 23 or 25 hours later – but at the same local time.
 
-Calendar values like `Date`, `Month` and `Year` don't have a time and therefore don't need a timezone. They only accept units which are at least as coarse as their own precision (e.g. a `Month` can't be moved by days). `Time` accepts a `Duration` and wraps around midnight.
+Values without a time don't need a timezone. They only accept units that fit their precision (e.g. a `Month` can't be moved by days). A `Time` accepts a `Duration` and wraps around midnight.
 
 ```php
 $dueDate = $invoiceDate->add(CalendarPeriod::days(14));
@@ -92,103 +178,122 @@ $nextBillingMonth = $billingMonth->add(CalendarPeriod::quarters(1));
 $end = $start->add(Duration::fromMinutes(90));
 ```
 
-All calculations are done with `\DateTimeImmutable` internally and therefore follow its behaviour even when it's not intuitive. For example 31.01. + 1 month results in 03.03. and 31.01. until 01.03. is 0 full months.
-
-The distance between two values is returned as the type used for the modification:
+The distance between two values is returned in the same way:
 
 ```php
-$duration = $startedAt->durationUntil($endedAt);
-$days = $startDate->periodUntil($endDate, CalendarUnit::DAY)->amount;
+$duration = $startedAt->durationUntil($endedAt);                       // Duration
+$days = $startDate->periodUntil($endDate, CalendarUnit::DAY)->amount;  // int
 ```
+
+As all calculations are done by `DateTimeImmutable` (see [A thin wrapper, not a reimplementation](#a-thin-wrapper-not-a-reimplementation)), they follow its behaviour, even where it's not intuitive. For example 31.01. + 1 month is 03.03. and from 31.01. until 01.03. is 0 full months.
 
 ## Ranges
 
-There are ranges for dates, moments and times:
-
-- `DateRange` is a closed range. Start and end are both part of the range (e.g. 01.01. until 03.01. are 3 days).
-- `MomentRange` is a half-open range. The end isn't part of the range, therefore a range ending at 12:00 doesn't overlap with a range starting at 12:00.
-- `TimeRange` is a half-open range of times of a day. An end of 00:00 is the end of the day (24:00), 00:00 until 00:00 is the full day and a range may wrap around midnight (e.g. 21:00 until 03:00).
+| Range         | Type                                                       | Example                                         |
+|---------------|------------------------------------------------------------|-------------------------------------------------|
+| `DateRange`   | closed – start and end are included                        | 01.01. until 03.01. are 3 days                  |
+| `MomentRange` | half-open – the end isn't included                         | 10:00–12:00 doesn't overlap with 12:00–14:00    |
+| `TimeRange`   | half-open, may wrap around midnight, `00:00` as end = 24:00 | 21:00–03:00 is a night shift                   |
 
 ```php
-$openingHours = new TimeRange(Time::fromString('08:00'), Time::fromString('20:00'));
-if ($openingHours->notContainsRange($reservation->timeRangeInTimeZone($facilityTimeZone))) {
+$openingHours = new TimeRange(
+    Time::fromString('08:00'),
+    Time::fromString('20:00'),
+);
+
+$reservationTimeRange = $reservation->timeRangeInTimeZone($facilityTimeZone);
+if ($openingHours->notContainsRange($reservationTimeRange)) {
     throw new ReservationIsOutsideOfOpeningHours();
 }
 ```
 
-Whether start and end are included in `contains` can be defined with a `PeriodLimit`. The default follows the range (both for `DateRange`, only the start for `MomentRange` and `TimeRange`).
+Whether start and end count for `contains` can be changed with a `PeriodLimit`:
 
 ```php
-$isWithinOpeningHours = $openingHours->contains($reservationEnd, PeriodLimit::INCLUDING_START_AND_END);
+$openingHours->contains(
+    $reservationEnd,
+    PeriodLimit::INCLUDING_START_AND_END,
+);
 ```
 
-More strict rules for a `TimeRange` can be enforced with guards, e.g. in the constructor of your own value object:
+Stricter rules can be enforced with guards, e.g. in the constructor of your own value object:
 
 ```php
 $timeRange->mustNotStartBefore(Time::fromString('05:00'));
-$timeRange->mustNotWrapAroundMidnight(static fn () => new TimeRangeMustBeWithinADay());
+$timeRange->mustNotWrapAroundMidnight(
+    static fn () => new TimeRangeMustBeWithinADay(),
+);
 ```
 
 ## Weeks and recurrences
 
-`Week` is a calendar week according to ISO 8601. A week starts on Monday and belongs to the year of its Thursday, so the year of a week can differ from the year of its dates around new year.
+`Week` is a calendar week according to ISO 8601. It starts on Monday and belongs to the year of its Thursday, so around new year the year of a week can differ from the year of its dates.
 
 ```php
-$week = $date->week(); // e.g. 2026-W01 for 29.12.2025
+$week = $date->week();          // e.g. 2026-W01 for 29.12.2025
 $monday = $date->startOfWeek();
 ```
 
-`Recurrence` describes on which dates something recurs: every day, on specific weekdays or on specific days of the month (a day which doesn't exist in a month is skipped). It contains neither a time nor a start or end.
+`Recurrence` describes on which dates something happens: daily, on specific weekdays or on specific days of the month (days which don't exist in a month are skipped). It contains neither a time nor a start or end.
 
 ```php
-$recurrence = Recurrence::weekly(new Weekdays([Weekday::MONDAY, Weekday::WEDNESDAY]));
-$nextReminderAt = $recurrence->nextOccurrenceAtTimeInTimeZone($reminderTime, $now, $userTimeZone);
-$lessonDates = $recurrence->occurrencesBetween($seriesStart, $seriesEnd);
+$recurrence = Recurrence::weekly(new Weekdays([
+    Weekday::MONDAY,
+    Weekday::WEDNESDAY,
+]));
+
+$nextReminderAt = $recurrence->nextOccurrenceAtTimeInTimeZone(
+    $reminderTime,
+    $now,
+    $userTimeZone,
+);
+$lessonDates = $recurrence->occurrencesBetween(
+    $seriesStart,
+    $seriesEnd,
+);
 ```
 
-## Integration
+## Collections
 
-For the best code readability, it's best to use the `Moment` provided with the package as a full replacement for `\DateTime` or `\DateTimeImmutable` when you're speaking about a moment in time and the others value objects for the rest.
-The package integrates with the normalizers of `digital-craftsman/self-aware-normalizers` and provides Doctrine types (that use those interfaces) for `Moment` and all parts.
+Every value object has a collection with unique values (e.g. `Dates`, `Days`, `Weekdays`, `Months`, `TimeRanges`). The collections are countable, iterable and provide methods like `filter`, `map`, `sort`, `first`, `last`, `min` and `max`.
 
-The value objects implement the relevant interfaces for the doctrine types and therefore can be used directly in your doctrine entities like the following:
+## Symfony and Doctrine
+
+The bundle integrates everything automatically:
+
+- **Serializer** – all value objects are normalized and denormalized through [`digital-craftsman/self-aware-normalizers`](https://github.com/digital-craftsman-de/self-aware-normalizers).
+- **Doctrine** – there is a Doctrine type for every value object, registered automatically. The class name is the type name:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
-namespace App\Entity;
-
-use DigitalCraftsman\DateTimePrecision\Moment;
-use Doctrine\ORM\Mapping as ORM;
-
-#[ORM\Entity()]
-#[ORM\Table(name: 'facility')]
+#[ORM\Entity]
 class Facility
 {
-    ...
-    
-    /** @psalm-readonly */
-    #[ORM\Column(name: 'created_at', type: Moment::class)]
+    #[ORM\Column(type: Moment::class)]
     public Moment $createdAt;
 
-    #[ORM\Column(name: 'updated_at', type: Moment::class)]
-    public Moment $updatedAt;
+    #[ORM\Column(type: Time::class)]
+    public Time $openFrom;
 
-    ...
+    #[ORM\Column(type: Date::class)]
+    public Date $earliestBookingDate;
+}
 ```
 
-The package also contains a clock component consisting of the interface `Clock` with the two implementations `SystemClock` (for general use) and `FrozenClock` (for testing). The `SystemClock` will be autowired for the `Clock` and automatically replaced with `FrozenClock` in the test environment.
+- **Clock** – inject the `Clock` interface to get the current `Moment`. `SystemClock` is used by default and replaced with `FrozenClock` in the `test` environment, so you can freeze the time in tests:
 
-## Design
+```php
+$now = $this->clock->now();
 
-### Immutability
+// In tests
+$clock->freeze(Moment::fromString('2026-01-01 12:00:00'));
+```
 
-All mutations on the `Moment` and its parts are immutable.
+## Quality
+
+As time handling is a central part of every application, the package is tested thoroughly, including mutation testing with 100% MSI. More than 80% of the code in this repository are tests.
 
 ## Contribution
 
-The local setup is build with Docker and controlled through Make commands. Run `make` to see all available commands and what they do.
+The local setup is built with Docker and controlled through Make commands. Run `make` to see all available commands.
 
-Before creating a PR or pushing any code, please run `make verify` to run all tests and validations locally.
+Before creating a PR, please run `make verify` to run all tests and validations locally.

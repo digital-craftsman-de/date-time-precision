@@ -291,6 +291,7 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
     /**
      * The Monday of the calendar week according to ISO 8601.
      */
+    #[\NoDiscard('as Date is immutable')]
     public function startOfWeek(): self
     {
         return $this
@@ -301,6 +302,7 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
     /**
      * The Sunday of the calendar week according to ISO 8601.
      */
+    #[\NoDiscard('as Date is immutable')]
     public function endOfWeek(): self
     {
         return $this
@@ -506,6 +508,7 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
             ->format($format);
     }
 
+    #[\NoDiscard('as Date is immutable')]
     public function modify(string $modifier): self
     {
         $modifiedDateTime = $this->toDateTimeImmutable()
@@ -518,6 +521,7 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
     /**
      * Follows the native overflow behaviour of \DateTimeImmutable (e.g. 31.01. + 1 month = 03.03.).
      */
+    #[\NoDiscard('as Date is immutable')]
     public function add(CalendarPeriod $calendarPeriod): self
     {
         return $this->modify(sprintf('+%s', $calendarPeriod->modifier()));
@@ -526,16 +530,19 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
     /**
      * Follows the native overflow behaviour of \DateTimeImmutable (e.g. 31.03. - 1 month = 03.03.).
      */
+    #[\NoDiscard('as Date is immutable')]
     public function subtract(CalendarPeriod $calendarPeriod): self
     {
         return $this->modify(sprintf('-%s', $calendarPeriod->modifier()));
     }
 
+    #[\NoDiscard('as Date is immutable')]
     public function next(): self
     {
         return $this->add(CalendarPeriod::days(1));
     }
 
+    #[\NoDiscard('as Date is immutable')]
     public function previous(): self
     {
         return $this->subtract(CalendarPeriod::days(1));
@@ -570,25 +577,6 @@ final readonly class Date implements \Stringable, StringNormalizable, NullableSt
             $this->toMomentInTimeZone($timeZone),
             $this->next()->toMomentInTimeZone($timeZone),
         );
-    }
-
-    /**
-     * @deprecated A date has no time and therefore the timezone has no effect. Use add, subtract or modify instead.
-     */
-    public function modifyInTimeZone(string $modify, \DateTimeZone $timeZone): self
-    {
-        $dateTimeImmutable = new \DateTimeImmutable(
-            sprintf(
-                '%d-%d-%d 00:00:00',
-                $this->month->year->year,
-                $this->month->month,
-                $this->day->day,
-            ),
-            $timeZone,
-        );
-
-        /** @psalm-suppress PossiblyFalseArgument */
-        return self::fromDateTime($dateTimeImmutable->modify($modify));
     }
 
     private function toDateTimeImmutable(): \DateTimeImmutable

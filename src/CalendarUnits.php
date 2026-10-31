@@ -161,16 +161,12 @@ final readonly class CalendarUnits implements ArrayNormalizable, NullableArrayDe
 
     public function first(): ?CalendarUnit
     {
-        return $this->calendarUnits[0] ?? null;
+        return array_first($this->calendarUnits);
     }
 
     public function last(): ?CalendarUnit
     {
-        $lastKey = array_key_last($this->calendarUnits);
-
-        return $lastKey !== null
-            ? $this->calendarUnits[$lastKey]
-            : null;
+        return array_last($this->calendarUnits);
     }
 
     /**
@@ -190,6 +186,7 @@ final readonly class CalendarUnits implements ArrayNormalizable, NullableArrayDe
     /**
      * @param callable(CalendarUnit): bool $filter
      */
+    #[\NoDiscard('as CalendarUnits is immutable')]
     public function filter(callable $filter): self
     {
         return new self(array_values(array_filter($this->calendarUnits, $filter)));
@@ -198,6 +195,7 @@ final readonly class CalendarUnits implements ArrayNormalizable, NullableArrayDe
     /**
      * @param callable(CalendarUnit, CalendarUnit): int $comparator
      */
+    #[\NoDiscard('as CalendarUnits is immutable')]
     public function sort(callable $comparator): self
     {
         $calendarUnits = $this->calendarUnits;

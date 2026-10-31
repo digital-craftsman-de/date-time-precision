@@ -112,6 +112,7 @@ enum Weekday: string implements StringNormalizable, StringNormalizableTypeWithMa
 
     // -- Mutations
 
+    #[\NoDiscard('as Weekday is immutable')]
     public function next(): self
     {
         return match ($this) {
@@ -125,6 +126,7 @@ enum Weekday: string implements StringNormalizable, StringNormalizableTypeWithMa
         };
     }
 
+    #[\NoDiscard('as Weekday is immutable')]
     public function previous(): self
     {
         return match ($this) {

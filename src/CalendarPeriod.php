@@ -156,6 +156,7 @@ final readonly class CalendarPeriod implements ArrayNormalizable, NullableArrayD
     /**
      * @throws Exception\InvalidCalendarPeriod when the factor is negative
      */
+    #[\NoDiscard('as CalendarPeriod is immutable')]
     public function multiply(int $factor): self
     {
         return new self($this->amount * $factor, $this->unit);

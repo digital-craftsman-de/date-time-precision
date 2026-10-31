@@ -161,16 +161,12 @@ final readonly class Dates implements ArrayNormalizable, NullableArrayDenormaliz
 
     public function first(): ?Date
     {
-        return $this->dates[0] ?? null;
+        return array_first($this->dates);
     }
 
     public function last(): ?Date
     {
-        $lastKey = array_key_last($this->dates);
-
-        return $lastKey !== null
-            ? $this->dates[$lastKey]
-            : null;
+        return array_last($this->dates);
     }
 
     /**
@@ -190,6 +186,7 @@ final readonly class Dates implements ArrayNormalizable, NullableArrayDenormaliz
     /**
      * @param callable(Date): bool $filter
      */
+    #[\NoDiscard('as Dates is immutable')]
     public function filter(callable $filter): self
     {
         return new self(array_values(array_filter($this->dates, $filter)));
@@ -200,6 +197,7 @@ final readonly class Dates implements ArrayNormalizable, NullableArrayDenormaliz
      *
      * @param ?callable(Date, Date): int $comparator
      */
+    #[\NoDiscard('as Dates is immutable')]
     public function sort(?callable $comparator = null): self
     {
         $dates = $this->dates;

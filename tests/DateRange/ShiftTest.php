@@ -52,6 +52,6 @@ final class ShiftTest extends TestCase
         $this->expectException(DateRangeStartIsAfterEnd::class);
 
         // -- Act
-        $dateRange->shiftForward(CalendarPeriod::months(1));
+        (void) $dateRange->shiftForward(CalendarPeriod::months(1));
     }
 }

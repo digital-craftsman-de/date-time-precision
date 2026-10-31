@@ -163,16 +163,12 @@ final readonly class MomentRanges implements ArrayNormalizable, NullableArrayDen
 
     public function first(): ?MomentRange
     {
-        return $this->momentRanges[0] ?? null;
+        return array_first($this->momentRanges);
     }
 
     public function last(): ?MomentRange
     {
-        $lastKey = array_key_last($this->momentRanges);
-
-        return $lastKey !== null
-            ? $this->momentRanges[$lastKey]
-            : null;
+        return array_last($this->momentRanges);
     }
 
     /**
@@ -192,6 +188,7 @@ final readonly class MomentRanges implements ArrayNormalizable, NullableArrayDen
     /**
      * @param callable(MomentRange): bool $filter
      */
+    #[\NoDiscard('as MomentRanges is immutable')]
     public function filter(callable $filter): self
     {
         return new self(array_values(array_filter($this->momentRanges, $filter)));
@@ -200,6 +197,7 @@ final readonly class MomentRanges implements ArrayNormalizable, NullableArrayDen
     /**
      * @param callable(MomentRange, MomentRange): int $comparator
      */
+    #[\NoDiscard('as MomentRanges is immutable')]
     public function sort(callable $comparator): self
     {
         $momentRanges = $this->momentRanges;

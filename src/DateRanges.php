@@ -163,16 +163,12 @@ final readonly class DateRanges implements ArrayNormalizable, NullableArrayDenor
 
     public function first(): ?DateRange
     {
-        return $this->dateRanges[0] ?? null;
+        return array_first($this->dateRanges);
     }
 
     public function last(): ?DateRange
     {
-        $lastKey = array_key_last($this->dateRanges);
-
-        return $lastKey !== null
-            ? $this->dateRanges[$lastKey]
-            : null;
+        return array_last($this->dateRanges);
     }
 
     /**
@@ -192,6 +188,7 @@ final readonly class DateRanges implements ArrayNormalizable, NullableArrayDenor
     /**
      * @param callable(DateRange): bool $filter
      */
+    #[\NoDiscard('as DateRanges is immutable')]
     public function filter(callable $filter): self
     {
         return new self(array_values(array_filter($this->dateRanges, $filter)));
@@ -200,6 +197,7 @@ final readonly class DateRanges implements ArrayNormalizable, NullableArrayDenor
     /**
      * @param callable(DateRange, DateRange): int $comparator
      */
+    #[\NoDiscard('as DateRanges is immutable')]
     public function sort(callable $comparator): self
     {
         $dateRanges = $this->dateRanges;
