@@ -66,6 +66,23 @@ In short:
 1. **Less data** – every value only contains what it represents.
 2. **Less variance** – there is exactly one way to represent a date, a month or a time of day.
 3. **Fewer bugs and more readable code** – no normalization before comparisons, no hidden timezone or date.
+4. **No new date logic** – everything is calculated by PHP's own `DateTimeImmutable`.
+
+## A thin wrapper, not a reimplementation
+
+This package doesn't reinvent date and time handling. The value objects are only a thin layer over `DateTimeImmutable`. Every calculation – modifications, differences, timezone conversions and parsing of arbitrary formats – is delegated to it. Only trivial operations without any calendar logic are done directly for performance, like comparing two dates by their numbers or reading the normalized format `2026-03-01` (validated with PHP's `checkdate`).
+
+That's intentional. Date and time calculations are full of edge cases: switches between summer and winter time, leap years, months of different length, timezones that changed their offset over the years. PHP's implementation handles them and has been hardened over many years in countless applications. Writing that logic again would only mean new bugs.
+
+So with this package:
+
+- edge cases behave exactly like they do in native PHP, there are no surprises.
+- there is no custom calendar logic that could break.
+- you can reason about the result with your existing knowledge of `DateTimeImmutable`.
+
+This also applies where PHP isn't intuitive. For example 31.01. + 1 month is 03.03. like with `DateTimeImmutable::modify('+1 month')`. The package doesn't "fix" this, as that would mean a second, different behaviour.
+
+The value objects add precision and readability – the calculations stay where they belong.
 
 ## Installation
 
@@ -154,7 +171,7 @@ $duration = $startedAt->durationUntil($endedAt);                       // Durati
 $days = $startDate->periodUntil($endDate, CalendarUnit::DAY)->amount;  // int
 ```
 
-All calculations are done with `\DateTimeImmutable` internally and follow its behaviour, even where it's not intuitive. For example 31.01. + 1 month is 03.03. and from 31.01. until 01.03. is 0 full months.
+As all calculations are done by `DateTimeImmutable` (see [A thin wrapper, not a reimplementation](#a-thin-wrapper-not-a-reimplementation)), they follow its behaviour, even where it's not intuitive. For example 31.01. + 1 month is 03.03. and from 31.01. until 01.03. is 0 full months.
 
 ## Ranges
 
