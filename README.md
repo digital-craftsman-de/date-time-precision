@@ -129,7 +129,11 @@ Every comparison has an assertion counterpart which throws an exception. You can
 
 ```php
 $endsAt->mustBeAfter($startsAt);
-$now->mustNotBeBeforeInTimeZone($earliestBookingDate, $timeZone, static fn () => new BookingNotPossibleYet());
+$now->mustNotBeBeforeInTimeZone(
+    $earliestBookingDate,
+    $timeZone,
+    static fn () => new BookingNotPossibleYet(),
+);
 ```
 
 ### Modifying
@@ -151,7 +155,10 @@ This way you don't gain or lose an hour when there is a switch between summer an
 
 ```php
 $expiresAt = $now->add(Duration::fromHours(6));
-$sameTimeTomorrow = $now->addInTimeZone(CalendarPeriod::days(1), $facilityTimeZone);
+$sameTimeTomorrow = $now->addInTimeZone(
+    CalendarPeriod::days(1),
+    $facilityTimeZone,
+);
 ```
 
 On the night of the time switch `$expiresAt` is exactly 6 hours later, while `$sameTimeTomorrow` is 23 or 25 hours later – but at the same local time.
@@ -182,9 +189,13 @@ As all calculations are done by `DateTimeImmutable` (see [A thin wrapper, not a 
 | `TimeRange`   | half-open, may wrap around midnight, `00:00` as end = 24:00 | 21:00–03:00 is a night shift                   |
 
 ```php
-$openingHours = new TimeRange(Time::fromString('08:00'), Time::fromString('20:00'));
+$openingHours = new TimeRange(
+    Time::fromString('08:00'),
+    Time::fromString('20:00'),
+);
 
-if ($openingHours->notContainsRange($reservation->timeRangeInTimeZone($facilityTimeZone))) {
+$reservationTimeRange = $reservation->timeRangeInTimeZone($facilityTimeZone);
+if ($openingHours->notContainsRange($reservationTimeRange)) {
     throw new ReservationIsOutsideOfOpeningHours();
 }
 ```
@@ -192,14 +203,19 @@ if ($openingHours->notContainsRange($reservation->timeRangeInTimeZone($facilityT
 Whether start and end count for `contains` can be changed with a `PeriodLimit`:
 
 ```php
-$openingHours->contains($reservationEnd, PeriodLimit::INCLUDING_START_AND_END);
+$openingHours->contains(
+    $reservationEnd,
+    PeriodLimit::INCLUDING_START_AND_END,
+);
 ```
 
 Stricter rules can be enforced with guards, e.g. in the constructor of your own value object:
 
 ```php
 $timeRange->mustNotStartBefore(Time::fromString('05:00'));
-$timeRange->mustNotWrapAroundMidnight(static fn () => new TimeRangeMustBeWithinADay());
+$timeRange->mustNotWrapAroundMidnight(
+    static fn () => new TimeRangeMustBeWithinADay(),
+);
 ```
 
 ## Weeks and recurrences
@@ -214,10 +230,20 @@ $monday = $date->startOfWeek();
 `Recurrence` describes on which dates something happens: daily, on specific weekdays or on specific days of the month (days which don't exist in a month are skipped). It contains neither a time nor a start or end.
 
 ```php
-$recurrence = Recurrence::weekly(new Weekdays([Weekday::MONDAY, Weekday::WEDNESDAY]));
+$recurrence = Recurrence::weekly(new Weekdays([
+    Weekday::MONDAY,
+    Weekday::WEDNESDAY,
+]));
 
-$nextReminderAt = $recurrence->nextOccurrenceAtTimeInTimeZone($reminderTime, $now, $userTimeZone);
-$lessonDates = $recurrence->occurrencesBetween($seriesStart, $seriesEnd);
+$nextReminderAt = $recurrence->nextOccurrenceAtTimeInTimeZone(
+    $reminderTime,
+    $now,
+    $userTimeZone,
+);
+$lessonDates = $recurrence->occurrencesBetween(
+    $seriesStart,
+    $seriesEnd,
+);
 ```
 
 ## Collections
