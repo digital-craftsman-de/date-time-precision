@@ -1,6 +1,5 @@
 {
   "name": "digital-craftsman/date-time-precision",
-  "version": "0.15.1",
   "description": "A Symfony bundle for more precise date and time handling through value objects",
   "type": "symfony-bundle",
   "require": {

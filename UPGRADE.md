@@ -1,5 +1,59 @@
 # Upgrade guide
 
+## From 0.15.* to 1.0.0
+
+All methods and classes that were deprecated in previous versions have been removed. If your code runs on 0.15.* without deprecations, there is nothing else to do.
+
+### Removed modifications in time zone for calendar values
+
+`modifyInTimeZone` of `Date`, `Month` and `Year` has been removed. Those values don't have a time and therefore the timezone had no effect. Use `add` and `subtract` with a `CalendarPeriod` or `modify` instead.
+
+Before:
+```php
+$tomorrow = $date->modifyInTimeZone('+ 1 day', $timeZone);
+$nextMonth = $month->modifyInTimeZone('+ 1 month', $timeZone);
+```
+
+After:
+```php
+$tomorrow = $date->add(CalendarPeriod::days(1));
+$nextMonth = $month->next();
+```
+
+`modifyInTimeZone` of `Moment` isn't affected.
+
+### Removed distance in minutes of time
+
+`distanceInMinutesTo` of `Time` has been removed. Use `durationUntil` instead. Be aware that `durationUntil` wraps around midnight when the given time is before the time, whereas `distanceInMinutesTo` returned the absolute distance.
+
+Before:
+```php
+$minutes = $timeFrom->distanceInMinutesTo($timeTo);
+```
+
+After:
+```php
+$minutes = $timeFrom->durationUntil($timeTo)->inMinutes();
+```
+
+### Removed time zone conversion of moment
+
+`toTimeZone` of `Moment` has been removed. A moment is always in UTC since 0.15.0, so the method had no effect anymore. Use the `*InTimeZone` methods instead.
+
+Before:
+```php
+$date = $moment->toTimeZone($timeZone)->date();
+```
+
+After:
+```php
+$date = $moment->dateInTimeZone($timeZone);
+```
+
+### Removed previous Doctrine types
+
+The classes in `DigitalCraftsman\DateTimePrecision\Doctrine` (`MomentType`, `DateType`, `TimeType`, `MonthType`, `YearType`, `WeekdayType` and `WeekdaysType`) have been removed. The types are registered automatically with the class name of the value object since 0.13.0. If you still use the custom type names (like `dtp_moment`) or registered those classes manually in your Doctrine configuration, switch to the class names as described in [Switch to automatic doctrine types](#switch-to-automatic-doctrine-types).
+
 ## From 0.14.* to 0.15.0
 
 ### Moment is always in UTC

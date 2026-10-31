@@ -270,23 +270,6 @@ final readonly class Year implements IntNormalizable, NullableIntDenormalizable
     }
 
     /**
-     * @deprecated A year has no time and therefore the timezone has no effect. Use add, subtract or modify instead.
-     */
-    public function modifyInTimeZone(string $modify, \DateTimeZone $timeZone): self
-    {
-        $dateTimeImmutable = new \DateTimeImmutable(
-            sprintf(
-                '%d-01-01 00:00:00',
-                $this->year,
-            ),
-            $timeZone,
-        );
-
-        /** @psalm-suppress PossiblyFalseArgument */
-        return self::fromDateTime($dateTimeImmutable->modify($modify));
-    }
-
-    /**
      * @throws Exception\CalendarUnitIsNotSupported
      */
     private static function mustSupportCalendarUnit(CalendarUnit $calendarUnit): void

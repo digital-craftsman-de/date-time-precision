@@ -14,8 +14,6 @@ final readonly class Time implements \Stringable, StringNormalizable, NullableSt
 {
     use NullableStringDenormalizableTrait;
 
-    private const int MINUTES_IN_AN_HOUR = 60;
-
     // -- Construction
 
     public function __construct(
@@ -174,16 +172,6 @@ final readonly class Time implements \Stringable, StringNormalizable, NullableSt
     public function compareTo(self $time): int
     {
         return $this->toDateTimeImmutable() <=> $time->toDateTimeImmutable();
-    }
-
-    /**
-     * @deprecated use durationUntil instead
-     */
-    public function distanceInMinutesTo(self $time): int
-    {
-        $diff = $this->diff($time);
-
-        return $diff->h * self::MINUTES_IN_AN_HOUR + $diff->i;
     }
 
     /**

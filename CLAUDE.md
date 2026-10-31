@@ -63,7 +63,7 @@ Each value object has comparison methods (`isAfter`, `isBefore`, `isEqualTo`, et
 
 ### Integrations
 
-- **Doctrine types** in `src/Doctrine/` — one type per value object, auto-registered via `DoctrineTypeRegisterCompilerPass`.
+- **Doctrine types** — no own type classes; every value object (and collection) is registered with its class name as type name via the `*NormalizableThroughLookupType` types of `self-aware-normalizers` in `DoctrineTypeRegisterCompilerPass`.
 - **Symfony bundle** — `DateTimePrecisionBundle` with `DateTimePrecisionExtension`.
 - **Clock** — `Clock` interface with `SystemClock` (production) and `FrozenClock` (testing), autowired by the bundle.
 

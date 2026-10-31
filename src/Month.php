@@ -379,24 +379,6 @@ final readonly class Month implements \Stringable, StringNormalizable, NullableS
     }
 
     /**
-     * @deprecated A month has no time and therefore the timezone has no effect. Use add, subtract or modify instead.
-     */
-    public function modifyInTimeZone(string $modify, \DateTimeZone $timeZone): self
-    {
-        $dateTimeImmutable = new \DateTimeImmutable(
-            sprintf(
-                '%d-%d-01 00:00:00',
-                $this->year->year,
-                $this->month,
-            ),
-            $timeZone,
-        );
-
-        /** @psalm-suppress PossiblyFalseArgument */
-        return self::fromDateTime($dateTimeImmutable->modify($modify));
-    }
-
-    /**
      * @throws Exception\CalendarUnitIsNotSupported
      */
     private static function mustSupportCalendarUnit(CalendarUnit $calendarUnit): void

@@ -483,16 +483,6 @@ final readonly class Moment implements \Stringable, StringNormalizable, Nullable
     }
 
     /**
-     * @deprecated A moment is always in UTC, therefore this method has no effect anymore. Use the *InTimeZone methods instead.
-     */
-    public function toTimeZone(\DateTimeZone $timeZone): self
-    {
-        return new self(
-            $this->dateTime->setTimezone($timeZone),
-        );
-    }
-
-    /**
      * Modifications with hours, minutes or seconds are applied to the wall clock of the timezone. Across a change of daylight saving
      * time, the elapsed time therefore differs from the modifier (e.g. "+2 hours" might only be 1 or up to 3 hours). Use add with a
      * Duration for elapsed time.
